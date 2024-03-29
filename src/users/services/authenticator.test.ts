@@ -12,6 +12,7 @@ describe('Authenticator', () => {
       new User({
         id: 'id-1',
         emailAddress: 'johndoe@gmail.com',
+        name: 'John Doe',
         password: 'azerty',
       }),
     );
@@ -29,6 +30,7 @@ describe('Authenticator', () => {
       expect(user.props).toEqual({
         id: 'id-1',
         emailAddress: 'johndoe@gmail.com',
+        name: 'John Doe',
         password: 'azerty',
       });
     });

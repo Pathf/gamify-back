@@ -1,4 +1,5 @@
-import { Entity } from '../../shared/entity.abstract';
+import { Entity } from "../../shared/entity.abstract";
+
 
 type UserProps = {
   id: string;
