@@ -56,7 +56,8 @@ describe("Feature: Organizing Draw", () => {
         "User not found",
       );
 
-      expect(drawRepository.draws).toEqual([]);
+      const draws = await drawRepository.findAll();
+      expect(draws).toEqual([]);
     });
   });
 });
