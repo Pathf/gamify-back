@@ -1,10 +1,10 @@
-import { CommandHandler, ICommand, ICommandHandler } from '@nestjs/cqrs';
-import { IIDGenerator } from '../../core/ports/id-generator.interface';
-import { IMailer } from '../../core/ports/mailer.interface';
-import { ISecurity } from '../../core/ports/security.interface';
-import { User } from '../entities/user.entity';
-import { UserAlreadyExistsError } from '../errors/user-already-exists.error';
-import { IUserRepository } from '../ports/user-repository.interface';
+import { CommandHandler, ICommand, ICommandHandler } from "@nestjs/cqrs";
+import { IIDGenerator } from "../../core/ports/id-generator.interface";
+import { IMailer } from "../../core/ports/mailer.interface";
+import { ISecurity } from "../../core/ports/security.interface";
+import { User } from "../entities/user.entity";
+import { UserAlreadyExistsError } from "../errors/user-already-exists.error";
+import { IUserRepository } from "../ports/user-repository.interface";
 
 type Response = void;
 
@@ -17,7 +17,7 @@ export class RegisterUserCommand implements ICommand {
 }
 
 @CommandHandler(RegisterUserCommand)
-export class CreateUserCommandHandler
+export class RegisterUserCommandHandler
   implements ICommandHandler<RegisterUserCommand, Response>
 {
   constructor(
@@ -57,8 +57,8 @@ export class CreateUserCommandHandler
   private async sendConfirmationEmail(emailAddress: string): Promise<void> {
     await this.mailer.send({
       to: emailAddress,
-      subject: 'Confirmation e-mail',
-      body: 'Welcome to the gamify community!',
+      subject: "Confirmation e-mail",
+      body: "Welcome to the gamify community!",
     });
   }
 }

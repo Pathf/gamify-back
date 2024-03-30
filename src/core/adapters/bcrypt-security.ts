@@ -1,5 +1,5 @@
-import { ISecurity } from "../ports/security.interface";
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from "bcrypt";
+import type { ISecurity } from "../ports/security.interface";
 
 export class BcryptSecurity implements ISecurity {
   async hash(password: string): Promise<string> {
