@@ -1,17 +1,20 @@
-import { Module } from '@nestjs/common';
+import { Module } from "@nestjs/common";
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { CommonModule } from './common.module';
-import { AuthGuard } from './auth.guard';
-import { Authenticator } from '../users/services/authenticator';
-import { APP_GUARD } from '@nestjs/core';
-import { I_USER_REPOSITORY } from '../users/ports/user-repository.interface';
+import { APP_GUARD, Reflector } from "@nestjs/core";
+import { I_USER_REPOSITORY } from "../users/ports/user-repository.interface";
+import { I_USER_ROLES_REPOSITORY } from "../users/ports/user-roles-repository.interface";
+import { Authenticator } from "../users/services/authenticator";
+import { UsersModule } from "../users/users.module";
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
+import { AuthGuard } from "./auth.guard";
+import { CommonModule } from "./common.module";
 
 @Module({
   imports: [
     // bddmodule ou config
     CommonModule,
+    UsersModule,
     // usecase module
   ],
   controllers: [AppController],
@@ -19,16 +22,16 @@ import { I_USER_REPOSITORY } from '../users/ports/user-repository.interface';
     AppService,
     {
       provide: Authenticator,
-      inject: [I_USER_REPOSITORY],
-      useFactory: (repository) => {
-        return new Authenticator(repository);
+      inject: [I_USER_REPOSITORY, I_USER_ROLES_REPOSITORY],
+      useFactory: (userRepository, userRolesRepository) => {
+        return new Authenticator(userRepository, userRolesRepository);
       },
     },
     {
       provide: APP_GUARD,
-      inject: [Authenticator],
-      useFactory(authenticator) {
-        return new AuthGuard(authenticator);
+      inject: [Authenticator, Reflector],
+      useFactory(authenticator, reflector) {
+        return new AuthGuard(authenticator, reflector);
       },
     },
   ],

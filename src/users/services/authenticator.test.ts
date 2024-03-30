@@ -1,62 +1,57 @@
-import { InMemoryUserRepository } from '../adapters/in-memory-user-repository';
-import { User } from '../entities/user.entity';
-import { Authenticator } from './authenticator';
+import { InMemoryUserRepository } from "../adapters/in-memory-user-repository";
+import { InMemoryUserRolesRepository } from "../adapters/in-memory-user-roles-repository";
+import { testUsers } from "../tests/user-seeds";
+import { Authenticator } from "./authenticator";
 
-describe('Authenticator', () => {
-  let repository: InMemoryUserRepository;
+describe("Authenticator", () => {
+  let userRepository: InMemoryUserRepository;
+  let userRolesRepository: InMemoryUserRolesRepository;
   let authenticator: Authenticator;
   beforeEach(async () => {
-    repository = new InMemoryUserRepository();
+    userRepository = new InMemoryUserRepository();
+    userRolesRepository = new InMemoryUserRolesRepository();
 
-    await repository.createUser(
-      new User({
-        id: 'id-1',
-        emailAddress: 'johndoe@gmail.com',
-        name: 'John Doe',
-        password: 'azerty',
-      }),
-    );
+    await userRepository.createUser(testUsers.alice);
+    await userRepository.createUser(testUsers.bob);
 
-    authenticator = new Authenticator(repository);
+    await userRolesRepository.addRoleToUser(testUsers.alice.props.id, "ADMIN");
+
+    authenticator = new Authenticator(userRepository, userRolesRepository);
   });
 
-  describe('Case: the token is valid', () => {
-    it('should return the user', async () => {
-      const payload = Buffer.from('johndoe@gmail.com:azerty', 'utf-8').toString(
-        'base64',
+  describe("Case: the token is valid", () => {
+    it("should return the user", async () => {
+      const payload = Buffer.from("alice@gmail.com:azerty", "utf-8").toString(
+        "base64",
       );
-      const user = await authenticator.authenticator(payload);
+      const { user, roles } = await authenticator.authenticator(payload);
 
-      expect(user.props).toEqual({
-        id: 'id-1',
-        emailAddress: 'johndoe@gmail.com',
-        name: 'John Doe',
-        password: 'azerty',
-      });
+      expect(user.props).toEqual(testUsers.alice.props);
+      expect(roles).toEqual(["ADMIN"]);
     });
   });
 
-  describe('Case: the user does not exist', () => {
-    it('should fail', async () => {
-      const payload = Buffer.from('uknown@gmail.com:azerty', 'utf-8').toString(
-        'base64',
+  describe("Case: the user does not exist", () => {
+    it("should fail", async () => {
+      const payload = Buffer.from("uknown@gmail.com:azerty", "utf-8").toString(
+        "base64",
       );
 
       await expect(() => authenticator.authenticator(payload)).rejects.toThrow(
-        'User not found',
+        "User not found",
       );
     });
   });
 
-  describe('Case: the password is not valid', () => {
-    it('should fail', async () => {
+  describe("Case: the password is not valid", () => {
+    it("should fail", async () => {
       const payload = Buffer.from(
-        'johndoe@gmail.com:not-valid',
-        'utf-8',
-      ).toString('base64');
+        "alice@gmail.com:not-valid",
+        "utf-8",
+      ).toString("base64");
 
       await expect(() => authenticator.authenticator(payload)).rejects.toThrow(
-        'Password invalid',
+        "Password invalid",
       );
     });
   });
