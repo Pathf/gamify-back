@@ -2,7 +2,7 @@ import { UserRoles } from "../entities/user-roles.entity";
 import { IUserRolesRepository } from "../ports/user-roles-repository.interface";
 
 export class InMemoryUserRolesRepository implements IUserRolesRepository {
-  private usersRoles: UserRoles[] = [];
+  constructor(public readonly usersRoles: UserRoles[] = []) {}
 
   async findRolesByUserId(userId: string): Promise<string[]> {
     const userRoles = this.usersRoles.find(
@@ -29,5 +29,17 @@ export class InMemoryUserRolesRepository implements IUserRolesRepository {
     }
 
     userRoles.props.roles.push(role);
+  }
+
+  async deleteRolesByUserId(userId: string): Promise<void> {
+    const userRolesIndex = this.usersRoles.findIndex(
+      (userRoles) => userRoles.props.userId === userId,
+    );
+
+    if (userRolesIndex === -1) {
+      return;
+    }
+
+    this.usersRoles.splice(userRolesIndex, 1);
   }
 }

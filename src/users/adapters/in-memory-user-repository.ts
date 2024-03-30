@@ -19,4 +19,16 @@ export class InMemoryUserRepository implements IUserRepository {
   async createUser(user: User): Promise<void> {
     this.database.push(user);
   }
+
+  async delete(user: User): Promise<void> {
+    const userIndex = this.database.findIndex(
+      (userDb) => userDb.props.id === user.props.id,
+    );
+
+    if (userIndex === -1) {
+      return;
+    }
+
+    this.database.splice(userIndex, 1);
+  }
 }

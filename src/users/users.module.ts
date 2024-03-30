@@ -6,6 +6,7 @@ import { I_MAILER } from "../core/ports/mailer.interface";
 import { I_SECURITY } from "../core/ports/security.interface";
 import { InMemoryUserRepository } from "./adapters/in-memory-user-repository";
 import { InMemoryUserRolesRepository } from "./adapters/in-memory-user-roles-repository";
+import { DeleteAccountCommandHandler } from "./commands/delete-account";
 import { RegisterUserCommandHandler } from "./commands/register-user";
 import { UserController } from "./controllers/user.controller";
 import { I_USER_REPOSITORY } from "./ports/user-repository.interface";
@@ -36,6 +37,16 @@ import { I_USER_ROLES_REPOSITORY } from "./ports/user-roles-repository.interface
           idGenerator,
           securityService,
           mailer,
+        );
+      },
+    },
+    {
+      provide: DeleteAccountCommandHandler,
+      inject: [I_USER_REPOSITORY, I_USER_ROLES_REPOSITORY],
+      useFactory: (userRepository, userRolesRepository) => {
+        return new DeleteAccountCommandHandler(
+          userRepository,
+          userRolesRepository,
         );
       },
     },

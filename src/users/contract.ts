@@ -11,4 +11,8 @@ export namespace UserAPI {
     export type Request = z.infer<typeof schema>;
     export type Response = void;
   }
+
+  export namespace DeleteAccount {
+    export type Response = void;
+  }
 }
