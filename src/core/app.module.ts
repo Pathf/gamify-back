@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common";
 
 import { APP_GUARD, Reflector } from "@nestjs/core";
+import { DrawsModule } from "../draws/draws.module";
 import { I_USER_REPOSITORY } from "../users/ports/user-repository.interface";
 import { I_USER_ROLES_REPOSITORY } from "../users/ports/user-roles-repository.interface";
 import { Authenticator } from "../users/services/authenticator";
@@ -15,7 +16,7 @@ import { CommonModule } from "./common.module";
     // bddmodule ou config
     CommonModule,
     UsersModule,
-    // usecase module
+    DrawsModule,
   ],
   controllers: [AppController],
   providers: [
