@@ -14,13 +14,19 @@ export class InMemoryParticipationRepository
   }
 
   async findAllParticipationByDrawId(drawId: string): Promise<Participation[]> {
-    return this.participations.filter(
-      (participation) => participation.props.drawId === drawId,
-    );
+    return this.findAllParticipationByDrawIdSync(drawId);
   }
 
   async create(participation: Participation): Promise<void> {
     this.participations.push(participation);
+  }
+
+  async delete(drawId: string, participantId: string): Promise<void> {
+    this.participations = this.participations.filter(
+      (participation) =>
+        participation.props.drawId !== drawId &&
+        participation.props.participantId !== participantId,
+    );
   }
 
   async deleteByDrawId(drawId: string): Promise<void> {
@@ -37,6 +43,12 @@ export class InMemoryParticipationRepository
           participation.props.drawId === drawId &&
           participation.props.participantId === participantId,
       ) || null
+    );
+  }
+
+  findAllParticipationByDrawIdSync(drawId: string): Participation[] {
+    return this.participations.filter(
+      (participation) => participation.props.drawId === drawId,
     );
   }
 }

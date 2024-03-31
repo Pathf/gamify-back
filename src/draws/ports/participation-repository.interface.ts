@@ -8,5 +8,6 @@ export interface IParticipationRepository {
 
   create(participation: Participation): Promise<void>;
 
+  delete(drawId: string, participantId: string): Promise<void>;
   deleteByDrawId(drawId: string): Promise<void>;
 }

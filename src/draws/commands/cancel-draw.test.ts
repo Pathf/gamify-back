@@ -8,27 +8,27 @@ import { testParticipants as testParticipations } from "../tests/participant-see
 import { CancelDrawCommandHandler } from "./cancel-draw";
 
 describe("Feature: Canceling a draw", () => {
-  async function expectDrawToBeDeleted() {
-    const draw = await drawRepository.findById(testDraws.secretSanta.props.id);
+  function expectDrawToBeDeleted() {
+    const draw = drawRepository.findByIdSync(testDraws.secretSanta.props.id);
     expect(draw).toBeNull();
   }
 
-  async function expectDrawToBeNotDeleted() {
-    const draw = await drawRepository.findById(testDraws.secretSanta.props.id);
+  function expectDrawToBeNotDeleted() {
+    const draw = drawRepository.findByIdSync(testDraws.secretSanta.props.id);
     expect(draw).toBeDefined();
   }
 
-  async function expectParticipationToBeDeleted() {
+  function expectParticipationToBeDeleted() {
     const participations =
-      await participationRepository.findAllParticipationByDrawId(
+      participationRepository.findAllParticipationByDrawIdSync(
         testDraws.secretSanta.props.id,
       );
     expect(participations).toHaveLength(0);
   }
 
-  async function expectParticipationToBeNotDeleted() {
+  function expectParticipationToBeNotDeleted() {
     const participations =
-      await participationRepository.findAllParticipationByDrawId(
+      participationRepository.findAllParticipationByDrawIdSync(
         testDraws.secretSanta.props.id,
       );
     expect(participations).toHaveLength(1);
@@ -68,8 +68,8 @@ describe("Feature: Canceling a draw", () => {
     it("should cancel draw", async () => {
       await useCase.execute(payload);
 
-      await expectDrawToBeDeleted();
-      await expectParticipationToBeDeleted();
+      expectDrawToBeDeleted();
+      expectParticipationToBeDeleted();
     });
 
     it("should sent emails at participants", async () => {
@@ -95,8 +95,8 @@ describe("Feature: Canceling a draw", () => {
         "Draw not found",
       );
 
-      await expectDrawToBeNotDeleted();
-      await expectParticipationToBeNotDeleted();
+      expectDrawToBeNotDeleted();
+      expectParticipationToBeNotDeleted();
       expect(mailer.sentEmails).toHaveLength(0);
     });
   });
@@ -112,8 +112,8 @@ describe("Feature: Canceling a draw", () => {
         "You are not allowed to update this draw",
       );
 
-      await expectDrawToBeNotDeleted();
-      await expectParticipationToBeNotDeleted();
+      expectDrawToBeNotDeleted();
+      expectParticipationToBeNotDeleted();
       expect(mailer.sentEmails).toHaveLength(0);
     });
   });

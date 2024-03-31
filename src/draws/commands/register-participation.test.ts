@@ -7,9 +7,9 @@ import { testParticipants } from "../tests/participant-seeds";
 import { RegisterParticipationCommandHandler } from "./register-participation";
 
 describe("Feature: Registering participation", () => {
-  async function expectParticipationToBeNotRegistered() {
+  function expectParticipationToBeNotRegistered() {
     const participations =
-      await participationRepository.findAllParticipationByDrawId(
+      participationRepository.findAllParticipationByDrawIdSync(
         testDraws.secretSanta.props.id,
       );
     expect(participations).toHaveLength(1);

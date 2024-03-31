@@ -33,7 +33,7 @@ describe("Feature: Organizing Draw", () => {
     it("should organize draw", async () => {
       await useCase.execute(payload);
 
-      const draw = await drawRepository.findById("id-1");
+      const draw = drawRepository.findByIdSync("id-1");
 
       expect(draw?.props).toEqual({
         id: "id-1",
@@ -56,7 +56,7 @@ describe("Feature: Organizing Draw", () => {
         "User not found",
       );
 
-      const draws = await drawRepository.findAll();
+      const draws = drawRepository.findAllSync();
       expect(draws).toEqual([]);
     });
   });

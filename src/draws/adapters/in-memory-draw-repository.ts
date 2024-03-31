@@ -5,11 +5,11 @@ export class InMemoryDrawRepository implements IDrawRepository {
   constructor(private draws: Draw[] = []) {}
 
   public async findById(id: string): Promise<Draw | null> {
-    return this.draws.find((draw) => draw.props.id === id) || null;
+    return this.findByIdSync(id);
   }
 
   public async findAll(): Promise<Draw[]> {
-    return this.draws;
+    return this.findAllSync();
   }
 
   public async create(draw: Draw): Promise<void> {
@@ -18,5 +18,14 @@ export class InMemoryDrawRepository implements IDrawRepository {
 
   public async delete(id: string): Promise<void> {
     this.draws = this.draws.filter((draw) => draw.props.id !== id);
+  }
+
+  // Just for testing purposes
+  public findAllSync(): Draw[] {
+    return this.draws;
+  }
+
+  public findByIdSync(id: string): Draw | null {
+    return this.draws.find((draw) => draw.props.id === id) || null;
   }
 }
