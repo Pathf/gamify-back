@@ -10,6 +10,10 @@ type DrawProps = {
 
 export class Draw extends Entity<DrawProps> {
   isOrganizer(user: User): boolean {
-    return this.props.organizerId === user.props.id;
+    return this.isOrganizerId(user.props.id);
+  }
+
+  isOrganizerId(organizerId: string): boolean {
+    return this.props.organizerId === organizerId;
   }
 }
