@@ -25,17 +25,18 @@ export class CancelDrawCommandHandler
     private readonly mailer: IMailer,
   ) {}
 
-  async execute(command: CancelDrawCommand) {
-    const draw = await this.drawRepository.findById(command.drawId);
+  async execute({ drawId, user }: CancelDrawCommand) {
+    const draw = await this.drawRepository.findById(drawId);
 
     if (!draw) {
       throw new DrawNotFoundError();
     }
 
-    if (draw.props.organizerId !== command.user.props.id) {
+    if (draw.isOrganizer(user) === false) {
       throw new NotAllowedUpdateDrawError();
     }
 
-    await this.drawRepository.delete(command.drawId);
+    await this.drawRepository.delete(drawId);
+    //await this.sendEmailToParticipants(webinaire);
   }
 }
