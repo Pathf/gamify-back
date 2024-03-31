@@ -8,6 +8,7 @@ import { UsersModule } from "../users/users.module";
 import { InMemoryDrawRepository } from "./adapters/in-memory-draw-repository";
 import { InMemoryParticipationRepository } from "./adapters/in-memory-participation-repository";
 import { CancelDrawCommandHandler } from "./commands/cancel-draw";
+import { CancelParticipationCommandHandler } from "./commands/cancel-participation";
 import { OrganizeDrawCommandHandler } from "./commands/organize-draw";
 import { RegisterParticipationCommandHandler } from "./commands/register-participation";
 import { DrawController } from "./controllers/draw.controller";
@@ -69,6 +70,20 @@ import { I_PARTICIPATION_REPOSITORY } from "./ports/participation-repository.int
           drawRepository,
           userRepository,
           participationRepository,
+        ),
+    },
+    {
+      provide: CancelParticipationCommandHandler,
+      inject: [
+        I_DRAW_REPOSITORY,
+        I_PARTICIPATION_REPOSITORY,
+        I_USER_REPOSITORY,
+      ],
+      useFactory: (drawRepository, participationRepository, userRepository) =>
+        new CancelParticipationCommandHandler(
+          drawRepository,
+          participationRepository,
+          userRepository,
         ),
     },
   ],

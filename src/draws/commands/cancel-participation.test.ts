@@ -4,39 +4,43 @@ import { InMemoryDrawRepository } from "../adapters/in-memory-draw-repository";
 import { InMemoryParticipationRepository } from "../adapters/in-memory-participation-repository";
 import { testDraws } from "../tests/draw-seeds";
 import { testParticipations } from "../tests/participation-seeds";
-import { RegisterParticipationCommandHandler } from "./register-participation";
+import { CancelParticipationCommandHandler } from "./cancel-participation";
 
-describe("Feature: Registering participation", () => {
-  function expectParticipationToBeNotRegistered() {
+describe("Feature: Canceling participation", () => {
+  function expectToDeleteParticipation() {
+    const participations =
+      participationRepository.findAllParticipationByDrawIdSync(
+        testDraws.secretSanta.props.id,
+      );
+    expect(participations).toHaveLength(0);
+  }
+
+  function expectToDoesNotDeletedParticipation() {
     const participations =
       participationRepository.findAllParticipationByDrawIdSync(
         testDraws.secretSanta.props.id,
       );
     expect(participations).toHaveLength(1);
-    expect(participations[0].props).toEqual({
-      drawId: testDraws.secretSanta.props.id,
-      participantId: testUsers.alice.props.id,
-    });
   }
 
   let drawRepository: InMemoryDrawRepository;
-  let userRepository: InMemoryUserRepository;
   let participationRepository: InMemoryParticipationRepository;
-  let useCase: RegisterParticipationCommandHandler;
+  let userRepository: InMemoryUserRepository;
+  let useCase: CancelParticipationCommandHandler;
 
   beforeEach(async () => {
     drawRepository = new InMemoryDrawRepository([testDraws.secretSanta]);
+    participationRepository = new InMemoryParticipationRepository([
+      testParticipations.aliceInSecretSanta,
+    ]);
     userRepository = new InMemoryUserRepository([
       testUsers.alice,
       testUsers.bob,
     ]);
-    participationRepository = new InMemoryParticipationRepository([
-      testParticipations.aliceInSecretSanta,
-    ]);
-    useCase = new RegisterParticipationCommandHandler(
+    useCase = new CancelParticipationCommandHandler(
       drawRepository,
-      userRepository,
       participationRepository,
+      userRepository,
     );
   });
 
@@ -44,37 +48,12 @@ describe("Feature: Registering participation", () => {
     const payload = {
       organizerId: testUsers.alice.props.id,
       drawId: testDraws.secretSanta.props.id,
-      participantId: testUsers.bob.props.id,
-    };
-
-    it("should register participation at the draw", async () => {
-      await useCase.execute(payload);
-
-      const participation = participationRepository.findOneSync(
-        testDraws.secretSanta.props.id,
-        testUsers.bob.props.id,
-      );
-      expect(participation).not.toBeNull();
-      expect(participation?.props).toEqual({
-        drawId: testDraws.secretSanta.props.id,
-        participantId: testUsers.bob.props.id,
-      });
-    });
-  });
-
-  describe("Scenario: Participant is already registered", () => {
-    const payload = {
-      organizerId: testUsers.alice.props.id,
-      drawId: testDraws.secretSanta.props.id,
       participantId: testUsers.alice.props.id,
     };
 
-    it("should fail", async () => {
-      await expect(useCase.execute(payload)).rejects.toThrowError(
-        "Participant is already registered",
-      );
-
-      expectParticipationToBeNotRegistered();
+    it("should delete a participation of the draw", async () => {
+      await useCase.execute(payload);
+      expectToDeleteParticipation();
     });
   });
 
@@ -89,8 +68,7 @@ describe("Feature: Registering participation", () => {
       await expect(useCase.execute(payload)).rejects.toThrowError(
         "Draw not found",
       );
-
-      expectParticipationToBeNotRegistered();
+      expectToDoesNotDeletedParticipation();
     });
   });
 
@@ -98,15 +76,29 @@ describe("Feature: Registering participation", () => {
     const payload = {
       organizerId: testUsers.alice.props.id,
       drawId: testDraws.secretSanta.props.id,
-      participantId: "non-existing-participant-id",
+      participantId: "non-existing-user-id",
     };
 
     it("should fail", async () => {
       await expect(useCase.execute(payload)).rejects.toThrowError(
         "Participant does not exist",
       );
+      expectToDoesNotDeletedParticipation();
+    });
+  });
 
-      expectParticipationToBeNotRegistered();
+  describe("Scenario: Organizer does not exist", () => {
+    const payload = {
+      organizerId: "non-existing-user-id",
+      drawId: testDraws.secretSanta.props.id,
+      participantId: testUsers.alice.props.id,
+    };
+
+    it("should fail", async () => {
+      await expect(useCase.execute(payload)).rejects.toThrowError(
+        "Organizer does not exist",
+      );
+      expectToDoesNotDeletedParticipation();
     });
   });
 
@@ -114,15 +106,14 @@ describe("Feature: Registering participation", () => {
     const payload = {
       organizerId: testUsers.bob.props.id,
       drawId: testDraws.secretSanta.props.id,
-      participantId: testUsers.bob.props.id,
+      participantId: testUsers.alice.props.id,
     };
 
     it("should fail", async () => {
       await expect(useCase.execute(payload)).rejects.toThrowError(
-        "Only the organizer can register participants",
+        "Only the organizer can cancel a participation",
       );
-
-      expectParticipationToBeNotRegistered();
+      expectToDoesNotDeletedParticipation();
     });
   });
 });

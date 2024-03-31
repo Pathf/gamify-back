@@ -4,7 +4,7 @@ import { testUsers } from "../../users/tests/user-seeds";
 import { InMemoryDrawRepository } from "../adapters/in-memory-draw-repository";
 import { InMemoryParticipationRepository } from "../adapters/in-memory-participation-repository";
 import { testDraws } from "../tests/draw-seeds";
-import { testParticipants as testParticipations } from "../tests/participant-seeds";
+import { testParticipations } from "../tests/participation-seeds";
 import { CancelDrawCommandHandler } from "./cancel-draw";
 
 describe("Feature: Canceling a draw", () => {

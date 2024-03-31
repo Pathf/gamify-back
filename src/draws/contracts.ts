@@ -23,4 +23,8 @@ export namespace DrawsAPI {
     export type Request = z.infer<typeof schema>;
     export type Response = void;
   }
+
+  export namespace CancelParticipation {
+    export type Response = void;
+  }
 }
