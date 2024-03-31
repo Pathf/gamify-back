@@ -2,13 +2,42 @@ import { InMemoryMailer } from "../../core/adapters/in-memory-mailer";
 import { InMemoryUserRepository } from "../../users/adapters/in-memory-user-repository";
 import { testUsers } from "../../users/tests/user-seeds";
 import { InMemoryDrawRepository } from "../adapters/in-memory-draw-repository";
+import { InMemoryParticipationRepository } from "../adapters/in-memory-participation-repository";
 import { testDraws } from "../tests/draw-seeds";
+import { testParticipants as testParticipations } from "../tests/participant-seeds";
 import { CancelDrawCommandHandler } from "./cancel-draw";
 
 describe("Feature: Canceling a draw", () => {
+  async function expectDrawToBeDeleted() {
+    const draw = await drawRepository.findById(testDraws.secretSanta.props.id);
+    expect(draw).toBeNull();
+  }
+
+  async function expectDrawToBeNotDeleted() {
+    const draw = await drawRepository.findById(testDraws.secretSanta.props.id);
+    expect(draw).toBeDefined();
+  }
+
+  async function expectParticipationToBeDeleted() {
+    const participations =
+      await participationRepository.findAllParticipationByDrawId(
+        testDraws.secretSanta.props.id,
+      );
+    expect(participations).toHaveLength(0);
+  }
+
+  async function expectParticipationToBeNotDeleted() {
+    const participations =
+      await participationRepository.findAllParticipationByDrawId(
+        testDraws.secretSanta.props.id,
+      );
+    expect(participations).toHaveLength(1);
+  }
+
   let useCase: CancelDrawCommandHandler;
   let drawRepository: InMemoryDrawRepository;
   let userRepository: InMemoryUserRepository;
+  let participationRepository: InMemoryParticipationRepository;
   let mailer: InMemoryMailer;
 
   beforeEach(async () => {
@@ -17,11 +46,15 @@ describe("Feature: Canceling a draw", () => {
       testUsers.alice,
       testUsers.bob,
     ]);
+    participationRepository = new InMemoryParticipationRepository([
+      testParticipations.aliceInSecretSanta,
+    ]);
     mailer = new InMemoryMailer([]);
 
     useCase = new CancelDrawCommandHandler(
       drawRepository,
       userRepository,
+      participationRepository,
       mailer,
     );
   });
@@ -35,14 +68,19 @@ describe("Feature: Canceling a draw", () => {
     it("should cancel draw", async () => {
       await useCase.execute(payload);
 
-      const draw = await drawRepository.findById(
-        testDraws.secretSanta.props.id,
-      );
-      expect(draw).toBeNull();
+      await expectDrawToBeDeleted();
+      await expectParticipationToBeDeleted();
     });
 
     it("should sent emails at participants", async () => {
-      // TODO : Implement this test
+      await useCase.execute(payload);
+
+      expect(mailer.sentEmails).toHaveLength(1);
+      expect(mailer.sentEmails[0]).toEqual({
+        to: testUsers.alice.props.emailAddress,
+        subject: "Draw canceled",
+        body: `The draw ${testDraws.secretSanta.props.title} has been canceled`,
+      });
     });
   });
 
@@ -57,10 +95,8 @@ describe("Feature: Canceling a draw", () => {
         "Draw not found",
       );
 
-      const draw = await drawRepository.findById(
-        testDraws.secretSanta.props.id,
-      );
-      expect(draw).toBeDefined();
+      await expectDrawToBeNotDeleted();
+      await expectParticipationToBeNotDeleted();
       expect(mailer.sentEmails).toHaveLength(0);
     });
   });
@@ -76,10 +112,8 @@ describe("Feature: Canceling a draw", () => {
         "You are not allowed to update this draw",
       );
 
-      const draw = await drawRepository.findById(
-        testDraws.secretSanta.props.id,
-      );
-      expect(draw).toBeDefined();
+      await expectDrawToBeNotDeleted();
+      await expectParticipationToBeNotDeleted();
       expect(mailer.sentEmails).toHaveLength(0);
     });
   });

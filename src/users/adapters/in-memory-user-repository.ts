@@ -9,6 +9,10 @@ export class InMemoryUserRepository implements IUserRepository {
     return user ?? null;
   }
 
+  async findByIds(ids: string[]): Promise<User[]> {
+    return this.database.filter((userDb) => ids.includes(userDb.props.id));
+  }
+
   async findByEmailAddress(emailAddress: string): Promise<User | null> {
     const user = this.database.find(
       (userDb) => userDb.props.emailAddress === emailAddress,

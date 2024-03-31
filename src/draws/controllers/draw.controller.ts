@@ -41,15 +41,12 @@ export class DrawController {
     );
   }
 
-  @Delete("/draw")
+  @Delete("/draw/:id")
   @Roles([USER_ROLE, ADMIN_ROLE])
   async handleCancelDraw(
-    @Body(new ZodValidationPipe(DrawsAPI.CancelDraw.schema))
-    body: DrawsAPI.CancelDraw.Request,
+    @Param("id") drawId: string,
     @Request() request: { user: User },
   ): Promise<DrawsAPI.CancelDraw.Response> {
-    return this.commandBus.execute(
-      new CancelDrawCommand(body.drawId, request.user),
-    );
+    return this.commandBus.execute(new CancelDrawCommand(drawId, request.user));
   }
 }

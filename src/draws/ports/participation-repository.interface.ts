@@ -7,4 +7,6 @@ export interface IParticipationRepository {
   findAllParticipationByDrawId(drawId: string): Promise<Participation[]>;
 
   create(participation: Participation): Promise<void>;
+
+  deleteByDrawId(drawId: string): Promise<void>;
 }

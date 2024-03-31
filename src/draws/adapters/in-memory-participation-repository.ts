@@ -4,7 +4,7 @@ import { IParticipationRepository } from "../ports/participation-repository.inte
 export class InMemoryParticipationRepository
   implements IParticipationRepository
 {
-  constructor(private readonly participations: Participation[] = []) {}
+  constructor(private participations: Participation[] = []) {}
 
   async findOne(
     drawId: string,
@@ -21,6 +21,12 @@ export class InMemoryParticipationRepository
 
   async create(participation: Participation): Promise<void> {
     this.participations.push(participation);
+  }
+
+  async deleteByDrawId(drawId: string): Promise<void> {
+    this.participations = this.participations.filter(
+      (participation) => participation.props.drawId !== drawId,
+    );
   }
 
   // Just for testing purposes

@@ -38,9 +38,24 @@ import { I_PARTICIPATION_REPOSITORY } from "./ports/participation-repository.int
     },
     {
       provide: CancelDrawCommandHandler,
-      inject: [I_DRAW_REPOSITORY, I_USER_REPOSITORY, I_MAILER],
-      useFactory: (drawRepository, userRepository, mailer) =>
-        new CancelDrawCommandHandler(drawRepository, userRepository, mailer),
+      inject: [
+        I_DRAW_REPOSITORY,
+        I_USER_REPOSITORY,
+        I_PARTICIPATION_REPOSITORY,
+        I_MAILER,
+      ],
+      useFactory: (
+        drawRepository,
+        userRepository,
+        participationRepository,
+        mailer,
+      ) =>
+        new CancelDrawCommandHandler(
+          drawRepository,
+          userRepository,
+          participationRepository,
+          mailer,
+        ),
     },
     {
       provide: RegisterParticipationCommandHandler,
