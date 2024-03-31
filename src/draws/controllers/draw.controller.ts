@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Post, Request } from "@nestjs/common";
+import { Body, Controller, Delete, Param, Post, Request } from "@nestjs/common";
 import { CommandBus } from "@nestjs/cqrs";
 import { ZodValidationPipe } from "../../core/pipes/zod-validation.pipe";
 import { ADMIN_ROLE, Roles, USER_ROLE } from "../../core/utils/roles.decorator";
 import { User } from "../../users/entities/user.entity";
 import { CancelDrawCommand } from "../commands/cancel-draw";
 import { OrganizeDrawCommand } from "../commands/organize-draw";
+import { RegisterParticipationCommand } from "../commands/register-participation";
 import { DrawsAPI } from "../contracts";
 
 @Controller()
@@ -20,6 +21,23 @@ export class DrawController {
   ): Promise<DrawsAPI.OrganizeDraw.Response> {
     return this.commandBus.execute(
       new OrganizeDrawCommand(body.title, request.user.props.id, body.year),
+    );
+  }
+
+  @Post("/draw/:id/participation")
+  @Roles([USER_ROLE, ADMIN_ROLE])
+  async handleRegisterParticipation(
+    @Param("id") drawId: string,
+    @Body(new ZodValidationPipe(DrawsAPI.RegisterParticipation.schema))
+    body: DrawsAPI.RegisterParticipation.Request,
+    @Request() request: { user: User },
+  ): Promise<DrawsAPI.RegisterParticipation.Response> {
+    return this.commandBus.execute(
+      new RegisterParticipationCommand(
+        request.user.props.id,
+        drawId,
+        body.participantId,
+      ),
     );
   }
 

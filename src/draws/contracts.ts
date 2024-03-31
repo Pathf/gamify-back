@@ -19,4 +19,13 @@ export namespace DrawsAPI {
     export type Request = z.infer<typeof schema>;
     export type Response = void;
   }
+
+  export namespace RegisterParticipation {
+    export const schema = z.object({
+      participantId: z.string(),
+    });
+
+    export type Request = z.infer<typeof schema>;
+    export type Response = void;
+  }
 }
