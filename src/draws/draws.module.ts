@@ -52,18 +52,21 @@ import { I_PARTICIPATION_REPOSITORY } from "./ports/participation-repository.int
         I_DRAW_REPOSITORY,
         I_USER_REPOSITORY,
         I_PARTICIPATION_REPOSITORY,
+        I_CONDITION_REPOSITORY,
         I_MAILER,
       ],
       useFactory: (
         drawRepository,
         userRepository,
         participationRepository,
+        conditionRepository,
         mailer,
       ) =>
         new CancelDrawCommandHandler(
           drawRepository,
           userRepository,
           participationRepository,
+          conditionRepository,
           mailer,
         ),
     },
