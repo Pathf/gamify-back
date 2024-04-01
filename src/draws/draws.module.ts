@@ -12,12 +12,13 @@ import { CancelParticipationCommandHandler } from "./commands/cancel-participati
 import { OrganizeDrawCommandHandler } from "./commands/organize-draw";
 import { RegisterParticipationCommandHandler } from "./commands/register-participation";
 import { DrawController } from "./controllers/draw.controller";
+import { ParticipationController } from "./controllers/participation.controller";
 import { I_DRAW_REPOSITORY } from "./ports/draw-repository.interace";
 import { I_PARTICIPATION_REPOSITORY } from "./ports/participation-repository.interface";
 
 @Module({
   imports: [CqrsModule, CommonModule, UsersModule],
-  controllers: [DrawController],
+  controllers: [DrawController, ParticipationController],
   providers: [
     {
       provide: I_DRAW_REPOSITORY,
