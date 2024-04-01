@@ -177,4 +177,6 @@ describe("Feature: Registering Condition", () => {
       );
     });
   });
+
+  // TODO: Ajouter des tests par rapport au nombre de personnes / conditions
 });
