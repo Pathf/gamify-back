@@ -5,7 +5,7 @@ import { ADMIN_ROLE, Roles, USER_ROLE } from "../../core/utils/roles.decorator";
 import { User } from "../../users/entities/user.entity";
 import { CancelParticipationCommand } from "../commands/cancel-participation";
 import { RegisterParticipationCommand } from "../commands/register-participation";
-import { DrawsAPI } from "../contracts";
+import { ParticipationAPI } from "../contracts";
 
 @Controller()
 export class ParticipationController {
@@ -15,10 +15,10 @@ export class ParticipationController {
   @Roles([USER_ROLE, ADMIN_ROLE])
   async handleRegisterParticipation(
     @Param("id") drawId: string,
-    @Body(new ZodValidationPipe(DrawsAPI.RegisterParticipation.schema))
-    body: DrawsAPI.RegisterParticipation.Request,
+    @Body(new ZodValidationPipe(ParticipationAPI.RegisterParticipation.schema))
+    body: ParticipationAPI.RegisterParticipation.Request,
     @Request() request: { user: User },
-  ): Promise<DrawsAPI.RegisterParticipation.Response> {
+  ): Promise<ParticipationAPI.RegisterParticipation.Response> {
     return this.commandBus.execute(
       new RegisterParticipationCommand(
         request.user.props.id,
@@ -34,7 +34,7 @@ export class ParticipationController {
     @Param("id") drawId: string,
     @Param("participantId") participantId: string,
     @Request() request: { user: User },
-  ): Promise<DrawsAPI.CancelParticipation.Response> {
+  ): Promise<ParticipationAPI.CancelParticipation.Response> {
     return this.commandBus.execute(
       new CancelParticipationCommand(
         request.user.props.id,

@@ -9,6 +9,10 @@ export class InMemoryConditionRepository implements IConditionRepository {
     return this.findSync(drawId, donorId, receiverId, isViceVersa);
   }
 
+  async findAllByDrawId(drawId: string): Promise<Condition[]> {
+    return this.conditions.filter((condition) => condition.isDraw(drawId));
+  }
+
   async create(condition: Condition): Promise<void> {
     this.conditions.push(condition);
   }
