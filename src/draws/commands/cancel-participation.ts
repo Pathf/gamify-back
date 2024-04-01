@@ -50,14 +50,14 @@ export class CancelParticipationCommandHandler
   }
 
   private async assertParticipantExists(participantId: string) {
-    const participant = await this.userRepository.findById(participantId);
+    const participant = await this.userRepository.findOne(participantId);
     if (!participant) {
       throw new ParticipantDoesNotExistError();
     }
   }
 
   private async assertOrganizerExists(organizerId: string) {
-    const organizer = await this.userRepository.findById(organizerId);
+    const organizer = await this.userRepository.findOne(organizerId);
     if (!organizer) {
       throw new OrganizerDoesNotExistError();
     }

@@ -75,7 +75,7 @@ export class RegisterParticipationCommandHandler
   }
 
   private async assertParticipantExists(participantId: string): Promise<void> {
-    const participant = await this.userRepository.findById(participantId);
+    const participant = await this.userRepository.findOne(participantId);
 
     if (!participant) {
       throw new ParticipantDoesNotExistError();

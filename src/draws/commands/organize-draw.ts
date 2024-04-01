@@ -26,7 +26,7 @@ export class OrganizeDrawCommandHandler
   ) {}
 
   public async execute(command: OrganizeDrawCommand): Promise<void> {
-    const organizer = await this.userRepository.findById(command.organizerId);
+    const organizer = await this.userRepository.findOne(command.organizerId);
 
     if (!organizer) {
       throw new UserNotFoundError();

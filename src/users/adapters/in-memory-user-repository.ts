@@ -4,7 +4,7 @@ import { IUserRepository } from "../ports/user-repository.interface";
 export class InMemoryUserRepository implements IUserRepository {
   constructor(public readonly database: User[] = []) {}
 
-  async findById(id: string): Promise<User | null> {
+  async findOne(id: string): Promise<User | null> {
     const user = this.database.find((userDb) => userDb.props.id === id);
     return user ?? null;
   }
