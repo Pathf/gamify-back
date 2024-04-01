@@ -10,11 +10,17 @@ export class InMemoryConditionRepository implements IConditionRepository {
   }
 
   async findAllByDrawId(drawId: string): Promise<Condition[]> {
-    return this.conditions.filter((condition) => condition.isDraw(drawId));
+    return this.findAllByDrawIdSync(drawId);
   }
 
   async create(condition: Condition): Promise<void> {
     this.conditions.push(condition);
+  }
+
+  async deleteByDrawId(drawId: string): Promise<void> {
+    this.conditions = this.conditions.filter(
+      (condition) => !condition.isDraw(drawId),
+    );
   }
 
   // Just for testing purposes
@@ -45,5 +51,9 @@ export class InMemoryConditionRepository implements IConditionRepository {
           condition.isReceiver(receiverId),
       ) || null
     );
+  }
+
+  findAllByDrawIdSync(drawId: string): Condition[] {
+    return this.conditions.filter((condition) => condition.isDraw(drawId));
   }
 }

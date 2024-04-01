@@ -7,4 +7,6 @@ export interface IConditionRepository {
   findAllByDrawId(drawId: string): Promise<Condition[]>;
 
   create(condition: Condition): Promise<void>;
+
+  deleteByDrawId(drawId: string): Promise<void>;
 }

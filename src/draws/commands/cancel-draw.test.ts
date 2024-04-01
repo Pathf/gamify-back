@@ -1,43 +1,54 @@
 import { InMemoryMailer } from "../../core/adapters/in-memory-mailer";
 import { InMemoryUserRepository } from "../../users/adapters/in-memory-user-repository";
 import { testUsers } from "../../users/tests/user-seeds";
+import { InMemoryConditionRepository } from "../adapters/in-memory-condition-repository";
 import { InMemoryDrawRepository } from "../adapters/in-memory-draw-repository";
 import { InMemoryParticipationRepository } from "../adapters/in-memory-participation-repository";
+import { testConditions } from "../tests/condition-seeds";
 import { testDraws } from "../tests/draw-seeds";
 import { testParticipations } from "../tests/participation-seeds";
 import { CancelDrawCommandHandler } from "./cancel-draw";
 
 describe("Feature: Canceling a draw", () => {
   function expectDrawToBeDeleted() {
-    const draw = drawRepository.findByIdSync(testDraws.secretSanta.props.id);
+    const draw = drawRepository.findByIdSync(drawId);
     expect(draw).toBeNull();
   }
 
   function expectDrawToBeNotDeleted() {
-    const draw = drawRepository.findByIdSync(testDraws.secretSanta.props.id);
+    const draw = drawRepository.findByIdSync(drawId);
     expect(draw).toBeDefined();
   }
 
   function expectParticipationToBeDeleted() {
     const participations =
-      participationRepository.findAllParticipationByDrawIdSync(
-        testDraws.secretSanta.props.id,
-      );
+      participationRepository.findAllParticipationByDrawIdSync(drawId);
     expect(participations).toHaveLength(0);
   }
 
   function expectParticipationToBeNotDeleted() {
     const participations =
-      participationRepository.findAllParticipationByDrawIdSync(
-        testDraws.secretSanta.props.id,
-      );
+      participationRepository.findAllParticipationByDrawIdSync(drawId);
     expect(participations).toHaveLength(1);
   }
+
+  function expectConditionToBeDeleted() {
+    const conditions = conditionRepository.findAllByDrawIdSync(drawId);
+    expect(conditions).toHaveLength(0);
+  }
+
+  function expectConditionToBeNotDeleted() {
+    const conditions = conditionRepository.findAllByDrawIdSync(drawId);
+    expect(conditions).toHaveLength(1);
+  }
+
+  const drawId = testDraws.secretSanta.props.id;
 
   let useCase: CancelDrawCommandHandler;
   let drawRepository: InMemoryDrawRepository;
   let userRepository: InMemoryUserRepository;
   let participationRepository: InMemoryParticipationRepository;
+  let conditionRepository: InMemoryConditionRepository;
   let mailer: InMemoryMailer;
 
   beforeEach(async () => {
@@ -49,19 +60,23 @@ describe("Feature: Canceling a draw", () => {
     participationRepository = new InMemoryParticipationRepository([
       testParticipations.aliceInSecretSanta,
     ]);
+    conditionRepository = new InMemoryConditionRepository([
+      testConditions.aliceToBobInSecretSanta,
+    ]);
     mailer = new InMemoryMailer([]);
 
     useCase = new CancelDrawCommandHandler(
       drawRepository,
       userRepository,
       participationRepository,
+      conditionRepository,
       mailer,
     );
   });
 
   describe("Scenario: happy path", () => {
     const payload = {
-      drawId: testDraws.secretSanta.props.id,
+      drawId: drawId,
       user: testUsers.alice,
     };
 
@@ -70,6 +85,7 @@ describe("Feature: Canceling a draw", () => {
 
       expectDrawToBeDeleted();
       expectParticipationToBeDeleted();
+      expectConditionToBeDeleted();
     });
 
     it("should sent emails at participants", async () => {
@@ -97,13 +113,14 @@ describe("Feature: Canceling a draw", () => {
 
       expectDrawToBeNotDeleted();
       expectParticipationToBeNotDeleted();
+      expectConditionToBeNotDeleted();
       expect(mailer.sentEmails).toHaveLength(0);
     });
   });
 
   describe("Scenario: user does not organizer", () => {
     const payload = {
-      drawId: testDraws.secretSanta.props.id,
+      drawId: drawId,
       user: testUsers.bob,
     };
 
@@ -114,6 +131,7 @@ describe("Feature: Canceling a draw", () => {
 
       expectDrawToBeNotDeleted();
       expectParticipationToBeNotDeleted();
+      expectConditionToBeNotDeleted();
       expect(mailer.sentEmails).toHaveLength(0);
     });
   });
