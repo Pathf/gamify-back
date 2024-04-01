@@ -29,7 +29,7 @@ export class CancelDrawCommandHandler
   ) {}
 
   async execute({ drawId, user }: CancelDrawCommand) {
-    const draw = await this.drawRepository.findById(drawId);
+    const draw = await this.drawRepository.findOne(drawId);
 
     if (!draw) {
       throw new DrawNotFoundError();

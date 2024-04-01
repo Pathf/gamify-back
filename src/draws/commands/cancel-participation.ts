@@ -42,7 +42,7 @@ export class CancelParticipationCommandHandler
   }
 
   private async assertDrawExists(drawId: string): Promise<Draw> {
-    const draw = await this.drawRepository.findById(drawId);
+    const draw = await this.drawRepository.findOne(drawId);
     if (!draw) {
       throw new DrawNotFoundError();
     }

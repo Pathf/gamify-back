@@ -36,7 +36,7 @@ describe("Feature: Canceling draw", () => {
         .set("Authorization", e2eUsers.alice.creaetAuthorizationToken());
       expect(result.status).toBe(200);
 
-      const draw = await drawRepository.findById(drawId);
+      const draw = await drawRepository.findOne(drawId);
       expect(draw).toBeNull();
     });
   });
@@ -48,7 +48,7 @@ describe("Feature: Canceling draw", () => {
       );
       expect(result.status).toBe(403);
 
-      const draw = await drawRepository.findById(drawId);
+      const draw = await drawRepository.findOne(drawId);
       expect(draw).toEqual(e2eDraws.secretSanta.entity);
     });
   });

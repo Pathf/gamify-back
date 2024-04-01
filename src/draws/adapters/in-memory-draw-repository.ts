@@ -4,7 +4,7 @@ import { IDrawRepository } from "../ports/draw-repository.interace";
 export class InMemoryDrawRepository implements IDrawRepository {
   constructor(private draws: Draw[] = []) {}
 
-  public async findById(id: string): Promise<Draw | null> {
+  public async findOne(id: string): Promise<Draw | null> {
     return this.findByIdSync(id);
   }
 

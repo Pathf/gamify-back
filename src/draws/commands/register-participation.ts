@@ -63,7 +63,7 @@ export class RegisterParticipationCommandHandler
     drawId: string,
     organizerId: string,
   ): Promise<void> {
-    const draw = await this.drawRepository.findById(drawId);
+    const draw = await this.drawRepository.findOne(drawId);
 
     if (!draw) {
       throw new DrawNotFoundError();
