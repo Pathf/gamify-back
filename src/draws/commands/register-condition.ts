@@ -1,9 +1,11 @@
 import { CommandHandler, ICommand, ICommandHandler } from "@nestjs/cqrs";
+import { generateAllPermutation } from "../../core/utils/generate-permutation";
 import { User } from "../../users/entities/user.entity";
 import { IUserRepository } from "../../users/ports/user-repository.interface";
 import { Condition } from "../entities/condition.entity";
 import { Draw } from "../entities/draw.entity";
 import { ConditionAlreadyExistsError } from "../errors/condition-already-exists.error";
+import { ConditionPreventsNotDrawError } from "../errors/condition-prevents-draw.error";
 import { DonorDoesNotExistError } from "../errors/donor-does-not-exist.error";
 import { DonorParticipationDoesNotExistInDrawError } from "../errors/donor-participation-does-not-exist-in-draw.error";
 import { DrawNotFoundError } from "../errors/draw-not-found.error";
@@ -14,6 +16,10 @@ import { RecieverParticipationDoesNotExistInDrawError } from "../errors/reciever
 import { IConditionRepository } from "../ports/condition-repositroy.interface";
 import { IDrawRepository } from "../ports/draw-repository.interace";
 import { IParticipationRepository } from "../ports/participation-repository.interface";
+import {
+  countCorresponding,
+  generateAllConditionAtTest,
+} from "../utils/condition.utils";
 
 type Response = void;
 
@@ -57,6 +63,7 @@ export class RegisterConditionCommandHandler
     });
 
     await this.assertConditionDoesNotExist(condition);
+    await this.assertConditionPreventsNotDraw(condition);
 
     await this.conditionRepository.create(condition);
   }
@@ -78,7 +85,7 @@ export class RegisterConditionCommandHandler
   }
 
   private assertUserIsOrganizer(draw: Draw, user: User): void {
-    if (draw.props.organizerId !== user.props.id) {
+    if (draw.isOrganizer(user) === false) {
       throw new OnlyOrganizerCanRegisterConditionError();
     }
   }
@@ -129,6 +136,29 @@ export class RegisterConditionCommandHandler
     const existingCondition = await this.conditionRepository.find(condition);
     if (existingCondition) {
       throw new ConditionAlreadyExistsError();
+    }
+  }
+
+  private async assertConditionPreventsNotDraw(condition: Condition) {
+    const drawId = condition.props.drawId;
+
+    const participationIds = (
+      await this.participationRepository.findAllParticipationByDrawId(drawId)
+    ).map((participation) => participation.props.participantId);
+
+    const conditions = await this.conditionRepository.findAllByDrawId(drawId);
+    conditions.push(condition);
+
+    const permutations = generateAllPermutation(participationIds);
+    const conditionsAtTest = generateAllConditionAtTest(conditions);
+
+    const correspondingCount = countCorresponding(
+      permutations,
+      conditionsAtTest,
+    );
+
+    if (permutations.length - correspondingCount === 0) {
+      throw new ConditionPreventsNotDrawError();
     }
   }
 }

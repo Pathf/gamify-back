@@ -59,6 +59,13 @@ describe("Feature: Registering Condition", () => {
   });
 
   describe("Scenario: happy path", () => {
+    beforeEach(async () => {
+      await userRepository.createUser(testUsers.david);
+      await participationRepository.create(
+        testParticipations.davidInSecretSanta,
+      );
+    });
+
     it("should register a condition", async () => {
       await useCase.execute(payload);
 
@@ -178,5 +185,11 @@ describe("Feature: Registering Condition", () => {
     });
   });
 
-  // TODO: Ajouter des tests par rapport au nombre de personnes / conditions
+  describe("Scenario: Condition prevents the draw (chained draw)", () => {
+    it("should fail", async () => {
+      await expect(
+        useCase.execute({ ...payload, isViceVersa: true }),
+      ).rejects.toThrowError("Condition prevents the draw");
+    });
+  });
 });

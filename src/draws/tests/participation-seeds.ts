@@ -15,6 +15,10 @@ export const testParticipations = {
     drawId: testDraws.secretSanta.props.id,
     participantId: testUsers.charles.props.id,
   }),
+  davidInSecretSanta: new Participation({
+    drawId: testDraws.secretSanta.props.id,
+    participantId: testUsers.david.props.id,
+  }),
   aliceInTombola: new Participation({
     drawId: testDraws.tombola.props.id,
     participantId: testUsers.alice.props.id,
