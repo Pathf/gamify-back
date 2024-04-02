@@ -8,6 +8,7 @@ import { UsersModule } from "../users/users.module";
 import { InMemoryConditionRepository } from "./adapters/in-memory-condition-repository";
 import { InMemoryDrawRepository } from "./adapters/in-memory-draw-repository";
 import { InMemoryParticipationRepository } from "./adapters/in-memory-participation-repository";
+import { CancelConditionCommandHandler } from "./commands/cancel-condition";
 import { CancelDrawCommandHandler } from "./commands/cancel-draw";
 import { CancelParticipationCommandHandler } from "./commands/cancel-participation";
 import { OrganizeDrawCommandHandler } from "./commands/organize-draw";
@@ -105,18 +106,31 @@ import { I_PARTICIPATION_REPOSITORY } from "./ports/participation-repository.int
         I_DRAW_REPOSITORY,
         I_PARTICIPATION_REPOSITORY,
         I_CONDITION_REPOSITORY,
+        I_ID_GENERATOR,
       ],
       useFactory: (
         userRepository,
         drawRepository,
         participationRepository,
         conditionRepository,
+        idGenerator,
       ) =>
         new RegisterConditionCommandHandler(
           userRepository,
           drawRepository,
           participationRepository,
           conditionRepository,
+          idGenerator,
+        ),
+    },
+    {
+      provide: CancelConditionCommandHandler,
+      inject: [I_CONDITION_REPOSITORY, I_USER_REPOSITORY, I_DRAW_REPOSITORY],
+      useFactory: (conditionRepository, userRepository, drawRepository) =>
+        new CancelConditionCommandHandler(
+          conditionRepository,
+          userRepository,
+          drawRepository,
         ),
     },
   ],

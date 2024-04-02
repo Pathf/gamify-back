@@ -1,6 +1,7 @@
 import { Entity } from "../../shared/entity.abstract";
 
 type ConditionProps = {
+  id: string;
   drawId: string;
   donorId: string;
   receiverId: string;

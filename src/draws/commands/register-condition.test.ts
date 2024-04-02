@@ -1,3 +1,4 @@
+import { FixedIDGenerator } from "../../core/adapters/fixed-id-generator";
 import { InMemoryUserRepository } from "../../users/adapters/in-memory-user-repository";
 import { testUsers } from "../../users/tests/user-seeds";
 import { InMemoryConditionRepository } from "../adapters/in-memory-condition-repository";
@@ -30,6 +31,7 @@ describe("Feature: Registering Condition", () => {
   let drawRepository: InMemoryDrawRepository;
   let participationRepository: InMemoryParticipationRepository;
   let conditionRepository: InMemoryConditionRepository;
+  let idGenerator: FixedIDGenerator;
   let useCase: RegisterConditionCommandHandler;
 
   beforeEach(() => {
@@ -50,11 +52,13 @@ describe("Feature: Registering Condition", () => {
       testParticipations.bobInTombola,
     ]);
     conditionRepository = new InMemoryConditionRepository([]);
+    idGenerator = new FixedIDGenerator();
     useCase = new RegisterConditionCommandHandler(
       userRepository,
       drawRepository,
       participationRepository,
       conditionRepository,
+      idGenerator,
     );
   });
 
@@ -75,6 +79,7 @@ describe("Feature: Registering Condition", () => {
         testUsers.bob.props.id,
       );
       expect(condition?.props).toEqual({
+        id: "id-1",
         drawId: testDraws.secretSanta.props.id,
         donorId: testUsers.alice.props.id,
         receiverId: testUsers.bob.props.id,

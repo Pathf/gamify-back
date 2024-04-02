@@ -9,12 +9,22 @@ export class InMemoryConditionRepository implements IConditionRepository {
     return this.findSync(drawId, donorId, receiverId, isViceVersa);
   }
 
+  async findById(id: string): Promise<Condition | null> {
+    return this.findByIdSync(id);
+  }
+
   async findAllByDrawId(drawId: string): Promise<Condition[]> {
     return this.findAllByDrawIdSync(drawId);
   }
 
   async create(condition: Condition): Promise<void> {
     this.conditions.push(condition);
+  }
+
+  async deleteById(id: string): Promise<void> {
+    this.conditions = this.conditions.filter(
+      (condition) => condition.props.id !== id,
+    );
   }
 
   async deleteByDrawId(drawId: string): Promise<void> {
@@ -50,6 +60,12 @@ export class InMemoryConditionRepository implements IConditionRepository {
           condition.isDonor(donorId) &&
           condition.isReceiver(receiverId),
       ) || null
+    );
+  }
+
+  findByIdSync(id: string): Condition | null {
+    return (
+      this.conditions.find((condition) => condition.props.id === id) || null
     );
   }
 

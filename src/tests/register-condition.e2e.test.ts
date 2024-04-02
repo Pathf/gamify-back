@@ -55,6 +55,7 @@ describe("Feature: Registering condition", () => {
       const conditions = await conditionRepository.findAllByDrawId(drawId);
       expect(conditions).toHaveLength(1);
       expect(conditions[0].props).toEqual({
+        id: expect.any(String),
         drawId,
         donorId,
         receiverId,

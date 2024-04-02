@@ -1,4 +1,5 @@
 import { CommandHandler, ICommand, ICommandHandler } from "@nestjs/cqrs";
+import { IIDGenerator } from "../../core/ports/id-generator.interface";
 import { generateAllPermutation } from "../../core/utils/generate-permutation";
 import { User } from "../../users/entities/user.entity";
 import { IUserRepository } from "../../users/ports/user-repository.interface";
@@ -42,6 +43,7 @@ export class RegisterConditionCommandHandler
     private readonly drawRepository: IDrawRepository,
     private readonly participationRepository: IParticipationRepository,
     private readonly conditionRepository: IConditionRepository,
+    private readonly idGenerator: IIDGenerator,
   ) {}
 
   async execute(command: RegisterConditionCommand): Promise<Response> {
@@ -56,6 +58,7 @@ export class RegisterConditionCommandHandler
     await this.assertRecieverParticipationInDrawExist(drawId, receiverId);
 
     const condition = new Condition({
+      id: this.idGenerator.generate(),
       drawId,
       donorId,
       receiverId,
