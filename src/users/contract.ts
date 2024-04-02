@@ -15,4 +15,15 @@ export namespace UserAPI {
   export namespace DeleteAccount {
     export type Response = void;
   }
+
+  export namespace UpdateAccount {
+    export const schema = z.object({
+      emailAddress: z.string().email(),
+      name: z.string(),
+      password: z.string(),
+    });
+
+    export type Request = z.infer<typeof schema>;
+    export type Response = void;
+  }
 }

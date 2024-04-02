@@ -1,3 +1,4 @@
+import { ADMIN_ROLE } from "../../core/utils/roles.decorator";
 import { UserRoles } from "../entities/user-roles.entity";
 import { IUserRolesRepository } from "../ports/user-roles-repository.interface";
 
@@ -10,6 +11,14 @@ export class InMemoryUserRolesRepository implements IUserRolesRepository {
     );
 
     return userRoles ? userRoles.props.roles : [];
+  }
+
+  async isAdmin(userId: string): Promise<boolean> {
+    const userRoles = this.usersRoles.find(
+      (userRoles) => userRoles.props.userId === userId,
+    );
+
+    return userRoles ? userRoles.props.roles.includes(ADMIN_ROLE) : false;
   }
 
   async addRoleToUser(userId: string, role: string): Promise<void> {

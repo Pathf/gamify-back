@@ -5,8 +5,7 @@ export class InMemoryUserRepository implements IUserRepository {
   constructor(public readonly database: User[] = []) {}
 
   async findOne(id: string): Promise<User | null> {
-    const user = this.database.find((userDb) => userDb.props.id === id);
-    return user ?? null;
+    return this.findOneSync(id);
   }
 
   async findByIds(ids: string[]): Promise<User[]> {
@@ -24,6 +23,12 @@ export class InMemoryUserRepository implements IUserRepository {
     this.database.push(user);
   }
 
+  async update(user: User): Promise<void> {
+    const index = this.database.findIndex((u) => u.props.id === user.props.id);
+    this.database[index] = user;
+    user.commit();
+  }
+
   async delete(user: User): Promise<void> {
     const userIndex = this.database.findIndex(
       (userDb) => userDb.props.id === user.props.id,
@@ -34,5 +39,11 @@ export class InMemoryUserRepository implements IUserRepository {
     }
 
     this.database.splice(userIndex, 1);
+  }
+
+  // Just for testing purposes
+  findOneSync(id: string): User | null {
+    const user = this.database.find((userDb) => userDb.props.id === id);
+    return user ?? null;
   }
 }
