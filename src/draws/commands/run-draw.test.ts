@@ -87,7 +87,7 @@ describe("Feature: Running the Draw", () => {
       await useCase.execute(payload);
 
       const emails = mailer.sentEmails;
-      expect(emails).toHaveLength(4);
+      expect(emails).toHaveLength(5);
       expect(emails).toEqual([
         {
           to: testUsers.alice.props.emailAddress,
@@ -108,6 +108,11 @@ describe("Feature: Running the Draw", () => {
           to: testUsers.david.props.emailAddress,
           subject: "Secret Santa Draw",
           body: `You are the Secret Santa of ${testUsers.alice.props.name}`,
+        },
+        {
+          to: testUsers.alice.props.emailAddress,
+          subject: "Secret Santa Draw",
+          body: "The Secret Santa draw has been completed",
         },
       ]);
     });

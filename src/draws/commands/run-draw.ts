@@ -82,6 +82,12 @@ export class RunDrawCommandHandler
       });
     }
 
+    mails.push({
+      to: user.props.emailAddress,
+      subject: "Secret Santa Draw",
+      body: "The Secret Santa draw has been completed",
+    });
+
     await this.createChainedDraws(chainedDraws);
     await this.sendEmails(mails);
   }
