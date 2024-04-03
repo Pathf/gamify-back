@@ -1,15 +1,33 @@
-import { Body, Controller, Delete, Param, Post, Request } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Request,
+} from "@nestjs/common";
 import { CommandBus } from "@nestjs/cqrs";
 import { ZodValidationPipe } from "../../core/pipes/zod-validation.pipe";
 import { ADMIN_ROLE, Roles, USER_ROLE } from "../../core/utils/roles.decorator";
 import { User } from "../../users/entities/user.entity";
 import { CancelDrawCommand } from "../commands/cancel-draw";
 import { OrganizeDrawCommand } from "../commands/organize-draw";
+import { RunDrawCommand } from "../commands/run-draw";
 import { DrawsAPI } from "../contracts";
 
 @Controller()
 export class DrawController {
   constructor(private readonly commandBus: CommandBus) {}
+
+  @Get("/draw/:id/run")
+  @Roles([USER_ROLE, ADMIN_ROLE])
+  async handleRunDraw(
+    @Param("id") drawId: string,
+    @Request() request: { user: User },
+  ): Promise<DrawsAPI.RunDraw.Response> {
+    return this.commandBus.execute(new RunDrawCommand(request.user, drawId));
+  }
 
   @Post("/draws")
   @Roles([USER_ROLE, ADMIN_ROLE])

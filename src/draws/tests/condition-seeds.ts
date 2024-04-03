@@ -17,6 +17,13 @@ export const testConditions = {
     receiverId: testUsers.bob.props.id,
     isViceVersa: true,
   }),
+  aliceEqualCharlesInSecretSanta: new Condition({
+    id: "alice-equal-charles-in-secret-santa-id",
+    drawId: testDraws.secretSanta.props.id,
+    donorId: testUsers.alice.props.id,
+    receiverId: testUsers.charles.props.id,
+    isViceVersa: true,
+  }),
   aliceToBobInTombola: new Condition({
     id: "alice-to-bob-in-tombola-id",
     drawId: testDraws.tombola.props.id,

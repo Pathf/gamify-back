@@ -24,7 +24,7 @@ export class InMemoryParticipationRepository
   async delete(drawId: string, participantId: string): Promise<void> {
     this.participations = this.participations.filter(
       (participation) =>
-        participation.props.drawId !== drawId &&
+        participation.props.drawId !== drawId ||
         participation.props.participantId !== participantId,
     );
   }

@@ -14,6 +14,10 @@ export namespace DrawsAPI {
   export namespace CancelDraw {
     export type Response = void;
   }
+
+  export namespace RunDraw {
+    export type Response = void;
+  }
 }
 
 export namespace ParticipationAPI {

@@ -1,11 +1,15 @@
 import { Module } from "@nestjs/common";
 import { BcryptSecurity } from "./adapters/bcrypt-security";
+import { CurrentDateGenerator } from "./adapters/current-date-generator";
 import { InMemoryMailer } from "./adapters/in-memory-mailer";
 import { RandomIDGenartor } from "./adapters/random-id-generator";
+import { ShuffleService } from "./adapters/shuffle-service";
 import { AppService } from "./app.service";
+import { I_DATE_GENERATOR } from "./ports/date-generator.interface";
 import { I_ID_GENERATOR } from "./ports/id-generator.interface";
 import { I_MAILER } from "./ports/mailer.interface";
 import { I_SECURITY } from "./ports/security.interface";
+import { I_SHUFFLE_SERVICE } from "./ports/shuffle-service.interface";
 
 @Module({
   imports: [],
@@ -24,7 +28,21 @@ import { I_SECURITY } from "./ports/security.interface";
       provide: I_SECURITY,
       useClass: BcryptSecurity,
     },
+    {
+      provide: I_SHUFFLE_SERVICE,
+      useClass: ShuffleService,
+    },
+    {
+      provide: I_DATE_GENERATOR,
+      useClass: CurrentDateGenerator,
+    },
   ],
-  exports: [I_ID_GENERATOR, I_MAILER, I_SECURITY],
+  exports: [
+    I_ID_GENERATOR,
+    I_MAILER,
+    I_SECURITY,
+    I_SHUFFLE_SERVICE,
+    I_DATE_GENERATOR,
+  ],
 })
 export class CommonModule {}

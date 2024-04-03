@@ -160,7 +160,7 @@ export class RegisterConditionCommandHandler
       conditionsAtTest,
     );
 
-    if (permutations.length - correspondingCount === 0) {
+    if (permutations.length - correspondingCount <= 0) {
       throw new ConditionPreventsNotDrawError();
     }
   }

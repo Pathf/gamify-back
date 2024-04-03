@@ -9,4 +9,7 @@ export const e2eParticipations = {
   charlesSecretSanta: new ParticipationFixture(
     testParticipations.charlesInSecretSanta,
   ),
+  davidSecretSanta: new ParticipationFixture(
+    testParticipations.davidInSecretSanta,
+  ),
 };

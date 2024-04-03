@@ -12,7 +12,7 @@ describe("Feature: Canceling participation", () => {
       participationRepository.findAllParticipationByDrawIdSync(
         testDraws.secretSanta.props.id,
       );
-    expect(participations).toHaveLength(0);
+    expect(participations).toHaveLength(1);
   }
 
   function expectToDoesNotDeletedParticipation() {
@@ -20,7 +20,7 @@ describe("Feature: Canceling participation", () => {
       participationRepository.findAllParticipationByDrawIdSync(
         testDraws.secretSanta.props.id,
       );
-    expect(participations).toHaveLength(1);
+    expect(participations).toHaveLength(2);
   }
 
   let drawRepository: InMemoryDrawRepository;
@@ -32,6 +32,7 @@ describe("Feature: Canceling participation", () => {
     drawRepository = new InMemoryDrawRepository([testDraws.secretSanta]);
     participationRepository = new InMemoryParticipationRepository([
       testParticipations.aliceInSecretSanta,
+      testParticipations.bobInSecretSanta,
     ]);
     userRepository = new InMemoryUserRepository([
       testUsers.alice,
