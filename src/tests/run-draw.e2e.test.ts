@@ -53,7 +53,6 @@ describe("Feature: Running draw", () => {
 
       const chainedDraws = await getChainedDraws();
       expect(chainedDraws).toHaveLength(4);
-      console.log(chainedDraws.map((cd) => cd.props));
     });
   });
 
