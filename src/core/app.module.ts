@@ -3,7 +3,6 @@ import { Module } from "@nestjs/common";
 import { APP_GUARD, Reflector } from "@nestjs/core";
 import { DrawsModule } from "../draws/draws.module";
 import { I_USER_REPOSITORY } from "../users/ports/user-repository.interface";
-import { I_USER_ROLES_REPOSITORY } from "../users/ports/user-roles-repository.interface";
 import { AuthService } from "../users/services/authenticator";
 import { UsersModule } from "../users/users.module";
 import { AppController } from "./app.controller";
@@ -23,9 +22,9 @@ import { CommonModule } from "./common.module";
     AppService,
     {
       provide: AuthService,
-      inject: [I_USER_REPOSITORY, I_USER_ROLES_REPOSITORY],
-      useFactory: (userRepository, userRolesRepository) => {
-        return new AuthService(userRepository, userRolesRepository);
+      inject: [I_USER_REPOSITORY],
+      useFactory: (userRepository) => {
+        return new AuthService(userRepository);
       },
     },
     {

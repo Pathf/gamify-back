@@ -5,7 +5,6 @@ import {
 } from "../draws/ports/condition-repositroy.interface";
 import { e2eConditions } from "./seeds/condition-seeds.e2e";
 import { e2eDraws } from "./seeds/draw-seeds.e2e";
-import { e2eUserRoles } from "./seeds/user-roles-seeds.e2e";
 import { e2eUsers } from "./seeds/user-seeds.e2e";
 import { TestApp } from "./utils/test-app";
 
@@ -21,7 +20,6 @@ describe("Feature: Canceling condition", () => {
     await app.setup();
     await app.loadFixture([
       e2eUsers.alice,
-      e2eUserRoles.aliceRoles,
       e2eDraws.secretSanta,
       e2eConditions.aliceToBobInSecretSanta,
     ]);

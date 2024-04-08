@@ -6,7 +6,6 @@ import {
 import { e2eConditions } from "./seeds/condition-seeds.e2e";
 import { e2eDraws } from "./seeds/draw-seeds.e2e";
 import { e2eParticipations } from "./seeds/participation-seeds.e2e";
-import { e2eUserRoles } from "./seeds/user-roles-seeds.e2e";
 import { e2eUsers } from "./seeds/user-seeds.e2e";
 import { TestApp } from "./utils/test-app";
 
@@ -27,7 +26,6 @@ describe("Feature: Running draw", () => {
       e2eUsers.bob,
       e2eUsers.charles,
       e2eUsers.david,
-      e2eUserRoles.aliceRoles,
       e2eDraws.secretSanta,
       e2eParticipations.aliceSecretSanta,
       e2eParticipations.bobSecretSanta,

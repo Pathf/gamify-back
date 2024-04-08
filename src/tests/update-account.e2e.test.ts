@@ -3,7 +3,6 @@ import {
   IUserRepository,
   I_USER_REPOSITORY,
 } from "../users/ports/user-repository.interface";
-import { e2eUserRoles } from "./seeds/user-roles-seeds.e2e";
 import { e2eUsers } from "./seeds/user-seeds.e2e";
 import { TestApp } from "./utils/test-app";
 
@@ -23,7 +22,7 @@ describe("Feature: Updating account", () => {
   beforeEach(async () => {
     app = new TestApp();
     await app.setup();
-    await app.loadFixture([e2eUsers.alice, e2eUserRoles.aliceRoles]);
+    await app.loadFixture([e2eUsers.alice]);
     userRepository = app.get<IUserRepository>(I_USER_REPOSITORY);
   });
 

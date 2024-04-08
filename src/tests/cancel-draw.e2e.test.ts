@@ -4,7 +4,6 @@ import {
   I_DRAW_REPOSITORY,
 } from "../draws/ports/draw-repository.interace";
 import { e2eDraws } from "./seeds/draw-seeds.e2e";
-import { e2eUserRoles } from "./seeds/user-roles-seeds.e2e";
 import { e2eUsers } from "./seeds/user-seeds.e2e";
 import { TestApp } from "./utils/test-app";
 
@@ -17,11 +16,7 @@ describe("Feature: Canceling draw", () => {
   beforeEach(async () => {
     app = new TestApp();
     await app.setup();
-    await app.loadFixture([
-      e2eUsers.alice,
-      e2eUserRoles.aliceRoles,
-      e2eDraws.secretSanta,
-    ]);
+    await app.loadFixture([e2eUsers.alice, e2eDraws.secretSanta]);
     drawRepository = app.get<IDrawRepository>(I_DRAW_REPOSITORY);
   });
 
