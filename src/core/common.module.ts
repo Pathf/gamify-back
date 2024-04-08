@@ -3,6 +3,7 @@ import { BcryptSecurity } from "./adapters/bcrypt-security";
 import { CurrentDateGenerator } from "./adapters/current-date-generator";
 import { InMemoryMailer } from "./adapters/in-memory-mailer";
 import { RandomIDGenartor } from "./adapters/random-id-generator";
+import { ResendMailer } from "./adapters/resend-mailer";
 import { ShuffleService } from "./adapters/shuffle-service";
 import { I_DATE_GENERATOR } from "./ports/date-generator.interface";
 import { I_ID_GENERATOR } from "./ports/id-generator.interface";
@@ -20,7 +21,12 @@ import { I_SHUFFLE_SERVICE } from "./ports/shuffle-service.interface";
     },
     {
       provide: I_MAILER,
-      useClass: InMemoryMailer,
+      useFactory: () => {
+        if (process.env.ENVIRONEMENT === "PRODUCTION") {
+          return new ResendMailer();
+        }
+        return new InMemoryMailer();
+      },
     },
     {
       provide: I_SECURITY,
