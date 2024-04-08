@@ -9,7 +9,6 @@ import {
 } from "@nestjs/common";
 import { CommandBus } from "@nestjs/cqrs";
 import { ZodValidationPipe } from "../../core/pipes/zod-validation.pipe";
-import { ADMIN_ROLE, Roles, USER_ROLE } from "../../core/utils/roles.decorator";
 import { User } from "../../users/entities/user.entity";
 import { CancelDrawCommand } from "../commands/cancel-draw";
 import { OrganizeDrawCommand } from "../commands/organize-draw";
@@ -21,7 +20,6 @@ export class DrawController {
   constructor(private readonly commandBus: CommandBus) {}
 
   @Get("/draw/:id/run")
-  @Roles([USER_ROLE, ADMIN_ROLE])
   async handleRunDraw(
     @Param("id") drawId: string,
     @Request() request: { user: User },
@@ -30,7 +28,6 @@ export class DrawController {
   }
 
   @Post("/draws")
-  @Roles([USER_ROLE, ADMIN_ROLE])
   async handleOrganizeDraw(
     @Body(new ZodValidationPipe(DrawsAPI.OrganizeDraw.schema))
     body: DrawsAPI.OrganizeDraw.Request,
@@ -42,7 +39,6 @@ export class DrawController {
   }
 
   @Delete("/draw/:id")
-  @Roles([USER_ROLE, ADMIN_ROLE])
   async handleCancelDraw(
     @Param("id") drawId: string,
     @Request() request: { user: User },

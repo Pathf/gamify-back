@@ -1,25 +1,14 @@
 import { User } from "../entities/user.entity";
 import { IUserRepository } from "../ports/user-repository.interface";
-import { IUserRolesRepository } from "../ports/user-roles-repository.interface";
 
-class UserWithRoles {
-  constructor(
-    public user: User,
-    public roles: string[],
-  ) {}
+export interface IAuthService {
+  authenticator(token: string): Promise<User>;
 }
 
-export interface IAuthenticator {
-  authenticator(token: string): Promise<UserWithRoles>;
-}
+export class AuthService implements IAuthService {
+  constructor(private readonly userRepository: IUserRepository) {}
 
-export class Authenticator implements IAuthenticator {
-  constructor(
-    private readonly userRepository: IUserRepository,
-    private readonly userRolesRepository: IUserRolesRepository,
-  ) {}
-
-  async authenticator(token: string): Promise<{ user; roles }> {
+  async authenticator(token: string): Promise<User> {
     const decoded = Buffer.from(token, "base64").toString("utf-8");
     const [emailAddress, password] = decoded.split(":");
 
@@ -33,10 +22,6 @@ export class Authenticator implements IAuthenticator {
       throw new Error("Password invalid");
     }
 
-    const roles = await this.userRolesRepository.findRolesByUserId(
-      user.props.id,
-    );
-
-    return new UserWithRoles(user, roles);
+    return user;
   }
 }

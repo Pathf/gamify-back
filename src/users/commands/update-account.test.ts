@@ -1,28 +1,21 @@
 import { FixedSecurity } from "../../core/adapters/fixed-security";
 import { InMemoryMailer } from "../../core/adapters/in-memory-mailer";
 import { InMemoryUserRepository } from "../adapters/in-memory-user-repository";
-import { InMemoryUserRolesRepository } from "../adapters/in-memory-user-roles-repository";
-import { testUserRoles } from "../tests/user-roles-seeds";
 import { testUsers } from "../tests/user-seeds";
 import { UpdateAccountCommandHandler } from "./update-account";
 
 describe("Feature: Updating Account", () => {
   let userRepository: InMemoryUserRepository;
-  let userRolesRepository: InMemoryUserRolesRepository;
   let securityService: FixedSecurity;
   let mailer: InMemoryMailer;
   let useCase: UpdateAccountCommandHandler;
 
   beforeEach(() => {
     userRepository = new InMemoryUserRepository([testUsers.alice]);
-    userRolesRepository = new InMemoryUserRolesRepository([
-      testUserRoles.aliceRoles,
-    ]);
     securityService = new FixedSecurity();
     mailer = new InMemoryMailer([]);
     useCase = new UpdateAccountCommandHandler(
       userRepository,
-      userRolesRepository,
       securityService,
       mailer,
     );

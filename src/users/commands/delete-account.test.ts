@@ -1,6 +1,4 @@
 import { InMemoryUserRepository } from "../adapters/in-memory-user-repository";
-import { InMemoryUserRolesRepository } from "../adapters/in-memory-user-roles-repository";
-import { testUserRoles } from "../tests/user-roles-seeds";
 import { testUsers } from "../tests/user-seeds";
 import {
   DeleteAccountCommand,
@@ -9,18 +7,11 @@ import {
 
 describe("Feature: Deleting account", () => {
   let userRepository: InMemoryUserRepository;
-  let userRolesRepository: InMemoryUserRolesRepository;
   let useCase: DeleteAccountCommandHandler;
 
   beforeEach(() => {
     userRepository = new InMemoryUserRepository([testUsers.alice]);
-    userRolesRepository = new InMemoryUserRolesRepository([
-      testUserRoles.aliceRoles,
-    ]);
-    useCase = new DeleteAccountCommandHandler(
-      userRepository,
-      userRolesRepository,
-    );
+    useCase = new DeleteAccountCommandHandler(userRepository);
   });
 
   describe("Scenario: happy path", () => {
@@ -34,12 +25,8 @@ describe("Feature: Deleting account", () => {
       const alice = await userRepository.findByEmailAddress(
         testUsers.alice.props.emailAddress,
       );
-      const aliceRoles = await userRolesRepository.findRolesByUserId(
-        testUsers.alice.props.id,
-      );
 
       expect(alice).toBeNull();
-      expect(aliceRoles).toEqual([]);
     });
   });
 
@@ -54,12 +41,8 @@ describe("Feature: Deleting account", () => {
       const alice = await userRepository.findByEmailAddress(
         testUsers.alice.props.emailAddress,
       );
-      const roles = await userRolesRepository.findRolesByUserId(
-        testUsers.alice.props.id,
-      );
 
       expect(alice).toEqual(testUsers.alice);
-      expect(roles).toEqual(testUserRoles.aliceRoles.props.roles);
     });
   });
 });

@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Param, Post, Request } from "@nestjs/common";
 import { CommandBus } from "@nestjs/cqrs";
 import { ZodValidationPipe } from "../../core/pipes/zod-validation.pipe";
-import { ADMIN_ROLE, Roles, USER_ROLE } from "../../core/utils/roles.decorator";
+import { Public } from "../../core/utils/public.decorator";
 import { DeleteAccountCommand } from "../commands/delete-account";
 import { RegisterUserCommand } from "../commands/register-user";
 import { UpdateAccountCommand } from "../commands/update-account";
@@ -13,6 +13,7 @@ export class UserController {
   constructor(private readonly commandBus: CommandBus) {}
 
   @Post("/user")
+  @Public()
   async handleRegisterUser(
     @Body(new ZodValidationPipe(UserAPI.RegisterUser.schema))
     body: UserAPI.RegisterUser.Request,
@@ -23,7 +24,6 @@ export class UserController {
   }
 
   @Post("/user/:id")
-  @Roles([USER_ROLE, ADMIN_ROLE])
   async handleUpdateAccount(
     @Param("id") userId: string,
     @Request() request: { user: User },
@@ -42,7 +42,6 @@ export class UserController {
   }
 
   @Delete("/user")
-  @Roles([USER_ROLE, ADMIN_ROLE])
   async handleDeleteAccount(
     @Request() request: { user: User },
   ): Promise<UserAPI.DeleteAccount.Response> {

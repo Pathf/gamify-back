@@ -5,7 +5,6 @@ import { User } from "../entities/user.entity";
 import { NotAllowedUpdateUserError } from "../errors/not-allowed-update-user.error";
 import { UserNotFoundError } from "../errors/user-not-found.error";
 import { IUserRepository } from "../ports/user-repository.interface";
-import { IUserRolesRepository } from "../ports/user-roles-repository.interface";
 
 type Response = void;
 
@@ -25,7 +24,6 @@ export class UpdateAccountCommandHandler
 {
   constructor(
     private readonly userRepository: IUserRepository,
-    private readonly userRolesRepository: IUserRolesRepository,
     private readonly securityService: ISecurity,
     private readonly mailer: IMailer,
   ) {}
@@ -43,9 +41,7 @@ export class UpdateAccountCommandHandler
       throw new UserNotFoundError();
     }
 
-    const isAdmin = await this.userRolesRepository.isAdmin(user.props.id);
-
-    if (user.props.id !== userId || !isAdmin) {
+    if (user.isSameUser(userId) === false) {
       throw new NotAllowedUpdateUserError();
     }
 

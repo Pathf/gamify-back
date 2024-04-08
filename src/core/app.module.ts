@@ -4,7 +4,7 @@ import { APP_GUARD, Reflector } from "@nestjs/core";
 import { DrawsModule } from "../draws/draws.module";
 import { I_USER_REPOSITORY } from "../users/ports/user-repository.interface";
 import { I_USER_ROLES_REPOSITORY } from "../users/ports/user-roles-repository.interface";
-import { Authenticator } from "../users/services/authenticator";
+import { AuthService } from "../users/services/authenticator";
 import { UsersModule } from "../users/users.module";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
@@ -22,15 +22,15 @@ import { CommonModule } from "./common.module";
   providers: [
     AppService,
     {
-      provide: Authenticator,
+      provide: AuthService,
       inject: [I_USER_REPOSITORY, I_USER_ROLES_REPOSITORY],
       useFactory: (userRepository, userRolesRepository) => {
-        return new Authenticator(userRepository, userRolesRepository);
+        return new AuthService(userRepository, userRolesRepository);
       },
     },
     {
       provide: APP_GUARD,
-      inject: [Authenticator, Reflector],
+      inject: [AuthService, Reflector],
       useFactory(authenticator, reflector) {
         return new AuthGuard(authenticator, reflector);
       },

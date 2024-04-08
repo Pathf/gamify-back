@@ -7,4 +7,8 @@ type UserProps = {
   password: string;
 };
 
-export class User extends Entity<UserProps> {}
+export class User extends Entity<UserProps> {
+  isSameUser(userId: string): boolean {
+    return this.props.id === userId;
+  }
+}

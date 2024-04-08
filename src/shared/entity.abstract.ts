@@ -21,3 +21,5 @@ export abstract class Entity<TType> {
     return new (this.constructor as any)(this.props);
   }
 }
+
+// TODO : fluent Builder pattern abstract class entity

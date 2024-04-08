@@ -1,22 +1,17 @@
 import { InMemoryUserRepository } from "../adapters/in-memory-user-repository";
-import { InMemoryUserRolesRepository } from "../adapters/in-memory-user-roles-repository";
 import { testUsers } from "../tests/user-seeds";
-import { Authenticator } from "./authenticator";
+import { AuthService } from "./authenticator";
 
 describe("Authenticator", () => {
   let userRepository: InMemoryUserRepository;
-  let userRolesRepository: InMemoryUserRolesRepository;
-  let authenticator: Authenticator;
+  let authenticator: AuthService;
   beforeEach(async () => {
     userRepository = new InMemoryUserRepository();
-    userRolesRepository = new InMemoryUserRolesRepository();
 
     await userRepository.createUser(testUsers.alice);
     await userRepository.createUser(testUsers.bob);
 
-    await userRolesRepository.addRoleToUser(testUsers.alice.props.id, "ADMIN");
-
-    authenticator = new Authenticator(userRepository, userRolesRepository);
+    authenticator = new AuthService(userRepository);
   });
 
   describe("Case: the token is valid", () => {
@@ -24,10 +19,9 @@ describe("Authenticator", () => {
       const payload = Buffer.from("alice@gmail.com:azerty", "utf-8").toString(
         "base64",
       );
-      const { user, roles } = await authenticator.authenticator(payload);
+      const user = await authenticator.authenticator(payload);
 
       expect(user.props).toEqual(testUsers.alice.props);
-      expect(roles).toEqual(["ADMIN"]);
     });
   });
 

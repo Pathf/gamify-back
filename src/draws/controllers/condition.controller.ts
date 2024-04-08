@@ -1,7 +1,6 @@
 import { Body, Controller, Delete, Param, Post, Request } from "@nestjs/common";
 import { CommandBus } from "@nestjs/cqrs";
 import { ZodValidationPipe } from "../../core/pipes/zod-validation.pipe";
-import { ADMIN_ROLE, Roles, USER_ROLE } from "../../core/utils/roles.decorator";
 import { User } from "../../users/entities/user.entity";
 import { CancelConditionCommand } from "../commands/cancel-condition";
 import { RegisterConditionCommand } from "../commands/register-condition";
@@ -12,7 +11,6 @@ export class ConditionController {
   constructor(private readonly commandBus: CommandBus) {}
 
   @Post("/draw/:id/condition")
-  @Roles([USER_ROLE, ADMIN_ROLE])
   async handleRegisterCondition(
     @Param("id") drawId: string,
     @Body(new ZodValidationPipe(ConditionAPI.RegisterCondition.schema))
@@ -31,7 +29,6 @@ export class ConditionController {
   }
 
   @Delete("/draw/:id/condition/:conditionId")
-  @Roles([USER_ROLE, ADMIN_ROLE])
   async handleCancelCondition(
     @Param("id") drawId: string,
     @Param("conditionId") conditionId: string,
