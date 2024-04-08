@@ -56,7 +56,7 @@ describe("Feature: Updating account", () => {
       const result = await request(app.getHttpServer())
         .post(`/user/${userId}`)
         .send(payload);
-      expect(result.status).toBe(403);
+      expect(result.status).toBe(401);
 
       const user = await userRepository.findOne(userId);
       expect(user?.props).toEqual({

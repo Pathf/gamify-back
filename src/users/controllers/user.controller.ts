@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Param, Post, Request } from "@nestjs/common";
 import { CommandBus } from "@nestjs/cqrs";
+import { Public } from "../../auth/public.decorator";
 import { ZodValidationPipe } from "../../core/pipes/zod-validation.pipe";
-import { Public } from "../../core/utils/public.decorator";
 import { DeleteAccountCommand } from "../commands/delete-account";
 import { RegisterUserCommand } from "../commands/register-user";
 import { UpdateAccountCommand } from "../commands/update-account";

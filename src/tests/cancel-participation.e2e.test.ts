@@ -52,7 +52,7 @@ describe("Feature: Canceling participation", () => {
       const result = await request(app.getHttpServer()).delete(
         `/draw/${drawId}/participation/${participantId}`,
       );
-      expect(result.status).toBe(403);
+      expect(result.status).toBe(401);
 
       const participation = await participationRepository.findOne(
         drawId,

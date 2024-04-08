@@ -4,7 +4,6 @@ import { CurrentDateGenerator } from "./adapters/current-date-generator";
 import { InMemoryMailer } from "./adapters/in-memory-mailer";
 import { RandomIDGenartor } from "./adapters/random-id-generator";
 import { ShuffleService } from "./adapters/shuffle-service";
-import { AppService } from "./app.service";
 import { I_DATE_GENERATOR } from "./ports/date-generator.interface";
 import { I_ID_GENERATOR } from "./ports/id-generator.interface";
 import { I_MAILER } from "./ports/mailer.interface";
@@ -15,7 +14,6 @@ import { I_SHUFFLE_SERVICE } from "./ports/shuffle-service.interface";
   imports: [],
   controllers: [],
   providers: [
-    AppService,
     {
       provide: I_ID_GENERATOR,
       useClass: RandomIDGenartor,

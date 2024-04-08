@@ -67,7 +67,7 @@ describe("Feature: Registering condition", () => {
       const result = await request(app.getHttpServer())
         .post(`/draw/${drawId}/condition`)
         .send(payload);
-      expect(result.status).toBe(403);
+      expect(result.status).toBe(401);
 
       const conditions = await conditionRepository.findAllByDrawId(drawId);
       expect(conditions).toEqual([]);

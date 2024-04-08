@@ -41,7 +41,7 @@ describe("Feature: Canceling draw", () => {
       const result = await request(app.getHttpServer()).delete(
         `/draw/${drawId}`,
       );
-      expect(result.status).toBe(403);
+      expect(result.status).toBe(401);
 
       const draw = await drawRepository.findOne(drawId);
       expect(draw).toEqual(e2eDraws.secretSanta.entity);

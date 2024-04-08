@@ -50,7 +50,7 @@ describe("Feature: Organizing a draw", () => {
         title: "Secret Santa",
         year: 2021,
       });
-      expect(result.status).toBe(403);
+      expect(result.status).toBe(401);
 
       const draws = await drawRepository.findAll();
       expect(draws).toEqual([]);

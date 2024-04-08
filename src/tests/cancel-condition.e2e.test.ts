@@ -47,7 +47,7 @@ describe("Feature: Canceling condition", () => {
       const result = await request(app.getHttpServer()).delete(
         `/draw/${drawId}/condition/${conditionId}`,
       );
-      expect(result.status).toBe(403);
+      expect(result.status).toBe(401);
 
       const condition = await conditionRepository.findById(conditionId);
       expect(condition).toEqual(e2eConditions.aliceToBobInSecretSanta.entity);

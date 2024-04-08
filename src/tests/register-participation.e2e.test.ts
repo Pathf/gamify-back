@@ -53,7 +53,7 @@ describe("Feature: Registering participation", () => {
       const result = await request(app.getHttpServer())
         .post(`/draw/${drawId}/participation`)
         .send({ participantId: e2eUsers.alice.entity.props.id });
-      expect(result.status).toBe(403);
+      expect(result.status).toBe(401);
 
       const participations = await getParticipations();
       expect(participations).toEqual([]);

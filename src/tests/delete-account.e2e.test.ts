@@ -38,7 +38,7 @@ describe("Feature: Deleting account", () => {
   describe("Scenario: the user is not authenticated", () => {
     it("should reject", async () => {
       const result = await request(app.getHttpServer()).delete("/user");
-      expect(result.status).toBe(403);
+      expect(result.status).toBe(401);
 
       const alice = await userRepository.findByEmailAddress(
         e2eUsers.alice.entity.props.emailAddress,

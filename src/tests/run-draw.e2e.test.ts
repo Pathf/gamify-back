@@ -59,7 +59,7 @@ describe("Feature: Running draw", () => {
       const result = await request(app.getHttpServer()).get(
         `/draw/${drawId}/run`,
       );
-      expect(result.status).toBe(403);
+      expect(result.status).toBe(401);
 
       const chainedDraws = await getChainedDraws();
       expect(chainedDraws).toHaveLength(0);

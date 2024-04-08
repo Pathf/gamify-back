@@ -1,3 +1,8 @@
+import {
+  IJwtService,
+  I_JWT_SERVICE,
+} from "../../auth/ports/jwt-service.interface";
+import { BcryptSecurity } from "../../core/adapters/bcrypt-security";
 import { User } from "../../users/entities/user.entity";
 import {
   IUserRepository,
@@ -7,16 +12,25 @@ import { IFixture } from "../utils/fixture";
 import { TestApp } from "../utils/test-app";
 
 export class UserFixture implements IFixture {
+  private app: TestApp;
+
   constructor(public entity: User) {}
 
   async load(app: TestApp) {
+    this.app = app;
+    const password = await new BcryptSecurity().hash(
+      this.entity.props.password,
+    );
+    this.entity.update({ password });
+    this.entity.commit();
+
     const userRepository = app.get<IUserRepository>(I_USER_REPOSITORY);
     await userRepository.createUser(this.entity);
   }
 
   creaetAuthorizationToken() {
-    return `Basic ${Buffer.from(
-      `${this.entity.props.emailAddress}:${this.entity.props.password}`,
-    ).toString("base64")}`;
+    const jwtService = this.app.get<IJwtService>(I_JWT_SERVICE);
+    const payload = { sub: this.entity.props.id, name: this.entity.props.name };
+    return `Bearer ${jwtService.sign(payload)}`;
   }
 }
