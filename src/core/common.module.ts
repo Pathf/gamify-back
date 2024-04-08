@@ -1,4 +1,5 @@
 import { Module } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
 import { BcryptSecurity } from "./adapters/bcrypt-security";
 import { CurrentDateGenerator } from "./adapters/current-date-generator";
 import { InMemoryMailer } from "./adapters/in-memory-mailer";
@@ -12,7 +13,7 @@ import { I_SECURITY } from "./ports/security.interface";
 import { I_SHUFFLE_SERVICE } from "./ports/shuffle-service.interface";
 
 @Module({
-  imports: [],
+  imports: [ConfigModule.forRoot()],
   controllers: [],
   providers: [
     {
