@@ -2,7 +2,7 @@ import {
   IJwtService,
   I_JWT_SERVICE,
 } from "../../auth/ports/jwt-service.interface";
-import { BcryptSecurity } from "../../core/adapters/bcrypt-security";
+import { ISecurity, I_SECURITY } from "../../core/ports/security.interface";
 import { User } from "../../users/entities/user.entity";
 import {
   IUserRepository,
@@ -18,9 +18,8 @@ export class UserFixture implements IFixture {
 
   async load(app: TestApp) {
     this.app = app;
-    const password = await new BcryptSecurity().hash(
-      this.entity.props.password,
-    );
+    const securityService = app.get<ISecurity>(I_SECURITY);
+    const password = await securityService.hash(this.entity.props.password);
     this.entity.update({ password });
     this.entity.commit();
 

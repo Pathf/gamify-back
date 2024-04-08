@@ -24,7 +24,9 @@ import { I_SHUFFLE_SERVICE } from "./ports/shuffle-service.interface";
     },
     {
       provide: I_SECURITY,
-      useClass: BcryptSecurity,
+      useFactory: () => {
+        return new BcryptSecurity();
+      },
     },
     {
       provide: I_SHUFFLE_SERVICE,
