@@ -10,6 +10,7 @@ import { RegisterUserCommandHandler } from "./commands/register-user";
 import { UpdateAccountCommandHandler } from "./commands/update-account";
 import { UserController } from "./controllers/user.controller";
 import { I_USER_REPOSITORY } from "./ports/user-repository.interface";
+import { GetUserByIdQueryHandler } from "./queries/get-user-by-id";
 import { GetUsersQueryHandler } from "./queries/get-users";
 
 @Module({
@@ -57,6 +58,14 @@ import { GetUsersQueryHandler } from "./queries/get-users";
       inject: [I_USER_REPOSITORY],
       useFactory: (userRepository) => {
         return new GetUsersQueryHandler(userRepository);
+      },
+    },
+
+    {
+      provide: GetUserByIdQueryHandler,
+      inject: [I_USER_REPOSITORY],
+      useFactory: (userRepository) => {
+        return new GetUserByIdQueryHandler(userRepository);
       },
     },
   ],

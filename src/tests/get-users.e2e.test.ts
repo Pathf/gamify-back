@@ -2,7 +2,7 @@ import * as request from "supertest";
 import { e2eUsers } from "./seeds/user-seeds.e2e";
 import { TestApp } from "./utils/test-app";
 
-describe("Feature: Getting a webinaire by id", () => {
+describe("Feature: Getting users", () => {
   let app: TestApp;
 
   beforeEach(async () => {

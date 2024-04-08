@@ -1,7 +1,3 @@
-export type UsersDTO = UserDTO[];
+import { UserDTO } from "./user.dto";
 
-export type UserDTO = {
-  id: string;
-  email: string;
-  username: string;
-};
+export type UsersDTO = UserDTO[];

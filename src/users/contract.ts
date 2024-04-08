@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { UserDTO } from "./dto/users.dto";
+import { UserDTO } from "./dto/user.dto";
+import { UsersDTO } from "./dto/users.dto";
 
 export namespace UserAPI {
   export namespace RegisterUser {
@@ -29,6 +30,10 @@ export namespace UserAPI {
   }
 
   export namespace GetUsers {
-    export type Response = UserDTO[];
+    export type Response = UsersDTO;
+  }
+
+  export namespace GetUserById {
+    export type Response = UserDTO;
   }
 }

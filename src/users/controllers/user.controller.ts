@@ -15,6 +15,7 @@ import { RegisterUserCommand } from "../commands/register-user";
 import { UpdateAccountCommand } from "../commands/update-account";
 import { UserAPI } from "../contract";
 import { User } from "../entities/user.entity";
+import { GetUserByIdQuery } from "../queries/get-user-by-id";
 import { GetUsersQuery } from "../queries/get-users";
 
 @Controller()
@@ -23,6 +24,13 @@ export class UserController {
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
   ) {}
+
+  @Get("/user/:id")
+  async handleGetUserById(
+    @Param("id") userId: string,
+  ): Promise<UserAPI.GetUserById.Response> {
+    return this.queryBus.execute(new GetUserByIdQuery(userId));
+  }
 
   @Get("/users")
   async handleGetUsers(): Promise<UserAPI.GetUsers.Response> {
