@@ -1,5 +1,13 @@
-import { Body, Controller, Delete, Param, Post, Request } from "@nestjs/common";
-import { CommandBus } from "@nestjs/cqrs";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Request,
+} from "@nestjs/common";
+import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import { Public } from "../../auth/public.decorator";
 import { ZodValidationPipe } from "../../core/pipes/zod-validation.pipe";
 import { DeleteAccountCommand } from "../commands/delete-account";
@@ -7,13 +15,22 @@ import { RegisterUserCommand } from "../commands/register-user";
 import { UpdateAccountCommand } from "../commands/update-account";
 import { UserAPI } from "../contract";
 import { User } from "../entities/user.entity";
+import { GetUsersQuery } from "../queries/get-users";
 
 @Controller()
 export class UserController {
-  constructor(private readonly commandBus: CommandBus) {}
+  constructor(
+    private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus,
+  ) {}
 
-  @Post("/user")
+  @Get("/users")
+  async handleGetUsers(): Promise<UserAPI.GetUsers.Response> {
+    return this.queryBus.execute(new GetUsersQuery());
+  }
+
   @Public()
+  @Post("/user")
   async handleRegisterUser(
     @Body(new ZodValidationPipe(UserAPI.RegisterUser.schema))
     body: UserAPI.RegisterUser.Request,

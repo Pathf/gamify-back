@@ -10,6 +10,7 @@ import { RegisterUserCommandHandler } from "./commands/register-user";
 import { UpdateAccountCommandHandler } from "./commands/update-account";
 import { UserController } from "./controllers/user.controller";
 import { I_USER_REPOSITORY } from "./ports/user-repository.interface";
+import { GetUsersQueryHandler } from "./queries/get-users";
 
 @Module({
   imports: [CqrsModule, CommonModule],
@@ -49,6 +50,13 @@ import { I_USER_REPOSITORY } from "./ports/user-repository.interface";
           securityService,
           mailer,
         );
+      },
+    },
+    {
+      provide: GetUsersQueryHandler,
+      inject: [I_USER_REPOSITORY],
+      useFactory: (userRepository) => {
+        return new GetUsersQueryHandler(userRepository);
       },
     },
   ],

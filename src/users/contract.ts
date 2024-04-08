@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { UserDTO } from "./dto/users.dto";
 
 export namespace UserAPI {
   export namespace RegisterUser {
@@ -25,5 +26,9 @@ export namespace UserAPI {
 
     export type Request = z.infer<typeof schema>;
     export type Response = void;
+  }
+
+  export namespace GetUsers {
+    export type Response = UserDTO[];
   }
 }
