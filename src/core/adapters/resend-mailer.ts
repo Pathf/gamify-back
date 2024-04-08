@@ -10,7 +10,7 @@ export class ResendMailer implements IMailer {
 
   async send({ to, subject, body }: Email): Promise<void> {
     this.resend.emails.send({
-      from: "no-reply@gamify.fr",
+      from: "Gamify <no-reply@resend.dev>",
       to,
       subject,
       html: body,
