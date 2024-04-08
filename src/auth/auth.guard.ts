@@ -22,13 +22,13 @@ export class AuthGuard implements CanActivate {
     }
 
     const request = this.getRequest(context);
-    const header = request.headers.authorization;
+    const authorization = request.headers.authorization;
 
-    if (!header) {
+    if (!authorization) {
       throw new UnauthorizedException();
     }
 
-    const token = extractToken(header, Scheme.Bearer);
+    const token = extractToken(authorization, Scheme.Bearer);
     if (!token) {
       throw new UnauthorizedException();
     }
@@ -39,6 +39,11 @@ export class AuthGuard implements CanActivate {
       });
 
       const user = await this.userRepository.findOne(payload.sub);
+
+      if (!user) {
+        throw new Error();
+      }
+
       request.user = user;
     } catch (_) {
       throw new UnauthorizedException();
