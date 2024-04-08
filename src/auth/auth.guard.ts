@@ -7,7 +7,7 @@ import { Reflector } from "@nestjs/core";
 import { IUserRepository } from "../users/ports/user-repository.interface";
 import { IJwtService } from "./ports/jwt-service.interface";
 import { contextIsPublic } from "./public.decorator";
-import { extractBearerToken } from "./utils/extract-token";
+import { Scheme, extractToken } from "./utils/extract-token";
 
 export class AuthGuard implements CanActivate {
   constructor(
@@ -28,7 +28,7 @@ export class AuthGuard implements CanActivate {
       throw new UnauthorizedException();
     }
 
-    const token = extractBearerToken(header);
+    const token = extractToken(header, Scheme.Bearer);
     if (!token) {
       throw new UnauthorizedException();
     }

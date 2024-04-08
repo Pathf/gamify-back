@@ -1,16 +1,12 @@
-export const extractBasicToken = (header: string): string | null => {
-  const parts = header.split(" ");
+export enum Scheme {
+  Basic = "Basic",
+  Bearer = "Bearer",
+}
 
-  if (parts[0] !== "Basic") {
-    return null;
-  }
-  return parts[1];
-};
-
-export const extractBearerToken = (authorization: string): string | null => {
-  const [type, token] = authorization.split(" ");
-  if (type !== "Bearer") {
-    return null;
-  }
-  return token;
+export const extractToken = (
+  authorization: string,
+  scheme: Scheme,
+): string | null => {
+  const [tokenType, token] = authorization.split(" ");
+  return tokenType !== scheme ? null : token;
 };
