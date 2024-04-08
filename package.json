@@ -13,6 +13,7 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "biome check --apply ./src",
+    "fl": "pnpm format && pnpm lint",
     "test": "jest",
     "test:int": "jest --config jest.config.int.ts",
     "test:watch": "jest --watch"
