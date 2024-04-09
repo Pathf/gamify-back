@@ -8,6 +8,14 @@ export class InMemoryChainedDrawRepository implements IChainedDrawRepository {
     return this.findByDrawIdSync(drawId);
   }
 
+  async findByDonorId(donorId: string): Promise<ChainedDraw | null> {
+    return (
+      this.chainedDraws.find(
+        (chainedDraw) => chainedDraw.props.donorId === donorId,
+      ) || null
+    );
+  }
+
   async create(chainedDraw: ChainedDraw): Promise<void> {
     this.chainedDraws.push(chainedDraw);
   }

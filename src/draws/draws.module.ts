@@ -18,6 +18,7 @@ import { OrganizeDrawCommandHandler } from "./commands/organize-draw";
 import { RegisterConditionCommandHandler } from "./commands/register-condition";
 import { RegisterParticipationCommandHandler } from "./commands/register-participation";
 import { RunDrawCommandHandler } from "./commands/run-draw";
+import { ChainedDrawController } from "./controllers/chained-draw.controller";
 import { ConditionController } from "./controllers/condition.controller";
 import { DrawController } from "./controllers/draw.controller";
 import { ParticipationController } from "./controllers/participation.controller";
@@ -25,10 +26,16 @@ import { I_CHAINED_DRAW_REPOSITORY } from "./ports/chained-draw-repository.inter
 import { I_CONDITION_REPOSITORY } from "./ports/condition-repositroy.interface";
 import { I_DRAW_REPOSITORY } from "./ports/draw-repository.interace";
 import { I_PARTICIPATION_REPOSITORY } from "./ports/participation-repository.interface";
+import { GetDrawByParticipantIdQueryHandler } from "./queries/get-draw-by-participant-id";
 
 @Module({
   imports: [CqrsModule, CommonModule, UsersModule],
-  controllers: [DrawController, ParticipationController, ConditionController],
+  controllers: [
+    DrawController,
+    ParticipationController,
+    ConditionController,
+    ChainedDrawController,
+  ],
   providers: [
     {
       provide: I_DRAW_REPOSITORY,
@@ -173,6 +180,16 @@ import { I_PARTICIPATION_REPOSITORY } from "./ports/participation-repository.int
           shuffleService,
           dateGenerator,
           mailer,
+        ),
+    },
+    {
+      provide: GetDrawByParticipantIdQueryHandler,
+      inject: [I_DRAW_REPOSITORY, I_CHAINED_DRAW_REPOSITORY, I_USER_REPOSITORY],
+      useFactory: (drawRepository, chainedDrawRepository, userRepository) =>
+        new GetDrawByParticipantIdQueryHandler(
+          drawRepository,
+          chainedDrawRepository,
+          userRepository,
         ),
     },
   ],
