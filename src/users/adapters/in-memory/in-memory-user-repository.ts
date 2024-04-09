@@ -1,5 +1,5 @@
-import { User } from "../entities/user.entity";
-import { IUserRepository } from "../ports/user-repository.interface";
+import { User } from "../../entities/user.entity";
+import { IUserRepository } from "../../ports/user-repository.interface";
 
 export class InMemoryUserRepository implements IUserRepository {
   constructor(public readonly database: User[] = []) {}
@@ -43,6 +43,10 @@ export class InMemoryUserRepository implements IUserRepository {
     }
 
     this.database.splice(userIndex, 1);
+  }
+
+  async deleteAll(): Promise<void> {
+    this.database.length = 0;
   }
 
   // Just for testing purposes

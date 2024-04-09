@@ -1,5 +1,5 @@
-import { FixedSecurity } from "../../core/adapters/fixed-security";
-import { InMemoryUserRepository } from "../../users/adapters/in-memory-user-repository";
+import { FixedSecurity } from "../../core/adapters/fixed/fixed-security";
+import { InMemoryUserRepository } from "../../users/adapters/in-memory/in-memory-user-repository";
 import { IUserRepository } from "../../users/ports/user-repository.interface";
 import { testUsers } from "../../users/tests/user-seeds";
 import { FixedJwtService } from "../adapters/fixed-jwt-service";

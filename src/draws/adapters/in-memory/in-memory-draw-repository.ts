@@ -1,5 +1,5 @@
-import { Draw } from "../entities/draw.entity";
-import { IDrawRepository } from "../ports/draw-repository.interace";
+import { Draw } from "../../entities/draw.entity";
+import { IDrawRepository } from "../../ports/draw-repository.interace";
 
 export class InMemoryDrawRepository implements IDrawRepository {
   constructor(private draws: Draw[] = []) {}
@@ -18,6 +18,10 @@ export class InMemoryDrawRepository implements IDrawRepository {
 
   public async delete(id: string): Promise<void> {
     this.draws = this.draws.filter((draw) => draw.props.id !== id);
+  }
+
+  public async deleteAll(): Promise<void> {
+    this.draws.length = 0;
   }
 
   // Just for testing purposes

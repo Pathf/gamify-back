@@ -1,8 +1,8 @@
-import { FixedIDGenerator } from "../../core/adapters/fixed-id-generator";
+import { FixedIDGenerator } from "../../core/adapters/fixed/fixed-id-generator";
 import { IIDGenerator } from "../../core/ports/id-generator.interface";
-import { InMemoryUserRepository } from "../../users/adapters/in-memory-user-repository";
+import { InMemoryUserRepository } from "../../users/adapters/in-memory/in-memory-user-repository";
 import { testUsers } from "../../users/tests/user-seeds";
-import { InMemoryDrawRepository } from "../adapters/in-memory-draw-repository";
+import { InMemoryDrawRepository } from "../adapters/in-memory/in-memory-draw-repository";
 import { testDraws } from "../tests/draw-seeds";
 import { OrganizeDrawCommandHandler } from "./organize-draw";
 

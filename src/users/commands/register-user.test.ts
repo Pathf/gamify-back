@@ -1,7 +1,7 @@
-import { FixedIDGenerator } from "../../core/adapters/fixed-id-generator";
-import { FixedSecurity } from "../../core/adapters/fixed-security";
-import { InMemoryMailer } from "../../core/adapters/in-memory-mailer";
-import { InMemoryUserRepository } from "../adapters/in-memory-user-repository";
+import { FixedIDGenerator } from "../../core/adapters/fixed/fixed-id-generator";
+import { FixedSecurity } from "../../core/adapters/fixed/fixed-security";
+import { InMemoryMailer } from "../../core/adapters/in-memory/in-memory-mailer";
+import { InMemoryUserRepository } from "../adapters/in-memory/in-memory-user-repository";
 import { testUsers } from "../tests/user-seeds";
 import {
   RegisterUserCommand,

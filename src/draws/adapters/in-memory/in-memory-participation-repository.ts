@@ -1,5 +1,5 @@
-import { Participation } from "../entities/participation.entity";
-import { IParticipationRepository } from "../ports/participation-repository.interface";
+import { Participation } from "../../entities/participation.entity";
+import { IParticipationRepository } from "../../ports/participation-repository.interface";
 
 export class InMemoryParticipationRepository
   implements IParticipationRepository

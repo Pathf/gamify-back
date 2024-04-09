@@ -12,4 +12,5 @@ export interface IUserRepository {
   update(user: User): Promise<void>;
 
   delete(user: User): Promise<void>;
+  deleteAll(): Promise<void>;
 }

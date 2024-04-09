@@ -1,7 +1,7 @@
-import { InMemoryUserRepository } from "../../users/adapters/in-memory-user-repository";
+import { InMemoryUserRepository } from "../../users/adapters/in-memory/in-memory-user-repository";
 import { testUsers } from "../../users/tests/user-seeds";
-import { InMemoryConditionRepository } from "../adapters/in-memory-condition-repository";
-import { InMemoryDrawRepository } from "../adapters/in-memory-draw-repository";
+import { InMemoryConditionRepository } from "../adapters/in-memory/in-memory-condition-repository";
+import { InMemoryDrawRepository } from "../adapters/in-memory/in-memory-draw-repository";
 import { testConditions } from "../tests/condition-seeds";
 import { testDraws } from "../tests/draw-seeds";
 import { CancelConditionCommandHandler } from "./cancel-condition";

@@ -1,7 +1,7 @@
-import { InMemoryUserRepository } from "../../users/adapters/in-memory-user-repository";
+import { InMemoryUserRepository } from "../../users/adapters/in-memory/in-memory-user-repository";
 import { testUsers } from "../../users/tests/user-seeds";
-import { InMemoryDrawRepository } from "../adapters/in-memory-draw-repository";
-import { InMemoryParticipationRepository } from "../adapters/in-memory-participation-repository";
+import { InMemoryDrawRepository } from "../adapters/in-memory/in-memory-draw-repository";
+import { InMemoryParticipationRepository } from "../adapters/in-memory/in-memory-participation-repository";
 import { testDraws } from "../tests/draw-seeds";
 import { testParticipations } from "../tests/participation-seeds";
 import { RegisterParticipationCommandHandler } from "./register-participation";

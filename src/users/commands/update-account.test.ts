@@ -1,6 +1,6 @@
-import { FixedSecurity } from "../../core/adapters/fixed-security";
-import { InMemoryMailer } from "../../core/adapters/in-memory-mailer";
-import { InMemoryUserRepository } from "../adapters/in-memory-user-repository";
+import { FixedSecurity } from "../../core/adapters/fixed/fixed-security";
+import { InMemoryMailer } from "../../core/adapters/in-memory/in-memory-mailer";
+import { InMemoryUserRepository } from "../adapters/in-memory/in-memory-user-repository";
 import { testUsers } from "../tests/user-seeds";
 import { UpdateAccountCommandHandler } from "./update-account";
 

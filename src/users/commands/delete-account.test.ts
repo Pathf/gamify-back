@@ -1,4 +1,4 @@
-import { InMemoryUserRepository } from "../adapters/in-memory-user-repository";
+import { InMemoryUserRepository } from "../adapters/in-memory/in-memory-user-repository";
 import { testUsers } from "../tests/user-seeds";
 import {
   DeleteAccountCommand,

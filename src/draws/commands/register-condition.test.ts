@@ -1,9 +1,9 @@
-import { FixedIDGenerator } from "../../core/adapters/fixed-id-generator";
-import { InMemoryUserRepository } from "../../users/adapters/in-memory-user-repository";
+import { FixedIDGenerator } from "../../core/adapters/fixed/fixed-id-generator";
+import { InMemoryUserRepository } from "../../users/adapters/in-memory/in-memory-user-repository";
 import { testUsers } from "../../users/tests/user-seeds";
-import { InMemoryConditionRepository } from "../adapters/in-memory-condition-repository";
-import { InMemoryDrawRepository } from "../adapters/in-memory-draw-repository";
-import { InMemoryParticipationRepository } from "../adapters/in-memory-participation-repository";
+import { InMemoryConditionRepository } from "../adapters/in-memory/in-memory-condition-repository";
+import { InMemoryDrawRepository } from "../adapters/in-memory/in-memory-draw-repository";
+import { InMemoryParticipationRepository } from "../adapters/in-memory/in-memory-participation-repository";
 import { testConditions } from "../tests/condition-seeds";
 import { testDraws } from "../tests/draw-seeds";
 import { testParticipations } from "../tests/participation-seeds";

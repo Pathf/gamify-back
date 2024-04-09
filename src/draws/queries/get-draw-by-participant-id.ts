@@ -43,7 +43,7 @@ export class GetDrawByParticipantIdQueryHandler
     const draw = await this.assertDrawExist(drawId);
     const organizer = await this.assertOrganizerExist(draw.props.organizerId);
     const donor = await this.assertDonorExist(participantId);
-    const chainedDraw = await this.assertDrawHasRun(donor.props.id);
+    const chainedDraw = await this.assertDrawHasRun(drawId, donor.props.id);
     const receiver = await this.assertRecieverExist(
       chainedDraw.props.receiverId,
     );
@@ -79,8 +79,14 @@ export class GetDrawByParticipantIdQueryHandler
     return donor;
   }
 
-  private async assertDrawHasRun(donorId: string): Promise<ChainedDraw> {
-    const chainedDraw = await this.chainedDrawRepository.findByDonorId(donorId);
+  private async assertDrawHasRun(
+    drawId: string,
+    donorId: string,
+  ): Promise<ChainedDraw> {
+    const chainedDraw = await this.chainedDrawRepository.findByDonorId(
+      drawId,
+      donorId,
+    );
     if (!chainedDraw) {
       throw new DrawDoesNotRunError();
     }

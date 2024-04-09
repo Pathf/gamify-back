@@ -10,4 +10,5 @@ export interface IParticipationRepository {
 
   delete(drawId: string, participantId: string): Promise<void>;
   deleteByDrawId(drawId: string): Promise<void>;
+  deleteAll(): Promise<void>;
 }

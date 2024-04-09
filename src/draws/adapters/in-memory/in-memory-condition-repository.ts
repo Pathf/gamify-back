@@ -1,5 +1,5 @@
-import { Condition } from "../entities/condition.entity";
-import { IConditionRepository } from "../ports/condition-repositroy.interface";
+import { Condition } from "../../entities/condition.entity";
+import { IConditionRepository } from "../../ports/condition-repositroy.interface";
 
 export class InMemoryConditionRepository implements IConditionRepository {
   constructor(private conditions: Condition[] = []) {}
@@ -31,6 +31,10 @@ export class InMemoryConditionRepository implements IConditionRepository {
     this.conditions = this.conditions.filter(
       (condition) => !condition.isDraw(drawId),
     );
+  }
+
+  async deleteAll(): Promise<void> {
+    this.conditions = [];
   }
 
   // Just for testing purposes

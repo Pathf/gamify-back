@@ -2,7 +2,7 @@ import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { BcryptSecurity } from "./adapters/bcrypt-security";
 import { CurrentDateGenerator } from "./adapters/current-date-generator";
-import { InMemoryMailer } from "./adapters/in-memory-mailer";
+import { InMemoryMailer } from "./adapters/in-memory/in-memory-mailer";
 import { RandomIDGenartor } from "./adapters/random-id-generator";
 import { ResendMailer } from "./adapters/resend-mailer";
 import { ShuffleService } from "./adapters/shuffle-service";

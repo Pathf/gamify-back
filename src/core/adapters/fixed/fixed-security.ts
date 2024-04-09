@@ -1,4 +1,4 @@
-import { ISecurity } from "../ports/security.interface";
+import { ISecurity } from "../../ports/security.interface";
 
 export class FixedSecurity implements ISecurity {
   async hash(password: string): Promise<string> {

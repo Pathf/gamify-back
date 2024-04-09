@@ -8,16 +8,17 @@
   "scripts": {
     "build": "nest build",
     "format": "pnpm biome format --write ./src",
+    "lint": "biome check --apply ./src",
+    "fl": "pnpm format && pnpm lint",
+    "lf": "pnpm lint && pnpm format",
     "start": "nest start",
     "dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "lint": "biome check --apply ./src",
-    "fl": "pnpm format && pnpm lint",
-    "lf": "pnpm lint && pnpm format",
     "test": "jest",
     "test:int": "jest --config jest.config.int.ts",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "test:all": "pnpm test && pnpm test:int"
   },
   "dependencies": {
     "@nestjs/common": "^10.2.5",
@@ -26,13 +27,16 @@
     "@nestjs/cqrs": "^10.2.7",
     "@nestjs/jwt": "^10.2.0",
     "@nestjs/platform-express": "^10.2.5",
+    "@nestjs/typeorm": "^10.0.2",
     "bcrypt": "^5.1.1",
     "date-fns": "^2.30.0",
     "deep-object-diff": "^1.1.9",
+    "pg": "^8.11.5",
     "reflect-metadata": "^0.1.13",
     "resend": "^3.2.0",
     "rxjs": "^7.8.1",
     "testcontainers": "^10.2.1",
+    "typeorm": "^0.3.20",
     "uuid": "^9.0.1",
     "zod": "^3.22.2"
   },

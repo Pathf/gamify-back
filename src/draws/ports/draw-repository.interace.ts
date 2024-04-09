@@ -9,4 +9,5 @@ export interface IDrawRepository {
   create(draw: Draw): Promise<void>;
 
   delete(id: string): Promise<void>;
+  deleteAll(): Promise<void>;
 }

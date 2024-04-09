@@ -1,5 +1,6 @@
 import { Module } from "@nestjs/common";
 import { CqrsModule } from "@nestjs/cqrs";
+import { TypeOrmModule } from "@nestjs/typeorm";
 import { CommonModule } from "../core/common.module";
 import { I_DATE_GENERATOR } from "../core/ports/date-generator.interface";
 import { I_ID_GENERATOR } from "../core/ports/id-generator.interface";
@@ -7,10 +8,14 @@ import { I_MAILER } from "../core/ports/mailer.interface";
 import { I_SHUFFLE_SERVICE } from "../core/ports/shuffle-service.interface";
 import { I_USER_REPOSITORY } from "../users/ports/user-repository.interface";
 import { UsersModule } from "../users/users.module";
-import { InMemoryChainedDrawRepository } from "./adapters/in-memory-chained-draw-repository";
-import { InMemoryConditionRepository } from "./adapters/in-memory-condition-repository";
-import { InMemoryDrawRepository } from "./adapters/in-memory-draw-repository";
-import { InMemoryParticipationRepository } from "./adapters/in-memory-participation-repository";
+import { PostgresChainedDraw } from "./adapters/postgres/chained-draw/postgres-chained-draw";
+import { PostgresChainedDrawRepository } from "./adapters/postgres/chained-draw/postgres-chained-draw-repository";
+import { PostgresCondition } from "./adapters/postgres/condition/postgres-condition";
+import { PostgresConditionRepository } from "./adapters/postgres/condition/postgres-condition-repository";
+import { PostgresDraw } from "./adapters/postgres/draw/postgres-draw";
+import { PostgresDrawRepository } from "./adapters/postgres/draw/postgres-draw-repository";
+import { PostgresParticipation } from "./adapters/postgres/participation/postgres-participation";
+import { PostgresParticipationRepository } from "./adapters/postgres/participation/postgres-participation-repository";
 import { CancelConditionCommandHandler } from "./commands/cancel-condition";
 import { CancelDrawCommandHandler } from "./commands/cancel-draw";
 import { CancelParticipationCommandHandler } from "./commands/cancel-participation";
@@ -29,7 +34,17 @@ import { I_PARTICIPATION_REPOSITORY } from "./ports/participation-repository.int
 import { GetDrawByParticipantIdQueryHandler } from "./queries/get-draw-by-participant-id";
 
 @Module({
-  imports: [CqrsModule, CommonModule, UsersModule],
+  imports: [
+    CqrsModule,
+    CommonModule,
+    UsersModule,
+    TypeOrmModule.forFeature([
+      PostgresDraw,
+      PostgresParticipation,
+      PostgresCondition,
+      PostgresChainedDraw,
+    ]),
+  ],
   controllers: [
     DrawController,
     ParticipationController,
@@ -39,19 +54,19 @@ import { GetDrawByParticipantIdQueryHandler } from "./queries/get-draw-by-partic
   providers: [
     {
       provide: I_DRAW_REPOSITORY,
-      useClass: InMemoryDrawRepository,
+      useClass: PostgresDrawRepository,
     },
     {
       provide: I_PARTICIPATION_REPOSITORY,
-      useClass: InMemoryParticipationRepository,
+      useClass: PostgresParticipationRepository,
     },
     {
       provide: I_CONDITION_REPOSITORY,
-      useClass: InMemoryConditionRepository,
+      useClass: PostgresConditionRepository,
     },
     {
       provide: I_CHAINED_DRAW_REPOSITORY,
-      useClass: InMemoryChainedDrawRepository,
+      useClass: PostgresChainedDrawRepository,
     },
     {
       provide: OrganizeDrawCommandHandler,
