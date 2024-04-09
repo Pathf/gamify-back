@@ -32,6 +32,10 @@ export const postgreEntities = [
       database: process.env.DB_NAME,
       entities: postgreEntities,
       synchronize: true,
+      ssl:
+        process.env.ENVIRONEMENT === "PRODUCTION"
+          ? { rejectUnauthorized: false }
+          : false,
     }),
     CommonModule,
     AuthModule,
