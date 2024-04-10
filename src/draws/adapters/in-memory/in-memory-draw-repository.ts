@@ -32,4 +32,8 @@ export class InMemoryDrawRepository implements IDrawRepository {
   public findByIdSync(id: string): Draw | null {
     return this.draws.find((draw) => draw.props.id === id) || null;
   }
+
+  public setDraws(draws: Draw[]): void {
+    this.draws = draws;
+  }
 }

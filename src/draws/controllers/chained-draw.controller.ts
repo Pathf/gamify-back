@@ -1,6 +1,7 @@
 import { Controller, Get, Param } from "@nestjs/common";
 import { QueryBus } from "@nestjs/cqrs";
 import { ChainedDrawAPI } from "../contracts";
+import { GetDrawByIdQuery } from "../queries/get-draw-by-id";
 import { GetDrawByParticipantIdQuery } from "../queries/get-draw-by-participant-id";
 
 @Controller()
@@ -15,5 +16,12 @@ export class ChainedDrawController {
     return this.queryBus.execute(
       new GetDrawByParticipantIdQuery(drawId, participantId),
     );
+  }
+
+  @Get("/draw/:drawId/result")
+  async handleGetDrawById(
+    @Param("drawId") drawId: string,
+  ): Promise<ChainedDrawAPI.GetDrawById.Response> {
+    return this.queryBus.execute(new GetDrawByIdQuery(drawId));
   }
 }

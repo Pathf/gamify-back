@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { DrawResultDTO } from "./dto/draw-result.dto";
 import { ParticipantResultDTO } from "./dto/participant-result.dto";
 
 export namespace DrawsAPI {
@@ -52,5 +53,9 @@ export namespace ConditionAPI {
 export namespace ChainedDrawAPI {
   export namespace GetDrawByParticipantId {
     export type Response = ParticipantResultDTO;
+  }
+
+  export namespace GetDrawById {
+    export type Response = DrawResultDTO;
   }
 }
