@@ -4,7 +4,7 @@ import { e2eDraws } from "./seeds/draw-seeds.e2e";
 import { e2eUsers } from "./seeds/user-seeds.e2e";
 import { TestApp } from "./utils/test-app";
 
-describe("Feature: Getting a draw by participant id", () => {
+describe("Feature: Getting a draw by id", () => {
   const drawId = e2eDraws.secretSanta.entity.props.id;
 
   let app: TestApp;

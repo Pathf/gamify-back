@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { DrawResultDTO } from "./dto/draw-result.dto";
+import { DrawsDTO } from "./dto/draws.dto";
 import { ParticipantResultDTO } from "./dto/participant-result.dto";
 
 export namespace DrawsAPI {
@@ -19,6 +20,10 @@ export namespace DrawsAPI {
 
   export namespace RunDraw {
     export type Response = void;
+  }
+
+  export namespace GetDraws {
+    export type Response = DrawsDTO[];
   }
 }
 

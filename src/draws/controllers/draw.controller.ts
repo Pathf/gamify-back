@@ -7,17 +7,26 @@ import {
   Post,
   Request,
 } from "@nestjs/common";
-import { CommandBus } from "@nestjs/cqrs";
+import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import { ZodValidationPipe } from "../../core/pipes/zod-validation.pipe";
 import { User } from "../../users/entities/user.entity";
 import { CancelDrawCommand } from "../commands/cancel-draw";
 import { OrganizeDrawCommand } from "../commands/organize-draw";
 import { RunDrawCommand } from "../commands/run-draw";
 import { DrawsAPI } from "../contracts";
+import { GetDrawsQuery } from "../queries/get-draws";
 
 @Controller()
 export class DrawController {
-  constructor(private readonly commandBus: CommandBus) {}
+  constructor(
+    private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus,
+  ) {}
+
+  @Get("/draws")
+  async handleGetDraws(): Promise<DrawsAPI.GetDraws.Response> {
+    return this.queryBus.execute(new GetDrawsQuery());
+  }
 
   @Get("/draw/:id/run")
   async handleRunDraw(

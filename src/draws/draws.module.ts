@@ -33,6 +33,7 @@ import { I_DRAW_REPOSITORY } from "./ports/draw-repository.interace";
 import { I_PARTICIPATION_REPOSITORY } from "./ports/participation-repository.interface";
 import { GetDrawByIdQueryHandler } from "./queries/get-draw-by-id";
 import { GetDrawByParticipantIdQueryHandler } from "./queries/get-draw-by-participant-id";
+import { GetDrawsQueryHandler } from "./queries/get-draws";
 
 @Module({
   imports: [
@@ -213,6 +214,16 @@ import { GetDrawByParticipantIdQueryHandler } from "./queries/get-draw-by-partic
       inject: [I_DRAW_REPOSITORY, I_CHAINED_DRAW_REPOSITORY, I_USER_REPOSITORY],
       useFactory: (drawRepository, chainedDrawRepository, userRepository) =>
         new GetDrawByIdQueryHandler(
+          drawRepository,
+          chainedDrawRepository,
+          userRepository,
+        ),
+    },
+    {
+      provide: GetDrawsQueryHandler,
+      inject: [I_DRAW_REPOSITORY, I_CHAINED_DRAW_REPOSITORY, I_USER_REPOSITORY],
+      useFactory: (drawRepository, chainedDrawRepository, userRepository) =>
+        new GetDrawsQueryHandler(
           drawRepository,
           chainedDrawRepository,
           userRepository,
