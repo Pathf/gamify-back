@@ -35,6 +35,10 @@ export class InMemoryParticipationRepository
     );
   }
 
+  async deleteAll(): Promise<void> {
+    this.participations = [];
+  }
+
   // Just for testing purposes
   findOneSync(drawId: string, participantId: string): Participation | null {
     return (
