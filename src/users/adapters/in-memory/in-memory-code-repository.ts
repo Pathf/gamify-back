@@ -15,4 +15,8 @@ export class InMemoryCodeRepository implements ICodeRepository {
   async create(code: Code): Promise<void> {
     this.codes.push(code);
   }
+
+  async deleteAll(): Promise<void> {
+    this.codes = [];
+  }
 }

@@ -5,7 +5,8 @@ import { CommonModule } from "../core/common.module";
 import { I_ID_GENERATOR } from "../core/ports/id-generator.interface";
 import { I_MAILER } from "../core/ports/mailer.interface";
 import { I_SECURITY } from "../core/ports/security.interface";
-import { InMemoryCodeRepository } from "./adapters/in-memory/in-memory-code-repository";
+import { PostgresCode } from "./adapters/postgres/postgres-code";
+import { PostgresCodeRepository } from "./adapters/postgres/postgres-code-repository";
 import { PostgresUser } from "./adapters/postgres/postgres-user";
 import { PostgresUserRepository } from "./adapters/postgres/postgres-user-repository";
 import { DeleteAccountCommandHandler } from "./commands/delete-account";
@@ -18,7 +19,11 @@ import { GetUserByIdQueryHandler } from "./queries/get-user-by-id";
 import { GetUsersQueryHandler } from "./queries/get-users";
 
 @Module({
-  imports: [CqrsModule, CommonModule, TypeOrmModule.forFeature([PostgresUser])],
+  imports: [
+    CqrsModule,
+    CommonModule,
+    TypeOrmModule.forFeature([PostgresUser, PostgresCode]),
+  ],
   controllers: [UserController],
   providers: [
     {
@@ -27,7 +32,7 @@ import { GetUsersQueryHandler } from "./queries/get-users";
     },
     {
       provide: I_CODE_REPOSITORY,
-      useClass: InMemoryCodeRepository,
+      useClass: PostgresCodeRepository,
     },
     {
       provide: RegisterUserCommandHandler,
@@ -88,6 +93,6 @@ import { GetUsersQueryHandler } from "./queries/get-users";
       },
     },
   ],
-  exports: [I_USER_REPOSITORY],
+  exports: [I_USER_REPOSITORY, I_CODE_REPOSITORY],
 })
 export class UsersModule {}

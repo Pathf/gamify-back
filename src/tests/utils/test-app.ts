@@ -19,6 +19,10 @@ import {
   I_PARTICIPATION_REPOSITORY,
 } from "../../draws/ports/participation-repository.interface";
 import {
+  ICodeRepository,
+  I_CODE_REPOSITORY,
+} from "../../users/ports/code-repository.interface";
+import {
   IUserRepository,
   I_USER_REPOSITORY,
 } from "../../users/ports/user-repository.interface";
@@ -66,5 +70,6 @@ export class TestApp {
     await this.app
       .get<IChainedDrawRepository>(I_CHAINED_DRAW_REPOSITORY)
       .deleteAll();
+    await this.app.get<ICodeRepository>(I_CODE_REPOSITORY).deleteAll();
   }
 }

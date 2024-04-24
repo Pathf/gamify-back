@@ -7,4 +7,6 @@ export interface ICodeRepository {
   findAll(): Promise<Code[]>;
 
   create(code: Code): Promise<void>;
+
+  deleteAll(): Promise<void>;
 }

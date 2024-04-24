@@ -10,11 +10,13 @@ import { PostgresChainedDraw } from "../draws/adapters/postgres/chained-draw/pos
 import { PostgresCondition } from "../draws/adapters/postgres/condition/postgres-condition";
 import { PostgresDraw } from "../draws/adapters/postgres/draw/postgres-draw";
 import { PostgresParticipation } from "../draws/adapters/postgres/participation/postgres-participation";
+import { PostgresCode } from "../users/adapters/postgres/postgres-code";
 import { PostgresUser } from "../users/adapters/postgres/postgres-user";
 import { CommonModule } from "./common.module";
 
 export const postgreEntities = [
   PostgresUser,
+  PostgresCode,
   PostgresDraw,
   PostgresParticipation,
   PostgresCondition,
