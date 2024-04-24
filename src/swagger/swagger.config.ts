@@ -1,6 +1,6 @@
 import { INestApplication } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-import * as basicAuth from "express-basic-auth";
+import expressBasicAuth from "express-basic-auth";
 
 const SWAGGER_PATH = "/swagger";
 
@@ -10,7 +10,7 @@ export const setupSwagger = (app: INestApplication) => {
   if (process.env.ENVIRONEMENT !== "LOCAL" && swaggerPassword) {
     app.use(
       [SWAGGER_PATH, `${SWAGGER_PATH}-json`],
-      basicAuth({
+      expressBasicAuth({
         challenge: true,
         users: {
           admin: swaggerPassword,
