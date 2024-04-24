@@ -32,6 +32,9 @@ describe("Feature: Sign in", () => {
       expect(result).not.toBeNull();
       expect(result).toEqual({
         access_token: expect.any(String),
+        id: testUsers.alice.props.id,
+        name: testUsers.alice.props.name,
+        emailAddress: testUsers.alice.props.emailAddress,
       });
     });
   });

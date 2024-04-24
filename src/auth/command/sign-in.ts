@@ -6,6 +6,9 @@ import { IJwtService } from "../ports/jwt-service.interface";
 
 type Response = {
   access_token: string;
+  id: string;
+  name: string;
+  emailAddress: string;
 };
 
 export class SignInCommand implements ICommand {
@@ -43,6 +46,9 @@ export class SignInCommandHandler
     const payload = { sub: user.props.id, name: user.props.name };
     return {
       access_token: await this.jwtService.signAsync(payload),
+      id: user.props.id,
+      name: user.props.name,
+      emailAddress: user.props.emailAddress,
     };
   }
 }

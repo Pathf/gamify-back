@@ -5,12 +5,14 @@ import { CommonModule } from "../core/common.module";
 import { I_ID_GENERATOR } from "../core/ports/id-generator.interface";
 import { I_MAILER } from "../core/ports/mailer.interface";
 import { I_SECURITY } from "../core/ports/security.interface";
+import { InMemoryCodeRepository } from "./adapters/in-memory/in-memory-code-repository";
 import { PostgresUser } from "./adapters/postgres/postgres-user";
 import { PostgresUserRepository } from "./adapters/postgres/postgres-user-repository";
 import { DeleteAccountCommandHandler } from "./commands/delete-account";
 import { RegisterUserCommandHandler } from "./commands/register-user";
 import { UpdateAccountCommandHandler } from "./commands/update-account";
 import { UserController } from "./controllers/user.controller";
+import { I_CODE_REPOSITORY } from "./ports/code-repository.interface";
 import { I_USER_REPOSITORY } from "./ports/user-repository.interface";
 import { GetUserByIdQueryHandler } from "./queries/get-user-by-id";
 import { GetUsersQueryHandler } from "./queries/get-users";
@@ -24,11 +26,28 @@ import { GetUsersQueryHandler } from "./queries/get-users";
       useClass: PostgresUserRepository,
     },
     {
+      provide: I_CODE_REPOSITORY,
+      useClass: InMemoryCodeRepository,
+    },
+    {
       provide: RegisterUserCommandHandler,
-      inject: [I_USER_REPOSITORY, I_ID_GENERATOR, I_SECURITY, I_MAILER],
-      useFactory: (userRepository, idGenerator, securityService, mailer) => {
+      inject: [
+        I_USER_REPOSITORY,
+        I_CODE_REPOSITORY,
+        I_ID_GENERATOR,
+        I_SECURITY,
+        I_MAILER,
+      ],
+      useFactory: (
+        userRepository,
+        codeRepository,
+        idGenerator,
+        securityService,
+        mailer,
+      ) => {
         return new RegisterUserCommandHandler(
           userRepository,
+          codeRepository,
           idGenerator,
           securityService,
           mailer,

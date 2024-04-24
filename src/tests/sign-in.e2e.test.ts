@@ -28,6 +28,9 @@ describe("Feature: Sign in", () => {
       expect(result.status).toBe(200);
       expect(result.body).toEqual({
         access_token: expect.any(String),
+        id: e2eUsers.alice.entity.props.id,
+        name: e2eUsers.alice.entity.props.name,
+        emailAddress: e2eUsers.alice.entity.props.emailAddress,
       });
     });
   });

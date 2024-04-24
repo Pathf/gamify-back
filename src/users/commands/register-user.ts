@@ -3,7 +3,9 @@ import { IIDGenerator } from "../../core/ports/id-generator.interface";
 import { IMailer } from "../../core/ports/mailer.interface";
 import { ISecurity } from "../../core/ports/security.interface";
 import { User } from "../entities/user.entity";
+import { InvalidCodeForUserRegisterError } from "../errors/invalid-code-for-user-register.error";
 import { UserAlreadyExistsError } from "../errors/user-already-exists.error";
+import { ICodeRepository } from "../ports/code-repository.interface";
 import { IUserRepository } from "../ports/user-repository.interface";
 
 type Response = void;
@@ -13,6 +15,7 @@ export class RegisterUserCommand implements ICommand {
     public emailAddress: string,
     public name: string,
     public password: string,
+    public createCode: string,
   ) {}
 }
 
@@ -22,22 +25,34 @@ export class RegisterUserCommandHandler
 {
   constructor(
     private readonly userRepository: IUserRepository,
+    private readonly codeRepository: ICodeRepository,
     private readonly idGenerator: IIDGenerator,
     private readonly securityService: ISecurity,
     private readonly mailer: IMailer,
   ) {}
 
   public async execute(command: RegisterUserCommand): Promise<Response> {
-    const userExist = await this.userRepository.findByEmailAddress(
-      command.emailAddress,
-    );
-
-    if (userExist) {
-      throw new UserAlreadyExistsError();
-    }
+    await this.assertCode(command.createCode);
+    await this.assertUserDoesNotExist(command.emailAddress);
 
     await this.createUser(command);
     await this.sendConfirmationEmail(command.emailAddress);
+  }
+
+  private async assertCode(code: string): Promise<void> {
+    const registerUserCode = await this.codeRepository.findRegisterUserCode();
+
+    if (registerUserCode?.props.code !== code) {
+      throw new InvalidCodeForUserRegisterError();
+    }
+  }
+
+  private async assertUserDoesNotExist(emailAddress: string): Promise<void> {
+    const user = await this.userRepository.findByEmailAddress(emailAddress);
+
+    if (user) {
+      throw new UserAlreadyExistsError();
+    }
   }
 
   private async createUser(command: RegisterUserCommand): Promise<void> {

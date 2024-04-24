@@ -3,6 +3,7 @@ import {
   IUserRepository,
   I_USER_REPOSITORY,
 } from "../users/ports/user-repository.interface";
+import { e2eCodes } from "./seeds/code-seeds.e2e";
 import { e2eUsers } from "./seeds/user-seeds.e2e";
 import { TestApp } from "./utils/test-app";
 
@@ -12,7 +13,7 @@ describe("Feature: Registering a user", () => {
   beforeEach(async () => {
     app = new TestApp();
     await app.setup();
-    await app.loadFixture([]);
+    await app.loadFixture([e2eCodes.registerUser]);
   });
 
   afterEach(async () => {
@@ -25,6 +26,7 @@ describe("Feature: Registering a user", () => {
         emailAddress: e2eUsers.alice.entity.props.emailAddress,
         name: e2eUsers.alice.entity.props.name,
         password: e2eUsers.alice.entity.props.password,
+        createCode: e2eCodes.registerUser.entity.props.code,
       });
 
       expect(result.status).toBe(201);

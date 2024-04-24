@@ -1,9 +1,11 @@
 import { Controller, Get, Param } from "@nestjs/common";
 import { QueryBus } from "@nestjs/cqrs";
+import { ApiTags } from "@nestjs/swagger";
 import { ChainedDrawAPI } from "../contracts";
 import { GetDrawByIdQuery } from "../queries/get-draw-by-id";
 import { GetDrawByParticipantIdQuery } from "../queries/get-draw-by-participant-id";
 
+@ApiTags("draws")
 @Controller()
 export class ChainedDrawController {
   constructor(private readonly queryBus: QueryBus) {}

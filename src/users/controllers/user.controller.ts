@@ -8,6 +8,7 @@ import {
   Request,
 } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
+import { ApiTags } from "@nestjs/swagger";
 import { Public } from "../../auth/public.decorator";
 import { ZodValidationPipe } from "../../core/pipes/zod-validation.pipe";
 import { DeleteAccountCommand } from "../commands/delete-account";
@@ -18,6 +19,7 @@ import { User } from "../entities/user.entity";
 import { GetUserByIdQuery } from "../queries/get-user-by-id";
 import { GetUsersQuery } from "../queries/get-users";
 
+@ApiTags("users")
 @Controller()
 export class UserController {
   constructor(
@@ -44,7 +46,12 @@ export class UserController {
     body: UserAPI.RegisterUser.Request,
   ): Promise<UserAPI.RegisterUser.Response> {
     return this.commandBus.execute(
-      new RegisterUserCommand(body.emailAddress, body.name, body.password),
+      new RegisterUserCommand(
+        body.emailAddress,
+        body.name,
+        body.password,
+        body.createCode,
+      ),
     );
   }
 

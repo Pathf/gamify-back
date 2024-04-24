@@ -1,11 +1,13 @@
 import { Body, Controller, Delete, Param, Post, Request } from "@nestjs/common";
 import { CommandBus } from "@nestjs/cqrs";
+import { ApiTags } from "@nestjs/swagger";
 import { ZodValidationPipe } from "../../core/pipes/zod-validation.pipe";
 import { User } from "../../users/entities/user.entity";
 import { CancelConditionCommand } from "../commands/cancel-condition";
 import { RegisterConditionCommand } from "../commands/register-condition";
 import { ConditionAPI } from "../contracts";
 
+@ApiTags("draws")
 @Controller()
 export class ConditionController {
   constructor(private readonly commandBus: CommandBus) {}

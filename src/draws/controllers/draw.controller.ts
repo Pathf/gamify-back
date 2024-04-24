@@ -8,6 +8,7 @@ import {
   Request,
 } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
+import { ApiTags } from "@nestjs/swagger";
 import { ZodValidationPipe } from "../../core/pipes/zod-validation.pipe";
 import { User } from "../../users/entities/user.entity";
 import { CancelDrawCommand } from "../commands/cancel-draw";
@@ -16,6 +17,7 @@ import { RunDrawCommand } from "../commands/run-draw";
 import { DrawsAPI } from "../contracts";
 import { GetDrawsQuery } from "../queries/get-draws";
 
+@ApiTags("draws")
 @Controller()
 export class DrawController {
   constructor(

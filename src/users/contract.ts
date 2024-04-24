@@ -8,6 +8,7 @@ export namespace UserAPI {
       emailAddress: z.string().email(),
       name: z.string(),
       password: z.string(),
+      createCode: z.string(),
     });
 
     export type Request = z.infer<typeof schema>;

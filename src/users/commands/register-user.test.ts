@@ -1,7 +1,9 @@
 import { FixedIDGenerator } from "../../core/adapters/fixed/fixed-id-generator";
 import { FixedSecurity } from "../../core/adapters/fixed/fixed-security";
 import { InMemoryMailer } from "../../core/adapters/in-memory/in-memory-mailer";
+import { InMemoryCodeRepository } from "../adapters/in-memory/in-memory-code-repository";
 import { InMemoryUserRepository } from "../adapters/in-memory/in-memory-user-repository";
+import { testCodes } from "../tests/code-seeds";
 import { testUsers } from "../tests/user-seeds";
 import {
   RegisterUserCommand,
@@ -13,14 +15,17 @@ describe("Feature: Registering a user", () => {
   const idGenerator: FixedIDGenerator = new FixedIDGenerator();
   let security: FixedSecurity;
   let userRepository: InMemoryUserRepository;
+  let codeRepository: InMemoryCodeRepository;
   let useCase: RegisterUserCommandHandler;
 
   beforeEach(async () => {
     mailer = new InMemoryMailer();
     security = new FixedSecurity();
     userRepository = new InMemoryUserRepository([testUsers.alice]);
+    codeRepository = new InMemoryCodeRepository([testCodes.CreationCode]);
     useCase = new RegisterUserCommandHandler(
       userRepository,
+      codeRepository,
       idGenerator,
       security,
       mailer,
@@ -32,6 +37,7 @@ describe("Feature: Registering a user", () => {
       testUsers.bob.props.emailAddress,
       testUsers.bob.props.name,
       testUsers.bob.props.password,
+      testCodes.CreationCode.props.code,
     );
 
     it("should creat a user", async () => {
@@ -64,11 +70,37 @@ describe("Feature: Registering a user", () => {
       testUsers.alice.props.emailAddress,
       testUsers.bob.props.name,
       testUsers.bob.props.password,
+      testCodes.CreationCode.props.code,
     );
 
     it("should fail user register", async () => {
       expect(async () => await useCase.execute(payload)).rejects.toThrowError(
         "User already exists with this e-mail address",
+      );
+
+      const alice = await userRepository.findByEmailAddress(
+        testUsers.alice.props.emailAddress,
+      );
+      expect(alice?.props).toEqual({
+        id: testUsers.alice.props.id,
+        emailAddress: testUsers.alice.props.emailAddress,
+        name: testUsers.alice.props.name,
+        password: testUsers.alice.props.password,
+      });
+    });
+  });
+
+  describe("Scenario: Wrong code", () => {
+    const payload = new RegisterUserCommand(
+      testUsers.alice.props.emailAddress,
+      testUsers.bob.props.name,
+      testUsers.bob.props.password,
+      "wrong-code",
+    );
+
+    it("should fail user register", async () => {
+      expect(async () => await useCase.execute(payload)).rejects.toThrowError(
+        "Invalid code for user register",
       );
 
       const alice = await userRepository.findByEmailAddress(
