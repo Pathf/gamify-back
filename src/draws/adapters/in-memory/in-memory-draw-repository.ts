@@ -16,6 +16,17 @@ export class InMemoryDrawRepository implements IDrawRepository {
     this.draws.push(draw);
   }
 
+  public async update(draw: Draw): Promise<void> {
+    const index = this.draws.findIndex((d) => d.props.id === draw.props.id);
+
+    if (index === -1) {
+      return;
+    }
+
+    this.draws[index] = draw;
+    draw.commit();
+  }
+
   public async delete(id: string): Promise<void> {
     this.draws = this.draws.filter((draw) => draw.props.id !== id);
   }

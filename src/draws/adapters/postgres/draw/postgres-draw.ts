@@ -21,4 +21,9 @@ export class PostgresDraw {
     nullable: false,
   })
   year: number;
+
+  @Column({
+    nullable: false,
+  })
+  isFinish: boolean;
 }

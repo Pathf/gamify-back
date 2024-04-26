@@ -19,6 +19,7 @@ import { PostgresParticipationRepository } from "./adapters/postgres/participati
 import { CancelConditionCommandHandler } from "./commands/cancel-condition";
 import { CancelDrawCommandHandler } from "./commands/cancel-draw";
 import { CancelParticipationCommandHandler } from "./commands/cancel-participation";
+import { CloseDrawCommandHandler } from "./commands/close-draw";
 import { OrganizeDrawCommandHandler } from "./commands/organize-draw";
 import { RegisterConditionCommandHandler } from "./commands/register-condition";
 import { RegisterParticipationCommandHandler } from "./commands/register-participation";
@@ -198,6 +199,12 @@ import { GetDrawsQueryHandler } from "./queries/get-draws";
           dateGenerator,
           mailer,
         ),
+    },
+    {
+      provide: CloseDrawCommandHandler,
+      inject: [I_DRAW_REPOSITORY, I_CHAINED_DRAW_REPOSITORY],
+      useFactory: (drawRepository, chainedDrawRepository) =>
+        new CloseDrawCommandHandler(drawRepository, chainedDrawRepository),
     },
     {
       provide: GetDrawByParticipantIdQueryHandler,

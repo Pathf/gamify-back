@@ -25,6 +25,10 @@ export namespace DrawsAPI {
   export namespace GetDraws {
     export type Response = DrawsDTO[];
   }
+
+  export namespace CloseDraw {
+    export type Response = void;
+  }
 }
 
 export namespace ParticipationAPI {

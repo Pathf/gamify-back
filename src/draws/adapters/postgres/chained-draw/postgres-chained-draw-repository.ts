@@ -41,6 +41,14 @@ export class PostgresChainedDrawRepository implements IChainedDrawRepository {
     return postgresChainedDraw ? postgresChainedDraw.dateDraw : null;
   }
 
+  async isDrawRun(drawId: string): Promise<boolean> {
+    return (
+      (await this.chainedDrawRepository.findBy({ drawId })).some(
+        (postgresChainedDraw) => postgresChainedDraw.dateDraw !== null,
+      ) ?? false
+    );
+  }
+
   async create(chainedDraw: ChainedDraw): Promise<void> {
     const postgresChainedDraw =
       this.chainedDrawMapper.toPersistence(chainedDraw);

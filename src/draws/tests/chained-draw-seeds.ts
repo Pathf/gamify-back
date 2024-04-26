@@ -27,4 +27,10 @@ export const testChainedDraws = {
     receiverId: testUsers.alice.props.id,
     dateDraw: new Date("2024-01-01T00:00:00.000Z"),
   }),
+  aliceToCharlesDrawIsAlreadyOver: new ChainedDraw({
+    drawId: testDraws.drawIsAlreadyOver.props.id,
+    donorId: testUsers.alice.props.id,
+    receiverId: testUsers.charles.props.id,
+    dateDraw: new Date("2020-01-01T00:00:00.000Z"),
+  }),
 };

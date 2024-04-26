@@ -31,6 +31,12 @@ export class PostgresDrawRepository implements IDrawRepository {
     await this.drawRepository.save(postgresDraw);
   }
 
+  async update(draw: Draw): Promise<void> {
+    const postgresDraw = this.drawMapper.toPersistence(draw);
+    await this.drawRepository.save(postgresDraw);
+    draw.commit();
+  }
+
   async delete(drawId: string): Promise<void> {
     await this.drawRepository.delete(drawId);
   }

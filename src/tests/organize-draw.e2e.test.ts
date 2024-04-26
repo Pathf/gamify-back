@@ -40,6 +40,7 @@ describe("Feature: Organizing a draw", () => {
         title: e2eDraws.secretSanta.entity.props.title,
         year: e2eDraws.secretSanta.entity.props.year,
         organizerId: e2eUsers.alice.entity.props.id,
+        isFinish: e2eDraws.secretSanta.entity.props.isFinish,
       });
     });
   });

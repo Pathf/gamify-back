@@ -8,6 +8,8 @@ export interface IDrawRepository {
 
   create(draw: Draw): Promise<void>;
 
+  update(draw: Draw): Promise<void>;
+
   delete(id: string): Promise<void>;
   deleteAll(): Promise<void>;
 }

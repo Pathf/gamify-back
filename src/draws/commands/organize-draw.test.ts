@@ -40,6 +40,7 @@ describe("Feature: Organizing Draw", () => {
         title: testDraws.secretSanta.props.title,
         organizerId: testDraws.secretSanta.props.organizerId,
         year: testDraws.secretSanta.props.year,
+        isFinish: false,
       });
     });
   });

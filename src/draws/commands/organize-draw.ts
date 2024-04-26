@@ -39,6 +39,7 @@ export class OrganizeDrawCommandHandler
       title: command.title,
       organizerId: command.organizerId,
       year: command.year,
+      isFinish: false,
     });
 
     await this.drawRepository.create(draw);

@@ -6,6 +6,7 @@ type DrawProps = {
   title: string;
   organizerId: string;
   year: number;
+  isFinish: boolean;
 };
 
 export class Draw extends Entity<DrawProps> {
@@ -15,5 +16,9 @@ export class Draw extends Entity<DrawProps> {
 
   isOrganizerId(organizerId: string): boolean {
     return this.props.organizerId === organizerId;
+  }
+
+  isFinish(): boolean {
+    return this.props.isFinish;
   }
 }

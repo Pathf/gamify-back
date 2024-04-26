@@ -12,6 +12,7 @@ import { ApiTags } from "@nestjs/swagger";
 import { ZodValidationPipe } from "../../core/pipes/zod-validation.pipe";
 import { User } from "../../users/entities/user.entity";
 import { CancelDrawCommand } from "../commands/cancel-draw";
+import { CloseDrawCommand } from "../commands/close-draw";
 import { OrganizeDrawCommand } from "../commands/organize-draw";
 import { RunDrawCommand } from "../commands/run-draw";
 import { DrawsAPI } from "../contracts";
@@ -36,6 +37,14 @@ export class DrawController {
     @Request() request: { user: User },
   ): Promise<DrawsAPI.RunDraw.Response> {
     return this.commandBus.execute(new RunDrawCommand(request.user, drawId));
+  }
+
+  @Get("/draw/:id/close")
+  async handleCloseDraw(
+    @Param("id") drawId: string,
+    @Request() request: { user: User },
+  ): Promise<DrawsAPI.CloseDraw.Response> {
+    return this.commandBus.execute(new CloseDrawCommand(request.user, drawId));
   }
 
   @Post("/draws")

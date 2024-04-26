@@ -29,6 +29,14 @@ export class InMemoryChainedDrawRepository implements IChainedDrawRepository {
     return chainedDraw ? chainedDraw.props.dateDraw : null;
   }
 
+  async isDrawRun(drawId: string): Promise<boolean> {
+    return this.chainedDraws.some(
+      (chainedDraw) =>
+        chainedDraw.props.drawId === drawId &&
+        chainedDraw.props.dateDraw !== null,
+    );
+  }
+
   async create(chainedDraw: ChainedDraw): Promise<void> {
     this.chainedDraws.push(chainedDraw);
   }
