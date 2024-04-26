@@ -32,6 +32,7 @@ import { I_CHAINED_DRAW_REPOSITORY } from "./ports/chained-draw-repository.inter
 import { I_CONDITION_REPOSITORY } from "./ports/condition-repositroy.interface";
 import { I_DRAW_REPOSITORY } from "./ports/draw-repository.interace";
 import { I_PARTICIPATION_REPOSITORY } from "./ports/participation-repository.interface";
+import { GetChainedDrawsByIdParticipantQueryHandler } from "./queries/get-chained-draw-by-id-participant";
 import { GetDrawByIdQueryHandler } from "./queries/get-draw-by-id";
 import { GetDrawByParticipantIdQueryHandler } from "./queries/get-draw-by-participant-id";
 import { GetDrawsQueryHandler } from "./queries/get-draws";
@@ -234,6 +235,16 @@ import { GetDrawsQueryHandler } from "./queries/get-draws";
           drawRepository,
           chainedDrawRepository,
           userRepository,
+        ),
+    },
+    {
+      provide: GetChainedDrawsByIdParticipantQueryHandler,
+      inject: [I_USER_REPOSITORY, I_DRAW_REPOSITORY, I_CHAINED_DRAW_REPOSITORY],
+      useFactory: (userRepository, drawRepository, chainedDrawRepository) =>
+        new GetChainedDrawsByIdParticipantQueryHandler(
+          userRepository,
+          drawRepository,
+          chainedDrawRepository,
         ),
     },
   ],

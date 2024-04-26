@@ -1,4 +1,5 @@
 import { UserDTO } from "../../users/dto/user.dto";
+import { User } from "../../users/entities/user.entity";
 
 export type ParticipantResultDTO = {
   donor: ParticipantDTO;
@@ -17,3 +18,12 @@ export type DrawDTO = {
   year: number;
   organizer: UserDTO;
 };
+
+export class ParticipantMapper {
+  toDTO(user: User): ParticipantDTO {
+    return {
+      id: user.props.id,
+      name: user.props.name,
+    };
+  }
+}

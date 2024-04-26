@@ -6,6 +6,7 @@ export interface IChainedDrawRepository {
   findByDrawId(drawId: string): Promise<ChainedDraw[]>;
   findByDonorId(drawId: string, donorId: string): Promise<ChainedDraw | null>;
   findRunDrawDate(drawId: string): Promise<Date | null>;
+  findAllByDonorId(donorId: string): Promise<ChainedDraw[]>;
   isDrawRun(drawId: string): Promise<boolean>;
 
   create(chainedDraw: ChainedDraw): Promise<void>;

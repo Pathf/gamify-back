@@ -14,4 +14,7 @@ export const e2eChainedDraws = {
   davidToAliceSecretSanta: new ChainedDrawFixture(
     testChainedDraws.davidToAliceSecretSanta,
   ),
+  aliceToCharlesDrawIsAlreadyOver: new ChainedDrawFixture(
+    testChainedDraws.aliceToCharlesDrawIsAlreadyOver,
+  ),
 };

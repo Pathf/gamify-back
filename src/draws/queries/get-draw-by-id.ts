@@ -1,9 +1,9 @@
 import { IQuery, IQueryHandler, QueryHandler } from "@nestjs/cqrs";
-import { UserDTO } from "../../users/dto/user.dto";
+import { UserMapper } from "../../users/dto/user.dto";
 import { User } from "../../users/entities/user.entity";
 import { IUserRepository } from "../../users/ports/user-repository.interface";
 import { ChainedDrawDTO, DrawResultDTO } from "../dto/draw-result.dto";
-import { ParticipantDTO } from "../dto/participant-result.dto";
+import { ParticipantMapper } from "../dto/participant-result.dto";
 import { ChainedDraw } from "../entities/chained-draw.entity";
 import { Draw } from "../entities/draw.entity";
 import { DonorDoesNotExistError } from "../errors/donor-does-not-exist.error";
@@ -22,7 +22,8 @@ export class GetDrawByIdQuery implements IQuery {
 export class GetDrawByIdQueryHandler
   implements IQueryHandler<GetDrawByIdQuery, DrawResultDTO>
 {
-  private readonly mapper = new Mapper();
+  private readonly participantMapper = new ParticipantMapper();
+  private readonly userMapper = new UserMapper();
 
   constructor(
     private readonly drawRepository: IDrawRepository,
@@ -41,7 +42,7 @@ export class GetDrawByIdQueryHandler
       title: draw.props.title,
       year: draw.props.year,
       runDrawDate: chainedDraws[0].props.dateDraw.toISOString(),
-      organizer: this.mapper.toUserDTO(organizer),
+      organizer: this.userMapper.toDTO(organizer),
       chainedDraws: chainedDrawDTOs,
     };
   }
@@ -93,33 +94,16 @@ export class GetDrawByIdQueryHandler
     for (const { props } of chainedDraws) {
       const donor = await this.assertDonorExists(props.donorId);
       const receiver = await this.assertReceiverExists(props.receiverId);
-      const chainedDrawDTO = this.mapper.toChainedDrawDTO(donor, receiver);
+      const chainedDrawDTO = this.buildChainedDrawDTO(donor, receiver);
       chainedDrawDTOs.push(chainedDrawDTO);
     }
     return chainedDrawDTOs;
   }
-}
 
-class Mapper {
-  toChainedDrawDTO(donor: User, receiver: User): ChainedDrawDTO {
+  private buildChainedDrawDTO(donor: User, receiver: User): ChainedDrawDTO {
     return {
-      donor: this.toParticipantDTO(donor),
-      receiver: this.toParticipantDTO(receiver),
-    };
-  }
-
-  toUserDTO(organizer: User): UserDTO {
-    return {
-      id: organizer.props.id,
-      email: organizer.props.emailAddress,
-      username: organizer.props.name,
-    };
-  }
-
-  private toParticipantDTO(user: User): ParticipantDTO {
-    return {
-      id: user.props.id,
-      name: user.props.name,
+      donor: this.participantMapper.toDTO(donor),
+      receiver: this.participantMapper.toDTO(receiver),
     };
   }
 }
