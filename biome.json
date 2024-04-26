@@ -5,7 +5,8 @@
 	},
 	"files": {
 		"ignore": [
-			"node_modules"
+			"node_modules",
+			"src/swagger-static"
 		]
 	},
 	"linter": {

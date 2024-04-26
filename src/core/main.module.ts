@@ -11,7 +11,7 @@ import { AppModule } from "./app.module";
     AppModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, "..", "swagger-static"),
-      serveRoot: SWAGGER_PATH,
+      serveRoot: `/${SWAGGER_PATH}`,
     }),
   ],
   controllers: [],
