@@ -26,7 +26,7 @@ describe("Feature: Organizing a draw", () => {
     it("should create a draw", async () => {
       const result = await request(app.getHttpServer())
         .post("/draws")
-        .set("Authorization", e2eUsers.alice.creaetAuthorizationToken())
+        .set("Authorization", e2eUsers.alice.createAuthorizationToken())
         .send({
           title: e2eDraws.secretSanta.entity.props.title,
           year: e2eDraws.secretSanta.entity.props.year,

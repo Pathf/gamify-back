@@ -34,7 +34,7 @@ describe("Feature: Canceling condition", () => {
     it("should delete the condition", async () => {
       const result = await request(app.getHttpServer())
         .delete(`/draw/${drawId}/condition/${conditionId}`)
-        .set("Authorization", e2eUsers.alice.creaetAuthorizationToken());
+        .set("Authorization", e2eUsers.alice.createAuthorizationToken());
       expect(result.status).toBe(200);
 
       const condition = await conditionRepository.findById(conditionId);

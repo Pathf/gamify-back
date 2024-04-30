@@ -34,7 +34,7 @@ describe("Feature: Getting a draw by participant id", () => {
     it("should succeed", async () => {
       const result = await request(app.getHttpServer())
         .get(`/draw/${drawId}/participant/${participantId}/result`)
-        .set("Authorization", e2eUsers.alice.creaetAuthorizationToken());
+        .set("Authorization", e2eUsers.alice.createAuthorizationToken());
 
       expect(result.status).toBe(200);
 

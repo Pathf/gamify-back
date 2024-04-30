@@ -27,7 +27,7 @@ export class UserFixture implements IFixture {
     await userRepository.createUser(this.entity);
   }
 
-  creaetAuthorizationToken() {
+  createAuthorizationToken() {
     const jwtService = this.app.get<IJwtService>(I_JWT_SERVICE);
     const payload = { sub: this.entity.props.id, name: this.entity.props.name };
     return `Bearer ${jwtService.sign(payload)}`;

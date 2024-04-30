@@ -24,7 +24,7 @@ describe("Feature: Getting users", () => {
     it("should succeed", async () => {
       const result = await request(app.getHttpServer())
         .get("/users")
-        .set("Authorization", e2eUsers.alice.creaetAuthorizationToken());
+        .set("Authorization", e2eUsers.alice.createAuthorizationToken());
 
       expect(result.status).toBe(200);
 

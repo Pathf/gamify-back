@@ -34,7 +34,7 @@ describe("Feature: Closing draw", () => {
     it("should close draw", async () => {
       const result = await request(app.getHttpServer())
         .get(`/draw/${drawId}/close`)
-        .set("Authorization", e2eUsers.alice.creaetAuthorizationToken());
+        .set("Authorization", e2eUsers.alice.createAuthorizationToken());
       expect(result.status).toBe(200);
 
       const draw = await drawRepository.findOne(drawId);

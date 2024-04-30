@@ -35,7 +35,7 @@ describe("Feature: Registering participation", () => {
     it("should register the participant at the draw", async () => {
       const result = await request(app.getHttpServer())
         .post(`/draw/${drawId}/participation`)
-        .set("Authorization", e2eUsers.alice.creaetAuthorizationToken())
+        .set("Authorization", e2eUsers.alice.createAuthorizationToken())
         .send({ participantId: e2eUsers.alice.entity.props.id });
       expect(result.status).toBe(201);
 

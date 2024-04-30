@@ -21,7 +21,7 @@ describe("Feature: Getting a user by id", () => {
     it("should succeed", async () => {
       const result = await request(app.getHttpServer())
         .get(`/user/${userId}`)
-        .set("Authorization", e2eUsers.alice.creaetAuthorizationToken());
+        .set("Authorization", e2eUsers.alice.createAuthorizationToken());
 
       expect(result.status).toBe(200);
 

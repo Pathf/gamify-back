@@ -32,7 +32,7 @@ describe("Feature: Getting draws", () => {
     it("should succeed", async () => {
       const result = await request(app.getHttpServer())
         .get("/draws")
-        .set("Authorization", e2eUsers.alice.creaetAuthorizationToken());
+        .set("Authorization", e2eUsers.alice.createAuthorizationToken());
 
       expect(result.status).toBe(200);
 

@@ -28,7 +28,7 @@ describe("Feature: Canceling draw", () => {
     it("should delete the draw", async () => {
       const result = await request(app.getHttpServer())
         .delete(`/draw/${drawId}`)
-        .set("Authorization", e2eUsers.alice.creaetAuthorizationToken());
+        .set("Authorization", e2eUsers.alice.createAuthorizationToken());
       expect(result.status).toBe(200);
 
       const draw = await drawRepository.findOne(drawId);

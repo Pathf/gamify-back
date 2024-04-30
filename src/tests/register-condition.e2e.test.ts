@@ -46,7 +46,7 @@ describe("Feature: Registering condition", () => {
     it("should register the condition at the draw", async () => {
       const result = await request(app.getHttpServer())
         .post(`/draw/${drawId}/condition`)
-        .set("Authorization", e2eUsers.alice.creaetAuthorizationToken())
+        .set("Authorization", e2eUsers.alice.createAuthorizationToken())
         .send(payload);
       expect(result.status).toBe(201);
 

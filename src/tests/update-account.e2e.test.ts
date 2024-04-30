@@ -34,7 +34,7 @@ describe("Feature: Updating account", () => {
     it("should register the user", async () => {
       const result = await request(app.getHttpServer())
         .post(`/user/${userId}`)
-        .set("Authorization", e2eUsers.alice.creaetAuthorizationToken())
+        .set("Authorization", e2eUsers.alice.createAuthorizationToken())
         .send(payload);
 
       expect(result.status).toBe(201);

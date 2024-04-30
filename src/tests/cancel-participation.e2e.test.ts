@@ -36,7 +36,7 @@ describe("Feature: Canceling participation", () => {
     it("should delete the participation", async () => {
       const result = await request(app.getHttpServer())
         .delete(`/draw/${drawId}/participation/${participantId}`)
-        .set("Authorization", e2eUsers.alice.creaetAuthorizationToken());
+        .set("Authorization", e2eUsers.alice.createAuthorizationToken());
       expect(result.status).toBe(200);
 
       const participation = await participationRepository.findOne(
