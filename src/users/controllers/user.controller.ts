@@ -73,12 +73,13 @@ export class UserController {
     );
   }
 
-  @Delete("/user")
+  @Delete("/user/:id")
   async handleDeleteAccount(
-    @Request() request: { user: User },
+    @Param("id") userId: string,
+    @Request() request: { user: User; isAdmin: boolean },
   ): Promise<UserAPI.DeleteAccount.Response> {
     return this.commandBus.execute(
-      new DeleteAccountCommand(request.user.props.emailAddress),
+      new DeleteAccountCommand(request.user, request.isAdmin, userId),
     );
   }
 }
