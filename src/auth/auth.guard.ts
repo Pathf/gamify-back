@@ -38,6 +38,7 @@ export class AuthGuard implements CanActivate {
       const user = await this.assertUserExist(sub);
       const userRoles = await this.userRolesRepository.findOne(sub);
       request.user = user;
+      request.isAdmin = userRoles?.isAdmin() || false;
 
       return contextCorrespondingAtUserRoles(
         context,

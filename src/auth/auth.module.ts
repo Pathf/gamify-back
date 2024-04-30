@@ -7,8 +7,8 @@ import { CommonModule } from "../core/common.module";
 import { I_SECURITY } from "../core/ports/security.interface";
 import { I_USER_REPOSITORY } from "../users/ports/user-repository.interface";
 import { UsersModule } from "../users/users.module";
-import { InMemoryUserRolesRepository } from "./adapters/in-memory-user-roles-repository";
 import { JwtService } from "./adapters/jwt-service";
+import { PostgresUserRolesRepository } from "./adapters/postgres/postgres-user-roles-repository";
 import { AuthGuard } from "./auth.guard";
 import { SignInCommandHandler } from "./command/sign-in";
 import { AuthController } from "./controllers/auth.controller";
@@ -35,7 +35,7 @@ import { I_USER_ROLES_REPOSITORY } from "./ports/user-roles-repository.interface
     },
     {
       provide: I_USER_ROLES_REPOSITORY,
-      useFactory: () => new InMemoryUserRolesRepository(),
+      useClass: PostgresUserRolesRepository,
     },
     {
       provide: APP_GUARD,
