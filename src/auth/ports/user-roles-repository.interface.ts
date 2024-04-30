@@ -12,4 +12,6 @@ export interface IUserRolesRepository {
 
   deleteRoleByUserId(userId: string, role: RoleEnum): Promise<void>;
   deleteRolesByUserId(userId: string): Promise<void>;
+
+  deleteAll(): Promise<void>;
 }

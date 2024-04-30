@@ -1,9 +1,9 @@
-import { UserRoles } from "../entities/user-roles.entity";
-import { IUserRolesRepository } from "../ports/user-roles-repository.interface";
-import { RoleEnum } from "../roles.decorator";
+import { UserRoles } from "../../entities/user-roles.entity";
+import { IUserRolesRepository } from "../../ports/user-roles-repository.interface";
+import { RoleEnum } from "../../roles.decorator";
 
 export class InMemoryUserRolesRepository implements IUserRolesRepository {
-  constructor(public readonly usersRoles: UserRoles[] = []) {}
+  constructor(public usersRoles: UserRoles[] = []) {}
 
   async findOne(userId: string): Promise<UserRoles | null> {
     return (
@@ -69,5 +69,9 @@ export class InMemoryUserRolesRepository implements IUserRolesRepository {
     }
 
     this.usersRoles.splice(userRolesIndex, 1);
+  }
+
+  async deleteAll(): Promise<void> {
+    this.usersRoles = [];
   }
 }
