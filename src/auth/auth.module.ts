@@ -3,11 +3,13 @@ import { ConfigModule } from "@nestjs/config";
 import { APP_GUARD, Reflector } from "@nestjs/core";
 import { CqrsModule } from "@nestjs/cqrs";
 import { JwtModule } from "@nestjs/jwt";
+import { TypeOrmModule } from "@nestjs/typeorm";
 import { CommonModule } from "../core/common.module";
 import { I_SECURITY } from "../core/ports/security.interface";
 import { I_USER_REPOSITORY } from "../users/ports/user-repository.interface";
 import { UsersModule } from "../users/users.module";
 import { JwtService } from "./adapters/jwt-service";
+import { PostgresUserRole } from "./adapters/postgres/postgres-user-roles";
 import { PostgresUserRolesRepository } from "./adapters/postgres/postgres-user-roles-repository";
 import { AuthGuard } from "./auth.guard";
 import { SignInCommandHandler } from "./command/sign-in";
@@ -21,6 +23,7 @@ import { I_USER_ROLES_REPOSITORY } from "./ports/user-roles-repository.interface
     CommonModule,
     CqrsModule,
     UsersModule,
+    TypeOrmModule.forFeature([PostgresUserRole]),
     JwtModule.register({
       global: true,
       secret: process.env.JWT_SECRET,

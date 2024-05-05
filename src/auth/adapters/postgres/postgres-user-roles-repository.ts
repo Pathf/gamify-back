@@ -18,15 +18,19 @@ export class PostgresUserRolesRepository implements IUserRolesRepository {
 
   async findOne(userId: string): Promise<UserRoles | null> {
     const postgresUserRoles = await this.userRolesRepository.findBy({ userId });
-    return postgresUserRoles ? this.mapper.toDomain(postgresUserRoles) : null;
+
+    if (!postgresUserRoles || postgresUserRoles.length === 0) {
+      return null;
+    }
+    return this.mapper.toDomain(postgresUserRoles);
   }
 
   async isAdmin(userId: string): Promise<boolean> {
-    const postgresUserRoles = await this.userRolesRepository.findBy({ userId });
-    if (!postgresUserRoles) {
-      return false;
-    }
-    return postgresUserRoles.map((ur) => ur.role).includes(RoleEnum.ADMIN);
+    const roleAdmin = await this.userRolesRepository.findOneBy({
+      userId,
+      role: RoleEnum.ADMIN,
+    });
+    return !!roleAdmin;
   }
 
   async addRoleToUser(userId: string, role: RoleEnum): Promise<void> {

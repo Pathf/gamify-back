@@ -6,6 +6,7 @@ import { UsersModule } from "../users/users.module";
 import { AppController } from "./app.controller";
 
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { PostgresUserRole } from "../auth/adapters/postgres/postgres-user-roles";
 import { PostgresChainedDraw } from "../draws/adapters/postgres/chained-draw/postgres-chained-draw";
 import { PostgresCondition } from "../draws/adapters/postgres/condition/postgres-condition";
 import { PostgresDraw } from "../draws/adapters/postgres/draw/postgres-draw";
@@ -21,6 +22,7 @@ export const postgreEntities = [
   PostgresParticipation,
   PostgresCondition,
   PostgresChainedDraw,
+  PostgresUserRole,
 ];
 
 @Module({
