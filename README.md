@@ -1,7 +1,4 @@
 <h1 align="center">GAMIFY BACK<h1>
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
 
 ## Description
 
@@ -40,10 +37,6 @@ $ pnpm run lf
 or
 $ pnpm run fl
 ```
-
-## Stay in touch
-
-- Author - [Valentin Hénique](https://www.linkedin.com/in/valentin-henique-2236a6178/)
 
 ## License
 
