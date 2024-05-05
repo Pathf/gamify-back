@@ -95,6 +95,27 @@ window.onload = function() {
           "tags": [
             "users"
           ]
+        },
+        "delete": {
+          "operationId": "UserController_handleDeleteAccount",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "users"
+          ]
         }
       },
       "/users": {
@@ -117,18 +138,6 @@ window.onload = function() {
           "parameters": [],
           "responses": {
             "201": {
-              "description": ""
-            }
-          },
-          "tags": [
-            "users"
-          ]
-        },
-        "delete": {
-          "operationId": "UserController_handleDeleteAccount",
-          "parameters": [],
-          "responses": {
-            "200": {
               "description": ""
             }
           },
@@ -166,6 +175,29 @@ window.onload = function() {
       "/draw/{id}/run": {
         "get": {
           "operationId": "DrawController_handleRunDraw",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "draws"
+          ]
+        }
+      },
+      "/draw/{id}/close": {
+        "get": {
+          "operationId": "DrawController_handleCloseDraw",
           "parameters": [
             {
               "name": "id",
@@ -329,6 +361,29 @@ window.onload = function() {
                 "type": "string"
               }
             },
+            {
+              "name": "participantId",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "draws"
+          ]
+        }
+      },
+      "/draws/participant/{participantId}/result": {
+        "get": {
+          "operationId": "ChainedDrawController_handleGetChainedDrawsByIdParticipant",
+          "parameters": [
             {
               "name": "participantId",
               "required": true,
