@@ -1,4 +1,4 @@
-import { DomainError } from "../../shared/domaine.error";
+import { DomainError } from "../../shared/domain.error";
 
 export class NotAllowedDeleteAccountError extends DomainError {
   constructor() {
