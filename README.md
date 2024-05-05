@@ -1,4 +1,4 @@
-<h1 align="center">GAMIFY BACK<h1>
+GAMIFY BACK
 
 ## Description
 
