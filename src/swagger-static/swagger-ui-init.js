@@ -53,6 +53,34 @@ window.onload = function() {
           ]
         }
       },
+      "/auth/google": {
+        "get": {
+          "operationId": "AuthController_googleAuth",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "auth"
+          ]
+        }
+      },
+      "/auth/google/redirect": {
+        "get": {
+          "operationId": "AuthController_googleAuthRedirect",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "auth"
+          ]
+        }
+      },
       "/user/{id}": {
         "get": {
           "operationId": "UserController_handleGetUserById",

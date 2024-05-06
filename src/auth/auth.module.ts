@@ -12,8 +12,10 @@ import { JwtService } from "./adapters/jwt-service";
 import { PostgresUserRole } from "./adapters/postgres/postgres-user-roles";
 import { PostgresUserRolesRepository } from "./adapters/postgres/postgres-user-roles-repository";
 import { AuthGuard } from "./auth.guard";
+import { GoogleSignInCommandHandler } from "./command/google-sign-in";
 import { SignInCommandHandler } from "./command/sign-in";
 import { AuthController } from "./controllers/auth.controller";
+import { GoogleStrategy } from "./guards-strategy/google.strategy";
 import { I_JWT_SERVICE } from "./ports/jwt-service.interface";
 import { I_USER_ROLES_REPOSITORY } from "./ports/user-roles-repository.interface";
 
@@ -40,6 +42,7 @@ import { I_USER_ROLES_REPOSITORY } from "./ports/user-roles-repository.interface
       provide: I_USER_ROLES_REPOSITORY,
       useClass: PostgresUserRolesRepository,
     },
+    GoogleStrategy,
     {
       provide: APP_GUARD,
       inject: [
@@ -66,6 +69,13 @@ import { I_USER_ROLES_REPOSITORY } from "./ports/user-roles-repository.interface
           jwtService,
           securityService,
         );
+      },
+    },
+    {
+      provide: GoogleSignInCommandHandler,
+      inject: [I_USER_REPOSITORY, I_JWT_SERVICE],
+      useFactory: (userRepository, jwtService) => {
+        return new GoogleSignInCommandHandler(userRepository, jwtService);
       },
     },
   ],
