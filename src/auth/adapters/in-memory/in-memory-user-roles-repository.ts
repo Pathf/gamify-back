@@ -1,6 +1,6 @@
+import { RoleEnum } from "../../decorators/roles.decorator";
 import { UserRoles } from "../../entities/user-roles.entity";
 import { IUserRolesRepository } from "../../ports/user-roles-repository.interface";
-import { RoleEnum } from "../../roles.decorator";
 
 export class InMemoryUserRolesRepository implements IUserRolesRepository {
   constructor(public usersRoles: UserRoles[] = []) {}

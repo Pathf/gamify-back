@@ -9,7 +9,7 @@ import {
 } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import { ApiTags } from "@nestjs/swagger";
-import { Public } from "../../auth/public.decorator";
+import { Public } from "../../auth/decorators/public.decorator";
 import { ZodValidationPipe } from "../../core/pipes/zod-validation.pipe";
 import { DeleteAccountCommand } from "../commands/delete-account";
 import { RegisterUserCommand } from "../commands/register-user";

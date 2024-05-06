@@ -1,6 +1,6 @@
 import { testUsers } from "../../users/tests/user-seeds";
+import { RoleEnum } from "../decorators/roles.decorator";
 import { UserRoles } from "../entities/user-roles.entity";
-import { RoleEnum } from "../roles.decorator";
 
 export const testUserRoles = {
   alice: new UserRoles({

@@ -1,5 +1,5 @@
+import { RoleEnum } from "../../decorators/roles.decorator";
 import { UserRoles } from "../../entities/user-roles.entity";
-import { RoleEnum } from "../../roles.decorator";
 import { PostgresUserRole } from "./postgres-user-roles";
 
 export class UserRolesMapper {

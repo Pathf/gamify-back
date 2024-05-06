@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
+import { RoleEnum } from "../../decorators/roles.decorator";
 import { UserRoles } from "../../entities/user-roles.entity";
 import { IUserRolesRepository } from "../../ports/user-roles-repository.interface";
-import { RoleEnum } from "../../roles.decorator";
 import { PostgresUserRole } from "./postgres-user-roles";
 import { UserRolesMapper } from "./postgres-user-roles.mapper";
 

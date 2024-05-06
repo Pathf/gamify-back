@@ -1,6 +1,6 @@
 import { ExecutionContext } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
-import { UserRoles } from "./entities/user-roles.entity";
+import { UserRoles } from "../entities/user-roles.entity";
 
 export const Roles = Reflector.createDecorator<RoleEnum[]>();
 

@@ -1,5 +1,5 @@
+import { RoleEnum } from "../decorators/roles.decorator";
 import { UserRoles } from "../entities/user-roles.entity";
-import { RoleEnum } from "../roles.decorator";
 
 export const I_USER_ROLES_REPOSITORY = "I_USER_ROLES_REPOSITORY";
 

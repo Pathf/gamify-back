@@ -26,7 +26,6 @@ export namespace AuthAPI {
     export class SwaggerResponse {
       @ApiProperty()
       access_token: string;
-
       @ApiProperty()
       id: string;
       @ApiProperty()

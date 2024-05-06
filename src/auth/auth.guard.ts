@@ -6,10 +6,10 @@ import {
 import { Reflector } from "@nestjs/core";
 import { UserNotFoundError } from "../users/errors/user-not-found.error";
 import { IUserRepository } from "../users/ports/user-repository.interface";
+import { contextIsPublic } from "./decorators/public.decorator";
+import { contextCorrespondingAtUserRoles } from "./decorators/roles.decorator";
 import { IJwtService } from "./ports/jwt-service.interface";
 import { IUserRolesRepository } from "./ports/user-roles-repository.interface";
-import { contextIsPublic } from "./public.decorator";
-import { contextCorrespondingAtUserRoles } from "./roles.decorator";
 import { Scheme, extractToken } from "./utils/extract-token";
 
 export class AuthGuard implements CanActivate {

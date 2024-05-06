@@ -1,5 +1,5 @@
 import { Entity } from "../../shared/entity.abstract";
-import { RoleEnum } from "../roles.decorator";
+import { RoleEnum } from "../decorators/roles.decorator";
 
 type UserRolesProps = {
   userId: string;

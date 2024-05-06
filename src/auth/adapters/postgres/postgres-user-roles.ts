@@ -1,5 +1,5 @@
 import { Entity, PrimaryColumn } from "typeorm";
-import { RoleEnum } from "../../roles.decorator";
+import { RoleEnum } from "../../decorators/roles.decorator";
 
 @Entity()
 export class PostgresUserRole {
