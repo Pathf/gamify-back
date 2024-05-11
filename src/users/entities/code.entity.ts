@@ -6,4 +6,8 @@ type CodeProps = {
   code: string;
 };
 
-export class Code extends Entity<CodeProps> {}
+export class Code extends Entity<CodeProps> {
+  isSame(code: string): boolean {
+    return this.props.code === code;
+  }
+}

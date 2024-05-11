@@ -55,7 +55,7 @@ window.onload = function() {
       },
       "/auth/google": {
         "get": {
-          "operationId": "AuthController_googleAuth",
+          "operationId": "GoogleAuthController_handleAuth",
           "parameters": [],
           "responses": {
             "200": {
@@ -69,7 +69,35 @@ window.onload = function() {
       },
       "/auth/google/redirect": {
         "get": {
-          "operationId": "AuthController_googleAuthRedirect",
+          "operationId": "GoogleAuthController_handleAuthRedirect",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "auth"
+          ]
+        }
+      },
+      "/auth/google/register": {
+        "get": {
+          "operationId": "GoogleAuthController_handleRegister",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "auth"
+          ]
+        }
+      },
+      "/auth/google/register/redirect": {
+        "get": {
+          "operationId": "GoogleAuthController_handleRegisterRedirect",
           "parameters": [],
           "responses": {
             "200": {

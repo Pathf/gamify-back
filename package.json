@@ -1,6 +1,6 @@
 {
   "name": "gamify-backend",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "author": "Pathf",
   "private": true,
@@ -12,6 +12,8 @@
     "fl": "pnpm format && pnpm lint",
     "lf": "pnpm lint && pnpm format",
     "start": "nest start",
+    "docker": "docker-compose -f src/tests/setup/docker-compose.yml up -d",
+    "start:docker": "pnpm docker && pnpm start",
     "dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",

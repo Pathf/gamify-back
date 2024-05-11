@@ -1,16 +1,17 @@
 import { PassportStrategy } from "@nestjs/passport";
 import { Profile, Strategy, VerifyCallback } from "passport-google-oauth20";
 
-import { Injectable } from "@nestjs/common";
-import { GoogleUserDto } from "../dto/google-user.dto";
+import { GoogleUserDto } from "../../dto/google-user.dto";
 
-@Injectable()
-export class GoogleStrategy extends PassportStrategy(Strategy, "google") {
+export class GoogleRegisterStrategy extends PassportStrategy(
+  Strategy,
+  "googleRegister",
+) {
   constructor() {
     super({
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_SECRET,
-      callbackURL: process.env.GOOGLE_REDIRECT_URL,
+      callbackURL: process.env.GOOGLE_REGISTER_REDIRECT_URL,
       scope: ["email", "profile"],
     });
   }
