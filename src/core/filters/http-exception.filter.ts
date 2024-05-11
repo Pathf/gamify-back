@@ -18,6 +18,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const httpStatus = this.buildHttpStatus(exception);
     const message = this.buildMessage(exception);
 
+    console.error(exception);
+
     const responseBody = {
       statusCode: httpStatus,
       message: message,

@@ -12,13 +12,7 @@ export class InMemoryChainedDrawRepository implements IChainedDrawRepository {
     drawId: string,
     donorId: string,
   ): Promise<ChainedDraw | null> {
-    return (
-      this.chainedDraws.find(
-        (chainedDraw) =>
-          chainedDraw.props.donorId === donorId &&
-          chainedDraw.props.drawId === drawId,
-      ) || null
-    );
+    return this.findByDonorIdSync(drawId, donorId);
   }
 
   async findRunDrawDate(drawId: string): Promise<Date | null> {
@@ -47,6 +41,12 @@ export class InMemoryChainedDrawRepository implements IChainedDrawRepository {
     this.chainedDraws.push(chainedDraw);
   }
 
+  async deleteAllByDrawId(drawId: string): Promise<void> {
+    this.chainedDraws = this.chainedDraws.filter(
+      (chainedDraw) => chainedDraw.props.drawId !== drawId,
+    );
+  }
+
   async deleteAll(): Promise<void> {
     this.chainedDraws = [];
   }
@@ -55,6 +55,16 @@ export class InMemoryChainedDrawRepository implements IChainedDrawRepository {
   findByDrawIdSync(drawId: string): ChainedDraw[] {
     return this.chainedDraws.filter(
       (chainedDraw) => chainedDraw.props.drawId === drawId,
+    );
+  }
+
+  findByDonorIdSync(drawId: string, donorId: string): ChainedDraw | null {
+    return (
+      this.chainedDraws.find(
+        (chainedDraw) =>
+          chainedDraw.props.donorId === donorId &&
+          chainedDraw.props.drawId === drawId,
+      ) || null
     );
   }
 }

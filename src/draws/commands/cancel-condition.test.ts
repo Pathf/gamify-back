@@ -7,6 +7,13 @@ import { testDraws } from "../tests/draw-seeds";
 import { CancelConditionCommandHandler } from "./cancel-condition";
 
 describe("Feature: Canceling a condition", () => {
+  function expectConditionIsNotCancel() {
+    const condition = conditionRepository.findByIdSync(
+      testConditions.aliceToBobInSecretSanta.props.id,
+    );
+    expect(condition).toEqual(testConditions.aliceToBobInSecretSanta);
+  }
+
   let userRepository: InMemoryUserRepository;
   let conditionRepository: InMemoryConditionRepository;
   let drawRepository: InMemoryDrawRepository;
@@ -58,10 +65,7 @@ describe("Feature: Canceling a condition", () => {
         "Condition does not exist",
       );
 
-      const condition = conditionRepository.findByIdSync(
-        testConditions.aliceToBobInSecretSanta.props.id,
-      );
-      expect(condition).toEqual(testConditions.aliceToBobInSecretSanta);
+      expectConditionIsNotCancel();
     });
   });
 
@@ -77,10 +81,7 @@ describe("Feature: Canceling a condition", () => {
         "Organizer does not exist",
       );
 
-      const condition = conditionRepository.findByIdSync(
-        testConditions.aliceToBobInSecretSanta.props.id,
-      );
-      expect(condition).toEqual(testConditions.aliceToBobInSecretSanta);
+      expectConditionIsNotCancel();
     });
   });
 
@@ -96,10 +97,7 @@ describe("Feature: Canceling a condition", () => {
         "Draw not found",
       );
 
-      const condition = conditionRepository.findByIdSync(
-        testConditions.aliceToBobInSecretSanta.props.id,
-      );
-      expect(condition).toEqual(testConditions.aliceToBobInSecretSanta);
+      expectConditionIsNotCancel();
     });
   });
 
@@ -115,10 +113,7 @@ describe("Feature: Canceling a condition", () => {
         "Only organizer can cancel condition",
       );
 
-      const condition = conditionRepository.findByIdSync(
-        testConditions.aliceToBobInSecretSanta.props.id,
-      );
-      expect(condition).toEqual(testConditions.aliceToBobInSecretSanta);
+      expectConditionIsNotCancel();
     });
   });
 });

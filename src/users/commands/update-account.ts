@@ -35,15 +35,9 @@ export class UpdateAccountCommandHandler
     password,
     name,
   }: UpdateAccountCommand): Promise<Response> {
-    const userAtUpdate = await this.userRepository.findOne(userId);
+    const userAtUpdate = await this.assertUserExists(userId);
 
-    if (!userAtUpdate) {
-      throw new UserNotFoundError();
-    }
-
-    if (user.isSameUser(userId) === false) {
-      throw new NotAllowedUpdateUserError();
-    }
+    this.assertUserIsSameUser(userId, user);
 
     userAtUpdate.update({
       emailAddress,
@@ -52,5 +46,21 @@ export class UpdateAccountCommandHandler
     });
 
     await this.userRepository.update(userAtUpdate);
+  }
+
+  private async assertUserExists(userId: string): Promise<User> {
+    const user = await this.userRepository.findOne(userId);
+
+    if (!user) {
+      throw new UserNotFoundError();
+    }
+
+    return user;
+  }
+
+  private assertUserIsSameUser(userIdAtUpdate: string, user: User) {
+    if (!user.isSameUser(userIdAtUpdate)) {
+      throw new NotAllowedUpdateUserError();
+    }
   }
 }

@@ -89,6 +89,7 @@ import { GetDrawsQueryHandler } from "./queries/get-draws";
         I_USER_REPOSITORY,
         I_PARTICIPATION_REPOSITORY,
         I_CONDITION_REPOSITORY,
+        I_CHAINED_DRAW_REPOSITORY,
         I_MAILER,
       ],
       useFactory: (
@@ -96,6 +97,7 @@ import { GetDrawsQueryHandler } from "./queries/get-draws";
         userRepository,
         participationRepository,
         conditionRepository,
+        chainedDrawRepository,
         mailer,
       ) =>
         new CancelDrawCommandHandler(
@@ -103,6 +105,7 @@ import { GetDrawsQueryHandler } from "./queries/get-draws";
           userRepository,
           participationRepository,
           conditionRepository,
+          chainedDrawRepository,
           mailer,
         ),
     },

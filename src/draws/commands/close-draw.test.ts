@@ -10,7 +10,7 @@ describe("Feature: closing draw", () => {
   let drawRepository: InMemoryDrawRepository;
   let useCase: CloseDrawCommandHandler;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     drawRepository = new InMemoryDrawRepository([
       Object.create(testDraws.secretSanta),
       Object.create(testDraws.tombola),

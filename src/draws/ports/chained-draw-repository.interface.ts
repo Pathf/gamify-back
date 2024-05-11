@@ -11,5 +11,6 @@ export interface IChainedDrawRepository {
 
   create(chainedDraw: ChainedDraw): Promise<void>;
 
+  deleteAllByDrawId(drawId: string): Promise<void>;
   deleteAll(): Promise<void>;
 }

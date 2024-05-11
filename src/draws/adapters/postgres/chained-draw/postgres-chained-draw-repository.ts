@@ -62,6 +62,10 @@ export class PostgresChainedDrawRepository implements IChainedDrawRepository {
     await this.chainedDrawRepository.save(postgresChainedDraw);
   }
 
+  async deleteAllByDrawId(drawId: string): Promise<void> {
+    await this.chainedDrawRepository.delete({ drawId });
+  }
+
   async deleteAll(): Promise<void> {
     await this.chainedDrawRepository.clear();
   }

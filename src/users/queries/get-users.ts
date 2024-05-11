@@ -12,6 +12,7 @@ export class GetUsersQueryHandler
 
   async execute(): Promise<UsersDTO> {
     const users = await this.userRepository.findAll();
+
     return users.map((user) => ({
       id: user.props.id,
       email: user.props.emailAddress,

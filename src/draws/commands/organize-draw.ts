@@ -25,20 +25,32 @@ export class OrganizeDrawCommandHandler
     private readonly idGenerator: IIDGenerator,
   ) {}
 
-  public async execute(command: OrganizeDrawCommand): Promise<void> {
-    const organizer = await this.userRepository.findOne(command.organizerId);
+  public async execute({
+    title,
+    organizerId,
+    year,
+  }: OrganizeDrawCommand): Promise<void> {
+    await this.assertOrganizerExists(organizerId);
+
+    await this.createDraw(title, organizerId, year);
+  }
+
+  private async assertOrganizerExists(organizerId: string) {
+    const organizer = await this.userRepository.findOne(organizerId);
 
     if (!organizer) {
       throw new UserNotFoundError();
     }
+  }
 
+  private async createDraw(title: string, organizerId: string, year: number) {
     const id = this.idGenerator.generate();
 
     const draw = new Draw({
       id,
-      title: command.title,
-      organizerId: command.organizerId,
-      year: command.year,
+      title,
+      organizerId,
+      year,
       isFinish: false,
     });
 

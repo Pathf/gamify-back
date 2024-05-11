@@ -1,9 +1,11 @@
 import { InMemoryMailer } from "../../core/adapters/in-memory/in-memory-mailer";
 import { InMemoryUserRepository } from "../../users/adapters/in-memory/in-memory-user-repository";
 import { testUsers } from "../../users/tests/user-seeds";
+import { InMemoryChainedDrawRepository } from "../adapters/in-memory/in-memory-chained-draw-repository";
 import { InMemoryConditionRepository } from "../adapters/in-memory/in-memory-condition-repository";
 import { InMemoryDrawRepository } from "../adapters/in-memory/in-memory-draw-repository";
 import { InMemoryParticipationRepository } from "../adapters/in-memory/in-memory-participation-repository";
+import { testChainedDraws } from "../tests/chained-draw-seeds";
 import { testConditions } from "../tests/condition-seeds";
 import { testDraws } from "../tests/draw-seeds";
 import { testParticipations } from "../tests/participation-seeds";
@@ -42,6 +44,22 @@ describe("Feature: Canceling a draw", () => {
     expect(conditions).toHaveLength(1);
   }
 
+  function expectChainedDrawToBeDeleted() {
+    const chainedDraw = chainedDrawRepository.findByDonorIdSync(
+      testChainedDraws.aliceToBobSecretSanta.props.drawId,
+      testChainedDraws.aliceToBobSecretSanta.props.donorId,
+    );
+    expect(chainedDraw).toBeNull();
+  }
+
+  function expectChainedDrawToBeNotDeleted() {
+    const chainedDraw = chainedDrawRepository.findByDonorIdSync(
+      testChainedDraws.aliceToBobSecretSanta.props.drawId,
+      testChainedDraws.aliceToBobSecretSanta.props.donorId,
+    );
+    expect(chainedDraw).toBeDefined();
+  }
+
   const drawId = testDraws.secretSanta.props.id;
 
   let useCase: CancelDrawCommandHandler;
@@ -49,6 +67,7 @@ describe("Feature: Canceling a draw", () => {
   let userRepository: InMemoryUserRepository;
   let participationRepository: InMemoryParticipationRepository;
   let conditionRepository: InMemoryConditionRepository;
+  let chainedDrawRepository: InMemoryChainedDrawRepository;
   let mailer: InMemoryMailer;
 
   beforeEach(async () => {
@@ -63,6 +82,9 @@ describe("Feature: Canceling a draw", () => {
     conditionRepository = new InMemoryConditionRepository([
       testConditions.aliceToBobInSecretSanta,
     ]);
+    chainedDrawRepository = new InMemoryChainedDrawRepository([
+      testChainedDraws.aliceToBobSecretSanta,
+    ]);
     mailer = new InMemoryMailer([]);
 
     useCase = new CancelDrawCommandHandler(
@@ -70,6 +92,7 @@ describe("Feature: Canceling a draw", () => {
       userRepository,
       participationRepository,
       conditionRepository,
+      chainedDrawRepository,
       mailer,
     );
   });
@@ -86,6 +109,7 @@ describe("Feature: Canceling a draw", () => {
       expectDrawToBeDeleted();
       expectParticipationToBeDeleted();
       expectConditionToBeDeleted();
+      expectChainedDrawToBeDeleted();
     });
 
     it("should sent emails at participants", async () => {
@@ -114,6 +138,7 @@ describe("Feature: Canceling a draw", () => {
       expectDrawToBeNotDeleted();
       expectParticipationToBeNotDeleted();
       expectConditionToBeNotDeleted();
+      expectChainedDrawToBeNotDeleted();
       expect(mailer.sentEmails).toHaveLength(0);
     });
   });
@@ -132,6 +157,7 @@ describe("Feature: Canceling a draw", () => {
       expectDrawToBeNotDeleted();
       expectParticipationToBeNotDeleted();
       expectConditionToBeNotDeleted();
+      expectChainedDrawToBeNotDeleted();
       expect(mailer.sentEmails).toHaveLength(0);
     });
   });

@@ -54,7 +54,7 @@ export class RegisterConditionCommandHandler
     this.assertUserIsOrganizer(draw, user);
     await this.assertDonorExist(donorId);
     await this.assertDonorParticipationInDrawExist(drawId, donorId);
-    await this.assertRecieverExist(command.receiverId);
+    await this.assertRecieverExist(receiverId);
     await this.assertRecieverParticipationInDrawExist(drawId, receiverId);
 
     const condition = new Condition({

@@ -75,18 +75,10 @@ export class RunDrawCommandHandler
       });
 
       chainedDraws.push(chainedDraw);
-      mails.push({
-        to: donor.props.emailAddress,
-        subject: "Secret Santa Draw",
-        body: `You are the Secret Santa of ${receiver.props.name}`,
-      });
+      this.addMailForParticipant(mails, donor, receiver);
     }
 
-    mails.push({
-      to: user.props.emailAddress,
-      subject: "Secret Santa Draw",
-      body: "The Secret Santa draw has been completed",
-    });
+    this.addMailForOrganizer(mails, user);
 
     await this.createChainedDraws(chainedDraws);
     await this.sendEmails(mails);
@@ -145,6 +137,22 @@ export class RunDrawCommandHandler
     if (permutations.length - correspondingCount <= 0) {
       throw new RunDrawWithActualConditionsIsImpossibleError();
     }
+  }
+
+  private addMailForParticipant(mails: Email[], donor: User, receiver: User) {
+    mails.push({
+      to: donor.props.emailAddress,
+      subject: "Secret Santa Draw",
+      body: `You are the Secret Santa of ${receiver.props.name}`,
+    });
+  }
+
+  private addMailForOrganizer(mails: Email[], organizer: User) {
+    mails.push({
+      to: organizer.props.emailAddress,
+      subject: "Secret Santa Draw",
+      body: "The Secret Santa draw has been completed",
+    });
   }
 
   private async createChainedDraws(chainedDraws: ChainedDraw[]) {
