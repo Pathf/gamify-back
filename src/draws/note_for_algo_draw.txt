@@ -1,0 +1,108 @@
+A B
+- a > b
+
+1 = 1
+
+ABC
+- a > b > c
+- a > c > b
+
+2*1 = 2
+
+ABCD
+- a > b > c > d
+- a > b > d > c
+- a > c > b > d
+- a > c > d > b
+- a > d > c > b
+- a > d > b > c
+
+- a > b, c > d
+- a > c, b > d
+- a > d, c > b
+
+3*2*1 = 6
+
+B donne a C 2 fois
+
+ABCDE
+- a > b > c > d > e
+- a > b > c > e > d
+- a > b > d > c > e
+- a > b > d > e > c
+- a > b > e > c > d - 5
+- a > b > e > d > c
+- a > c > b > d > e
+- a > c > b > e > d
+- a > c > d > b > e
+- a > c > d > e > b - 10
+- a > c > e > b > d
+- a > c > e > d > b
+- a > d > b > c > e
+- a > d > b > e > c
+- a > d > c > b > e - 15
+- a > d > c > e > b
+- a > d > e > b > c
+- a > d > e > c > b
+- a > e > b > c > d
+- a > e > b > d > c - 20
+- a > e > c > b > d
+- a > e > c > d > b
+- a > e > d > b > c
+- a > e > d > c > b - 24
+
+B donne a C 6 fois
+
+nombre de participant -1 = n
+n*n-1*...*1
+5 - 1 = 4
+4*3*2*1 = 24
+
+- a > b, c > d > e
+- a > b, c > e > d
+- a > c, b > d > e
+- a > c, b > e > d
+- a > d, b > c > e - 5
+- a > d, b > e > c
+- a > e, b > c > d
+- a > e, b > d > c - total a 8
+(nombre participant - 1) * calcul chaine2
+4 * 2*1 =8
+
+- b > c, a > d > e
+- b > c, a > e > d - 10
+- b > d, a > c > e
+- b > d, a > e > c
+- b > e, a > c > d
+- b > e, a > d > c - total b 6
+
+3 * 2*1 = 6
+
+- c > d, a > b > e - 15
+- c > d, a > e > b
+- c > e, a > b > d
+- c > e, a > d > b - total c 4
+
+2 * 2*1 = 4
+
+- d > e, a > b > c
+- d > e, a > c > b - 20 total d 2
+
+1* 2*1 = 2
+
+(n-1)*chaine2 + (n-2)*chaine 2 + ... + 1 * chaine2
+
+si decompo
+calcul chaine 1 + calcul chaine 2
+5*1 + 5*2
+
+Nombre participant % 2 = 0
+alors posibilité d'ilot sans chaine
+
+Nombre participant % 2 = 1
+au moins 1 chaine + (Nombre participant - 3) ilots
+
+
+chained draw
+nombre de participant = n
+n-1*n-2*...*1 = total des chaines possible
