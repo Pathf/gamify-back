@@ -36,7 +36,6 @@ export class UpdateAccountCommandHandler
     name,
   }: UpdateAccountCommand): Promise<Response> {
     const userAtUpdate = await this.assertUserExists(userId);
-
     this.assertUserIsSameUser(userId, user);
 
     userAtUpdate.update({

@@ -2,39 +2,39 @@ import { User } from "../../entities/user.entity";
 import { IUserRepository } from "../../ports/user-repository.interface";
 
 export class InMemoryUserRepository implements IUserRepository {
-  constructor(public readonly database: User[] = []) {}
+  constructor(public readonly users: User[] = []) {}
 
   async findOne(id: string): Promise<User | null> {
     return this.findOneSync(id);
   }
 
   async findByIds(ids: string[]): Promise<User[]> {
-    return this.database.filter((userDb) => ids.includes(userDb.props.id));
+    return this.users.filter((userDb) => ids.includes(userDb.props.id));
   }
 
   async findByEmailAddress(emailAddress: string): Promise<User | null> {
-    const user = this.database.find(
+    const user = this.users.find(
       (userDb) => userDb.props.emailAddress === emailAddress,
     );
     return user ?? null;
   }
 
   async findAll(): Promise<User[]> {
-    return this.database;
+    return this.users;
   }
 
   async createUser(user: User): Promise<void> {
-    this.database.push(user);
+    this.users.push(user);
   }
 
   async update(user: User): Promise<void> {
-    const index = this.database.findIndex((u) => u.props.id === user.props.id);
-    this.database[index] = user;
+    const index = this.users.findIndex((u) => u.props.id === user.props.id);
+    this.users[index] = user;
     user.commit();
   }
 
   async delete(user: User): Promise<void> {
-    const userIndex = this.database.findIndex(
+    const userIndex = this.users.findIndex(
       (userDb) => userDb.props.id === user.props.id,
     );
 
@@ -42,16 +42,16 @@ export class InMemoryUserRepository implements IUserRepository {
       return;
     }
 
-    this.database.splice(userIndex, 1);
+    this.users.splice(userIndex, 1);
   }
 
   async deleteAll(): Promise<void> {
-    this.database.length = 0;
+    this.users.length = 0;
   }
 
   // Just for testing purposes
   findOneSync(id: string): User | null {
-    const user = this.database.find((userDb) => userDb.props.id === id);
+    const user = this.users.find((userDb) => userDb.props.id === id);
     return user ?? null;
   }
 }

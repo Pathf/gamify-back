@@ -1,6 +1,6 @@
 {
   "name": "gamify-backend",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "It is a backend used to execute actions or manage data. This is for my friends and me.",
   "author": "Pathf",
   "private": true,

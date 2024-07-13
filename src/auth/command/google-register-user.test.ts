@@ -68,7 +68,7 @@ describe("Feature: Google Register User", () => {
         "User already exists",
       );
 
-      expect(userRepository.database).toHaveLength(1);
+      expect(userRepository.users).toHaveLength(1);
       expect(mailer.sentEmails).toHaveLength(0);
     });
   });
