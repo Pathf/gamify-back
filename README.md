@@ -4,8 +4,38 @@ It is a backend used to execute actions or manage data. This is for my friends a
 
 ## Installation
 
+Consider intalling docker (docker desktop for windows).
+
 ```bash
 $ pnpm install
+```
+
+Create a ".env" file at the root with this data for the local testing (**Do not put production data for local testing**) :
+
+```bash
+ENVIRONEMENT="LOCAL"
+
+# MAILER
+RESEND_MAILER_KEY="key"
+
+# SWAGGER
+SWAGGER_PASSWORD="password"
+
+# BDD
+POSTGRES_HOST="localhost"
+DB_PORT=5432
+POSTGRES_USER="postgres"
+POSTGRES_PASSWORD="password"
+POSTGRES_DATABASE="POSTGRES_DB"
+
+# AUTH
+JWT_SECRET="secret"
+
+# GOOGLE
+GOOGLE_REGISTER_REDIRECT_URL="..."
+GOOGLE_CLIENT_ID="..."
+GOOGLE_SECRET="..."
+GOOGLE_REDIRECT_URL="..."
 ```
 
 ## Running the app
