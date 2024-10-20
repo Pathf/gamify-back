@@ -14,7 +14,6 @@ import { PostgresParticipation } from "../draws/adapters/postgres/participation/
 import { PostgresCode } from "../users/adapters/postgres/postgres-code";
 import { PostgresUser } from "../users/adapters/postgres/postgres-user";
 import { CommonModule } from "./common.module";
-import { DiscordModule } from "../discord/discord.module";
 
 export const postgreEntities = [
   PostgresUser,
@@ -46,7 +45,6 @@ export const postgreEntities = [
     AuthModule,
     UsersModule,
     DrawsModule,
-    DiscordModule,
   ],
   controllers: [AppController],
   providers: [],
