@@ -14,6 +14,7 @@ import { PostgresParticipation } from "../draws/adapters/postgres/participation/
 import { PostgresCode } from "../users/adapters/postgres/postgres-code";
 import { PostgresUser } from "../users/adapters/postgres/postgres-user";
 import { CommonModule } from "./common.module";
+import { DiscordModule } from "../discord/discord.module";
 
 export const postgreEntities = [
   PostgresUser,
@@ -29,22 +30,23 @@ export const postgreEntities = [
   imports: [
     TypeOrmModule.forRoot({
       type: "postgres",
-      host: process.env.POSTGRES_HOST,
+      host: process.env.POSTGRES_HOST_2,
       port: +(process.env.DB_PORT ?? 5342),
-      username: process.env.POSTGRES_USER,
-      password: process.env.POSTGRES_PASSWORD,
-      database: process.env.POSTGRES_DATABASE,
+      username: process.env.POSTGRES_USER_2,
+      password: process.env.POSTGRES_PASSWORD_2,
+      database: process.env.POSTGRES_DATABASE_2,
       entities: postgreEntities,
       synchronize: true,
-      ssl:
+      /*ssl:
         process.env.ENVIRONEMENT === "PRODUCTION"
           ? { rejectUnauthorized: false }
-          : false,
+          : false,*/
     }),
     CommonModule,
     AuthModule,
     UsersModule,
     DrawsModule,
+    DiscordModule,
   ],
   controllers: [AppController],
   providers: [],
