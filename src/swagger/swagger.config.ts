@@ -2,7 +2,7 @@ import { createWriteStream } from "node:fs";
 import { get } from "node:http";
 import { INestApplication } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-import expressBasicAuth from "express-basic-auth";
+import * as expressBasicAuth from "express-basic-auth";
 
 export const SWAGGER_PATH = "swagger";
 const STATIC_PATH = "src/swagger-static";
