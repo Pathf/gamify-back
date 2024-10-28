@@ -29,11 +29,11 @@ export const postgreEntities = [
   imports: [
     TypeOrmModule.forRoot({
       type: "postgres",
-      host: process.env.POSTGRES_HOST_2,
+      host: process.env.POSTGRES_HOST,
       port: +(process.env.DB_PORT ?? 5342),
-      username: process.env.POSTGRES_USER_2,
-      password: process.env.POSTGRES_PASSWORD_2,
-      database: process.env.POSTGRES_DATABASE_2,
+      username: process.env.POSTGRES_USER,
+      password: process.env.POSTGRES_PASSWORD,
+      database: process.env.POSTGRES_DATABASE,
       entities: postgreEntities,
       synchronize: true,
       /*ssl:
