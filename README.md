@@ -1,5 +1,7 @@
 # GAMIFY BACK
 
+![example workflow](https://github.com/Pathf/gamify-back/actions/workflows/main.yml/badge.svg)
+
 It is a backend used to execute actions or manage data. This is for my friends and me.
 
 ## Installation
